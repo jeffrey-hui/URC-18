@@ -1,0 +1,10 @@
+.idea # clion/pycharm
+rosws/src/CMakeLists.txt
+rosws/src/.catkin_workspace
+
+*.pyc
+*.o
+
+cmake-build-debug  # clion
+.atom
+.vscode
