@@ -1,5 +1,6 @@
+<?xml version="1.0" ?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:macro name="wheel_leg" params="suffix attach">
+    <xacro:macro name="wheel" params="suffix attach side">
         <link name="wheel_leg_${suffix}">
             <inertial>
                 <mass value="0.4" />
@@ -19,7 +20,7 @@
                 </geometry>
             </collision>
         </link>
-        <joint name="base_leg_${suffix}" type="fixed">
+        <joint name="base_to_leg_${suffix}" type="fixed">
             <origin xyz="${attach}" rpy="0 0 0" />
             <parent link="base_link" />
             <child link="wheel_leg_${suffix}" />
@@ -30,8 +31,28 @@
                 <inertia ixx="0.00333333333333" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.00333333333333" />
             </inertial>
             <visual>
-                <origin
+                <origin xyz="0 0 0" rpy="1.5708 0 0" />
+                <material name="White" />
+                <geometry>
+                    <cylinder radius="0.1" length="0.1" />
+                </geometry>
             </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="1.5708 0 0" />
+                <geometry>
+                    <cylinder radius="0.1" length="0.1" />
+                </geometry>
+            </collision>
         </link>
+        <joint name="leg_to_wheel_${suffix}" type="continuous">
+            <origin xyz="0 ${side * 0.1} -0.3" rpy="0 0 0" />
+            <parent link="wheel_leg_${suffix}" />
+            <child link="wheel_${suffix}" />
+            <axis xyz="0 1 0" />
+        </joint>
+
+        <gazebo reference="wheel_leg_${suffix}">
+            <material>Gazebo/Red</material>
+        </gazebo>
     </xacro:macro>
 </robot>

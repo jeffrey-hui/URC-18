@@ -1,0 +1,2 @@
+!*.xacro*
+# compiled files won't have .xacro in the name!

@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<launch>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch" />
+    <include file="$(find rover_description)/launch/description.launch" />
+
+    <node pkg="gazebo_ros" name="spawn_rover_model" type="spawn_model" args="-urdf -z 3 -param robot_description -model rover" />
+</launch>
