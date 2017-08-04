@@ -1,0 +1,3 @@
+<launch>
+    <param name="robot_description" textfile="$(find rover_description)/urdf/rover.urdf" />
+</launch>

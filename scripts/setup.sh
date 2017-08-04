@@ -94,7 +94,7 @@ if [ ! -f rosws/src/.rosinstall ]; then
 fi
 runuser $SUDO_USER -c 'wstool update -t rosws/src' > /dev/null
 progress "Installing rosdeps" 50
-rosdep install --from-paths rosws/src -q -y > /dev/null
+rosdep install --from-paths rosws/src -q -y --rosdistro kinetic --ignore-src > /dev/null
 sleep 0.25
 progress "Running catkin_make" 75
 pushd . > /dev/null
