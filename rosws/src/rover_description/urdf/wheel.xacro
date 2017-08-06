@@ -49,10 +49,29 @@
             <parent link="wheel_leg_${suffix}" />
             <child link="wheel_${suffix}" />
             <axis xyz="0 1 0" />
+            <dynamics damping="0.015" friction="0.02" />
         </joint>
 
         <gazebo reference="wheel_leg_${suffix}">
             <material>Gazebo/Red</material>
         </gazebo>
+
+        <gazebo reference="wheel_${suffix}">
+            <kp value="100000" />
+            <kd value="1.0" />
+            <mu1 value="0.5" />
+            <mu2 value="0.5" />
+        </gazebo>
+
+        <transmission name="wheel_transmission_${suffix}">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="leg_to_wheel_${suffix}">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="drive_motor_${suffix}">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
     </xacro:macro>
 </robot>
