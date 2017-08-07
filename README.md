@@ -53,4 +53,6 @@ gets merged to master. Try and use pull requests for bigger merges, especially w
 
 # documentation
 
-still debating this, check https://ryersonr3.slack.com/archives/G1XSBDZ08/p1501774295276140 on slack to vote on what to use.
+The decision has been made to use readthedocs, the url is r3-urc18.readthedocs.io.
+Documentation is in the docs/ folder. Information on how to document is coming soon
+

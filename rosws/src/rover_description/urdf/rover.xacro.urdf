@@ -58,4 +58,5 @@
     </gazebo>
 
     <xacro:include filename="arm.xacro" />
+    <xacro:include filename="stereo.xacro" />
 </robot>

@@ -162,7 +162,7 @@
         <child link="arm_z"/>
         <origin xyz="-0.05 0 0.65" rpy="0 0 0"/>
         <axis xyz="0 0 1"/>
-        <limit effort="1105" velocity="0.5" lower="-0.6" upper="0.6"/>
+        <limit effort="1000" velocity="0.2" lower="-0.6" upper="0.6"/>
     </joint>
 
     <link name="arm_gripper_rotate_z">
@@ -217,7 +217,7 @@
         <child link="arm_gripper_rotate_y"/>
         <origin xyz="0 0 -0.05" rpy="0 0 0"/>
         <axis xyz="0 1 0"/>
-        <limit effort="1130" velocity="0.325" lower="-1.4" upper="1.4" />
+        <limit effort="1000" velocity="0.4" lower="-1.4" upper="1.4" />
     </joint>
 
     <link name="gripper_base">
@@ -305,7 +305,7 @@
         <child link="gripper_finger_lower_front_left" />
         <origin xyz="0.10605 -0.10605 -0.1" rpy="0 0 -0.7853" />
         <axis xyz="0 -1 0" />
-        <limit effort="550" velocity="0.1" lower="0" upper="0.55"/>
+        <limit effort="1000" velocity="0.4" lower="0" upper="0.55"/>
     </joint>
 
     <joint name="gripper_base_to_finger_front_right" type="revolute">
@@ -313,7 +313,7 @@
         <child link="gripper_finger_lower_front_right" />
         <origin xyz="0.10605 0.10605 -0.1" rpy="0 0 0.7853" />
         <axis xyz="0 -1 0" />
-        <limit effort="550" velocity="0.1" lower="0" upper="0.55"/>
+        <limit effort="1000" velocity="0.4" lower="0" upper="0.55"/>
     </joint>
 
     <joint name="gripper_base_to_finger_back_left" type="revolute">
@@ -321,7 +321,7 @@
         <child link="gripper_finger_lower_back_left" />
         <origin xyz="-0.10605 -0.10605 -0.1" rpy="0 0 -2.35619449" />
         <axis xyz="0 -1 0" />
-        <limit effort="550" velocity="0.1" lower="0" upper="0.55"/>
+        <limit effort="1000" velocity="0.4" lower="0" upper="0.55"/>
     </joint>
 
     <joint name="gripper_base_to_finger_back_right" type="revolute">
@@ -329,7 +329,7 @@
         <child link="gripper_finger_lower_back_right" />
         <origin xyz="-0.10605 0.10605 -0.1" rpy="0 0 2.35619449" />
         <axis xyz="0 -1 0" />
-        <limit effort="550" velocity="0.1" lower="0" upper="0.55"/>
+        <limit effort="1000" velocity="0.4" lower="0" upper="0.55"/>
     </joint>
 
     <transmission name="arm_post_rotate_trans">
@@ -361,7 +361,7 @@
         </joint>
         <actuator name="arm_slide_motor">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
+            <mechanicalReduction>5</mechanicalReduction>
         </actuator>
     </transmission>
 
