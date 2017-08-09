@@ -6,7 +6,6 @@ specified with launch file parameters to the ``description.launch`` file. Right 
 
 ==== ===========
 Name Description
----- -----------
 ======== ================
 has_arm  whether or not the arm is on
 has_zed  whether or not the zed is on

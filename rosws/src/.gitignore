@@ -5,3 +5,4 @@
 
 .rosinstall.bak
 *.idea*
+cmake-build-debug/

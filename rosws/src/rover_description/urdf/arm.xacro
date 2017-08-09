@@ -22,7 +22,7 @@
     <joint name="base_to_arm_base" type="fixed">
         <parent link="base_link"/>
         <child link="arm_base"/>
-        <origin xyz="-0.375 0 0.25" rpy="0 0 0"/>
+        <origin xyz="0.2 0 0.25" rpy="0 0 3.14159265"/>
     </joint>
     <xacro:linkColor link="arm_base" mat="Gazebo/Red"/>
 
