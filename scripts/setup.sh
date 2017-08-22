@@ -9,8 +9,8 @@ function nexist {
    fi
 }
 
-if [ "$EUID" -ne 0 ]; then
-   echo "[!] I need root to work correctly, please run me as 'sudo scripts/setup.bash' instead"
+if [ "$EUID" -eq 0 ]; then
+   echo "[!] Don't run me as root, it borks various ros things!"
    exit 1
 fi
 
@@ -25,9 +25,12 @@ if [ ! -d rosws ]; then
    exit 1
 fi
 
+echo "[!] I will now run sudo on a junk command (true), please enter your password if asked"
+sudo true # ensures sudo will not ask for passcode (unless they turned it off)
+
 if [ $(nexist dialog) -eq 1 ]; then
    echo "[*] Please wait while InstallShield (tm) prepares the URC18 setup wizard..."
-   apt install -y dialog > /dev/null
+   sudo apt-get install -y dialog > /dev/null
    sleep 0.25
 fi
 
@@ -66,11 +69,11 @@ if [ $ANY -eq 1 ]; then
    dialog --clear
    if [ $NEED_WSTOOL -eq 1 ]; then
       echo "[*] Installing wstool with 'apt install -y python-wstool'"
-      apt install -y python-wstool
+      sudo apt-get install -y python-wstool
    fi
    if [ $NEED_PIO -eq 1 ]; then
       echo "[*] Installing platformio with 'pip install -U platformio'"
-      pip install -U platformio
+      sudo -H pip install -U platformio
    fi
 fi
 
@@ -79,27 +82,27 @@ dialog --backtitle "URC18 setup wizard" --title "Confirm" --msgbox "I am now rea
 function progress {
 	echo $2 | dialog --backtitle "URC18 setup wizard" --title "Working" --gauge "$1" 10 60 0
 }
-
+source /opt/ros/kinetic/setup.bash # make sure to clear out other workspaces first
 progress "Creating workspace" 0
 if [ ! -d rosws/src ]; then
-   runuser $SUDO_USER -c 'mkdir rosws/src'
+   mkdir rosws/src
 fi
 if [ ! -f rosws/src/CMakeLists.txt ]; then
-   runuser $SUDO_USER -c 'catkin_init_workspace rosws/src' > /dev/null
+   catkin_init_workspace rosws/src > /dev/null
 fi
 sleep 0.25
 progress "Pulling wstool dependencies" 25
 if [ ! -f rosws/src/.rosinstall ]; then
-   runuser $SUDO_USER -c 'wstool init rosws/src'
+   wstool init rosws/src
 fi
-runuser $SUDO_USER -c 'wstool update -t rosws/src' > /dev/null
+wstool update -t rosws/src > /dev/null
 progress "Installing rosdeps" 50
-rosdep install --from-paths rosws/src -q -y --rosdistro kinetic --ignore-src > /dev/null
+sudo rosdep install --from-paths rosws/src -q -y --rosdistro kinetic --ignore-src > /dev/null
 sleep 0.25
 progress "Running catkin_make" 75
 pushd . > /dev/null
 cd rosws
-runuser $SUDO_USER -c 'catkin_make' > /dev/null
+catkin_make > /dev/null
 popd > /dev/null
 progress "Done" 100
 sleep 0.25
