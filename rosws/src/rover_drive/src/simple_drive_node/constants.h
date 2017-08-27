@@ -14,7 +14,7 @@ namespace rover_drive {
     const std::array<uint8_t, 1> RIGHT_WHEELS = {10};
 
     const int MOTOR_MID = 1500;
-    const int MOTOR_OFFSET = 500;
+    const int MOTOR_OFFSET = 700;
 
 }
 
