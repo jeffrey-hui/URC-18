@@ -27,7 +27,6 @@ To get setup, do the following:
 ## requirements
 
 - a working ROS install, currently we're using kinetic.
-- platformio (install with `sudo -H pip install platformio`)
 
 # branches
 
