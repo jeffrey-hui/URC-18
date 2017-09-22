@@ -1,0 +1,77 @@
+//
+// Created by matthew on 9/21/17.
+//
+
+#include <hardware_interface/robot_hw.h>
+#include <hardware_interface/joint_command_interface.h>
+#include "ard_device.h"
+#include "constants.h"
+
+namespace rover_drive {
+
+    class DriveHW {
+    public:
+        DriveHW() : device(1, 0x30);
+        
+        void init(hardware_interface::RobotHW *hw);
+
+        void read();
+
+        void write();
+
+    private:
+        ARDevice device;
+        double cmd[6];
+
+        hardware_interface::JointStateInterface jnt_state_interface;
+        hardware_interface::VelocityJointInterface jnt_vel_interface;
+
+    };
+    
+    uint16_t convert_to_msecs(double vel) {
+        double clamped = std::min(5.0d, std::max(-5.0d, vel));
+        double v = clamped / 5.0;
+        return ((uint16_t)(MOTOR_OFFSET * v)) + MOTOR_MID;
+    }
+
+    void DriveHW::init(hardware_interface::RobotHW *hw) {
+        hw->registerInterface(&jnt_state_interface);
+        hardware_interface::JointHandle jLB(jnt_state_interface.getHandle("leg_to_wheel_back_left"), &cmd[0]);
+        hardware_interface::JointHandle jRB(jnt_state_interface.getHandle("leg_to_wheel_back_right"), &cmd[3]);
+        hardware_interface::JointHandle jLF(jnt_state_interface.getHandle("leg_to_wheel_front_left"), &cmd[1]);
+        hardware_interface::JointHandle jRF(jnt_state_interface.getHandle("leg_to_wheel_front_right"), &cmd[4]);
+        hardware_interface::JointHandle jLM(jnt_state_interface.getHandle("leg_to_wheel_center_left"), &cmd[2]);
+        hardware_interface::JointHandle jRM(jnt_state_interface.getHandle("leg_to_wheel_center_right"), &cmd[5]);
+
+        jnt_vel_interface.registerHandle(jLB);
+        jnt_vel_interface.registerHandle(jLF);
+        jnt_vel_interface.registerHandle(jLM);
+        jnt_vel_interface.registerHandle(jRB);
+        jnt_vel_interface.registerHandle(jRF);
+        jnt_vel_interface.registerHandle(jRM);
+
+        hw->registerInterface(&jnt_vel_interface);
+        
+        device.openPin(LEFT_BACK_WHEEL);
+        device.openPin(LEFT_MID_WHEEL);
+        device.openPin(LEFT_FRONT_WHEEL);
+        device.openPin(RIGHT_BACK_WHEEL);
+        device.openPin(RIGHT_MID_WHEEL);
+        device.openPin(RIGHT_FRONT_WHEEL);
+    }
+
+    void DriveHW::read() {
+        
+    }
+
+    void DriveHW::write() {
+        device.writeMicroseconds(LEFT_BACK_WHEEL, convert_to_msecs(cmd[0]));
+        device.writeMicroseconds(LEFT_FRONT_WHEEL, convert_to_msecs(cmd[1]));
+        device.writeMicroseconds(LEFT_MID_WHEEL, convert_to_msecs(cmd[2]));
+        device.writeMicroseconds(RIGHT_BACK_WHEEL, convert_to_msecs(cmd[3]));
+        device.writeMicroseconds(RIGHT_FRONT_WHEEL, convert_to_msecs(cmd[4]));
+        device.writeMicroseconds(RIGHT_MID_WHEEL, convert_to_msecs(cmd[5]));
+    }
+
+
+}

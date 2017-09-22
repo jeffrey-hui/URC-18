@@ -5,29 +5,19 @@ joint_state_controller:
   publish_rate: 50
 
 # wheels
-front_left_wheel_controller:
-  type: velocity_controllers/JointVelocityController
-  joint: leg_to_wheel_front_left
+left_wheels_controller:
+  type: rover_drive/DriveSideController
+  joints:
+    - leg_to_wheel_front_left
+    - leg_to_wheel_center_left
+    - leg_to_wheel_back_left
 
-front_right_wheel_controller:
-  type: velocity_controllers/JointVelocityController
-  joint: leg_to_wheel_front_right
-
-center_left_wheel_controller:
-  type: velocity_controllers/JointVelocityController
-  joint: leg_to_wheel_center_left
-
-center_right_wheel_controller:
-  type: velocity_controllers/JointVelocityController
-  joint: leg_to_wheel_center_right
-
-back_left_wheel_controller:
-  type: velocity_controllers/JointVelocityController
-  joint: leg_to_wheel_back_left
-
-back_right_wheel_controller:
-  type: velocity_controllers/JointVelocityController
-  joint: leg_to_wheel_back_right
+right_wheels_controller:
+  type: rover_drive/DriveSideController
+  joints:
+    - leg_to_wheel_front_right
+    - leg_to_wheel_center_right
+    - leg_to_wheel_back_right
 
 # wheel "skid" drive. (does odom too!)
 wheel_diff_drive_controller:
