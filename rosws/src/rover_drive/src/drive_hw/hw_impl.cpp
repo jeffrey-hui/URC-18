@@ -6,31 +6,35 @@
 #include <hardware_interface/joint_command_interface.h>
 #include "ard_device.h"
 #include "constants.h"
-#include <rover_drive/hw_impl.h>
 
 namespace rover_drive {
+
+    class DriveHW {
+    public:
+        DriveHW() : device(1, 0x30);
+        
+        void init(hardware_interface::RobotHW *hw);
+
+        void read();
+
+        void write();
+
+    private:
+        ARDevice device;
+        double cmd[6];
+
+        hardware_interface::JointStateInterface jnt_state_interface;
+        hardware_interface::VelocityJointInterface jnt_vel_interface;
+
+    };
     
     uint16_t convert_to_msecs(double vel) {
         double clamped = std::min(5.0d, std::max(-5.0d, vel));
         double v = clamped / 5.0;
-        return (uint16_t)(((MOTOR_OFFSET * v)) + MOTOR_MID);
+        return ((uint16_t)(MOTOR_OFFSET * v)) + MOTOR_MID;
     }
 
     void DriveHW::init(hardware_interface::RobotHW *hw) {
-        hardware_interface::JointStateHandle jsLB("leg_to_wheel_back_left", &pos[0], &vel[0], &eff[0]);
-        hardware_interface::JointStateHandle jsRB("leg_to_wheel_back_right", &pos[3], &vel[3], &eff[3]);
-        hardware_interface::JointStateHandle jsLF("leg_to_wheel_front_left", &pos[1], &vel[1], &eff[1]);
-        hardware_interface::JointStateHandle jsRF("leg_to_wheel_front_right", &pos[4], &vel[4], &eff[4]);
-        hardware_interface::JointStateHandle jsLM("leg_to_wheel_center_left", &pos[2], &vel[2], &eff[2]);
-        hardware_interface::JointStateHandle jsRM("leg_to_wheel_center_right", &pos[5], &vel[5], &eff[5]);
-
-        jnt_state_interface.registerHandle(jsLB);
-        jnt_state_interface.registerHandle(jsLF);
-        jnt_state_interface.registerHandle(jsLM);
-        jnt_state_interface.registerHandle(jsRB);
-        jnt_state_interface.registerHandle(jsRF);
-        jnt_state_interface.registerHandle(jsRM);
-        
         hw->registerInterface(&jnt_state_interface);
         hardware_interface::JointHandle jLB(jnt_state_interface.getHandle("leg_to_wheel_back_left"), &cmd[0]);
         hardware_interface::JointHandle jRB(jnt_state_interface.getHandle("leg_to_wheel_back_right"), &cmd[3]);

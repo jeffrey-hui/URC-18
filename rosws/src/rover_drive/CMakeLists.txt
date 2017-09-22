@@ -96,8 +96,8 @@ find_package(catkin REQUIRED COMPONENTS simpli2c roscpp std_msgs hardware_interf
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES rover_drive
+   INCLUDE_DIRS include
+   LIBRARIES rover_drive
    CATKIN_DEPENDS simpli2c
 #  DEPENDS system_lib
 )
@@ -121,7 +121,7 @@ add_library(rover_drive
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-#add_dependencies(rover_drive ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(rover_drive ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
 add_executable(rover_drive_node src/drive_hw/ard_device.cpp src/drive_hw/ard_device.h)
