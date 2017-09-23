@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<launch>
+    <arg name="dev" default="/dev/input/js1" />
+
+    <node pkg="rover_teleoperation" name="simple_drive_joy_node" type="simple_drive_joy_node.py">
+        <remap from="joy" to="/joy/drive" />
+    </node>
+
+    <node pkg="joy" type="joy_node" name="drive_joy">
+        <param name="~dev" value="$(arg dev)" />
+        <param name="~deadzone" value="0.12" />
+        <remap from="joy" to="/joy/drive" />
+    </node>
+</launch>

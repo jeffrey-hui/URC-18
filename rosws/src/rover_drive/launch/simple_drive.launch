@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<launch>
+    <node pkg="rover_drive" type="rover_drive_node" name="rover_drive_node" output="screen">
+        <param name="~bus" value="1" />
+        <param name="~address" value="$(eval 0x30)" type="int"/>
+    </node>
+</launch>

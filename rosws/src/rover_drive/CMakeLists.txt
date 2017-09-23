@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(rover_teleoperation)
+project(rover_drive)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS)
-
+find_package(catkin REQUIRED COMPONENTS simpli2c roscpp std_msgs)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -98,8 +97,8 @@ find_package(catkin REQUIRED COMPONENTS)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES rover_teleoperation
-  #CATKIN_DEPENDS
+#  LIBRARIES rover_drive
+   CATKIN_DEPENDS simpli2c
 #  DEPENDS system_lib
 )
 
@@ -109,32 +108,31 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-#include_directories(include)
-#
-### Declare a C++ library
-## add_library(rover_teleoperation
-##   src/${PROJECT_NAME}/rover_teleoperation.cpp
-## )
-#
-### Add cmake target dependencies of the library
-### as an example, code may need to be generated before libraries
-### either from message generation or dynamic reconfigure
-## add_dependencies(rover_teleoperation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-#
-#link_directories(${catkin_LIBRARY_DIRS})
-#include_directories(${catkin_INCLUDE_DIRS})
-#
-### Declare a C++ executable
-#add_executable(moveit_teleoperation_node src/moveit_teleoperation/main.cpp)
-#
-### Add cmake target dependencies of the executable
-### same as for the library above
-#add_dependencies(moveit_teleoperation_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-#
-### Specify libraries to link a library or executable target against
-#target_link_libraries(moveit_teleoperation_node
-#  ${catkin_LIBRARIES}
-#)
+# include_directories(include)
+include_directories(${catkin_INCLUDE_DIRS})
+set(CMAKE_CXX_STANDARD 14)
+
+## Declare a C++ library
+# add_library(rover_drive
+#   src/${PROJECT_NAME}/rover_drive.cpp
+# )
+
+## Add cmake target dependencies of the library
+## as an example, code may need to be generated before libraries
+## either from message generation or dynamic reconfigure
+#add_dependencies(rover_drive ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+## Declare a C++ executable
+add_executable(rover_drive_node src/simple_drive_node/rover_drive_node.cpp src/simple_drive_node/ard_device.cpp src/simple_drive_node/ard_device.h)
+
+## Add cmake target dependencies of the executable
+## same as for the library above
+add_dependencies(rover_drive_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+## Specify libraries to link a library or executable target against
+target_link_libraries(rover_drive_node
+   ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
@@ -151,7 +149,7 @@ catkin_package(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS rover_teleoperation rover_teleoperation_node
+# install(TARGETS rover_drive rover_drive_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -176,7 +174,7 @@ catkin_package(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_rover_teleoperation.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_rover_drive.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
