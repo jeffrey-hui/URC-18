@@ -6,27 +6,9 @@
 #include <hardware_interface/joint_command_interface.h>
 #include "ard_device.h"
 #include "constants.h"
+#include <rover_drive/hw_impl.h>
 
 namespace rover_drive {
-
-    class DriveHW {
-    public:
-        DriveHW() : device(1, 0x30);
-        
-        void init(hardware_interface::RobotHW *hw);
-
-        void read();
-
-        void write();
-
-    private:
-        ARDevice device;
-        double cmd[6];
-
-        hardware_interface::JointStateInterface jnt_state_interface;
-        hardware_interface::VelocityJointInterface jnt_vel_interface;
-
-    };
     
     uint16_t convert_to_msecs(double vel) {
         double clamped = std::min(5.0d, std::max(-5.0d, vel));

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(robot_hw)
+project(rover_hw)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -8,7 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   hardware_interface
   pluginlib
   roscpp
-  simpli2c
+  simpli2c rover_drive controller_manager
 )
 
 ## System dependencies are found with CMake's conventions
@@ -102,7 +102,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES robot_hw
+#  LIBRARIES rover_hw
 #  CATKIN_DEPENDS hardware_interface pluginlib roscpp simpli2c
 #  DEPENDS system_lib
 )
@@ -118,25 +118,27 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+add_compile_options("-std=c++14")
+
 ## Declare a C++ library
-# add_library(robot_hw
-#   src/${PROJECT_NAME}/robot_hw.cpp
+# add_library(rover_hw
+#   src/${PROJECT_NAME}/rover_hw.cpp
 # )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(robot_hw ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(rover_hw ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(robot_hw_node src/robot_hw.cpp)
+add_executable(rover_hw_node src/rover_hw.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(robot_hw_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(rover_hw_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(robot_hw_node
+target_link_libraries(rover_hw_node
   ${catkin_LIBRARIES}
 )
 
@@ -155,7 +157,7 @@ target_link_libraries(robot_hw_node
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS robot_hw robot_hw_node
+# install(TARGETS rover_hw rover_hw_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -175,12 +177,13 @@ target_link_libraries(robot_hw_node
 #   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 # )
 
+
 #############
 ## Testing ##
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_robot_hw.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_rover_hw.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
