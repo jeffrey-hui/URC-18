@@ -23,12 +23,7 @@ namespace rover_drive {
 
     private:
         ARDevice device;
-        union {
-            double cmd[6];
-            double vel[6];
-        };
-        double eff[6] = {0, 0, 0, 0, 0, 0};
-        double pos[6] = {0, 0, 0, 0, 0, 0};
+        double cmd[6];
 
         hardware_interface::JointStateInterface jnt_state_interface;
         hardware_interface::VelocityJointInterface jnt_vel_interface;

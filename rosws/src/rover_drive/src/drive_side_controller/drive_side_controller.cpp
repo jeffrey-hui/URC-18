@@ -33,3 +33,6 @@ void rover_drive::DriveSideController::update(const ros::Time &time, const ros::
 void rover_drive::DriveSideController::velCB(const std_msgs::Float64 &p) {
     this->dat.writeFromNonRT(p.data);
 }
+
+PLUGINLIB_EXPORT_CLASS(rover_drive::DriveSideController, controller_interface::ControllerBase);
+

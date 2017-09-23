@@ -37,7 +37,6 @@ namespace rover_drive {
 
     };
 
-    PLUGINLIB_EXPORT_CLASS(rover_drive::DriveSideController, controller_interface::ControllerBase);
 
 }
 #endif //PROJECT_DRIVE_SIDE_CONTROLLER_H
