@@ -1,0 +1,5 @@
+<library path="lib/librover_ik">
+    <class name="rover_ik/IKJointController" type="rover_ik::IKJointController" base_class_type="controller_interface::ControllerBase">
+        <description>Does IK on sttffs</description>
+    </class>
+</library>
