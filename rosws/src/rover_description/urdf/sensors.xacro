@@ -23,7 +23,7 @@
     <joint name="base_to_camera_link" type="fixed">
         <parent link="base_link"/>
         <child link="zed_camera_link"/>
-        <origin xyz="0.38 0 0.25" rpy="0 0 0"/>
+        <origin xyz="0.38 0.3 0.25" rpy="0 0 0"/>
     </joint>
 
     <gazebo reference="zed_camera_link">
