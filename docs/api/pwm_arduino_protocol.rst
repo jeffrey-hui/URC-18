@@ -14,6 +14,9 @@ In order to send commands to the device, one byte indicating the command type is
 
 The commands are as follows:
 
+Commands
+========
+
 ``0x01`` - open pin
 -----------------
 
