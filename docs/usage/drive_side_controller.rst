@@ -27,7 +27,7 @@ This would make the controller control the `back_left_wheel` and `front_left_whe
 Topics
 ------
 
-`drive_side_controller/cmd`
+``drive_side_controller/cmd``
 ---------------------------
 
 This topic is subscribed to as a Float64 topic containing the current velocity command for all the joints.
