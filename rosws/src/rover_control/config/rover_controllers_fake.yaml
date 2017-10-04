@@ -70,16 +70,14 @@ eef_moveit_controller:
 arm_ik_controller:
   type: rover_ik/IKJointController
   joints:
-    - arm_base_to_post
-    - arm_inner_to_outer_xy
-    - arm_z_slide
-    - arm_gripper_rot_z
-    - arm_gripper_rot_y
+    - arm_slide_pole_to_arm_slider_unit
+    - arm_slider_unit_to_arm_xy_pole
+    - arm_inner_to_arm_outer
+    - arm_outer_to_gripper_spin
   gains:
-    arm_base_to_post: {p: 70.0, d: 1.4, i: 0, i_clamp: 1}
-    arm_inner_to_outer_xy: {p: 70.0, d: 0.5, i: 0, i_clamp: 1}
-    arm_z_slide: {p: 675.0, d: 0, i: 0, i_clamp: 0}
-    arm_gripper_rot_z: {p: 150.0, d: 0, i: 0, i_clamp: 1}
-    arm_gripper_rot_y: {p: 230.0, d: 0, i: 0, i_clamp: 1}
-  base_link: arm_base
+    arm_slider_unit_to_arm_xy_pole: {p: 170.0, d: 1.4, i: 0, i_clamp: 1}
+    arm_inner_to_arm_outer: {p: 170.0, d: 0.5, i: 0, i_clamp: 1}
+    arm_slide_pole_to_arm_slider_unit: {p: 4075.0, d: 0, i: 0, i_clamp: 0}
+    arm_outer_to_gripper_spin: {p: 170.0, d: 0.5, i: 0, i_clamp: 1}
+  base_link: base_link
   tip_link: gripper_base
