@@ -107,8 +107,8 @@ catkin_package(
 ###########
 
 ## Specify additional locations of header files
-## Your package locations should be listed before other locations
 include_directories(include)
+## Your package locations should be listed before other locations
 include_directories(${catkin_INCLUDE_DIRS})
 include_directories(include)
 set(CMAKE_CXX_STANDARD 14)
