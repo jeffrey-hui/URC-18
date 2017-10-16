@@ -13,7 +13,7 @@ namespace rover_drive {
     uint16_t convert_to_msecs(double vel) {
         double clamped = std::min(5.0d, std::max(-5.0d, vel));
         double v = clamped / 5.0;
-        return ((uint16_t)(MOTOR_OFFSET * v)) + MOTOR_MID;
+        return (uint16_t)(((MOTOR_OFFSET * v)) + MOTOR_MID);
     }
 
     void DriveHW::init(hardware_interface::RobotHW *hw) {
