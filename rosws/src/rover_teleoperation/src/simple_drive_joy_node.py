@@ -23,7 +23,7 @@ def on_joy_data(msg):
     left = ctrl_curve(msg.axes[LEFT_AXIS])
     right = ctrl_curve(msg.axes[RIGHT_AXIS])
     drive_control_left.publish(left)
-    drive_control_right.publish(right)
+    drive_control_right.publish(-right)
 
 joy_listener = rospy.Subscriber("joy", sensor_msgs.msg.Joy, queue_size=20, callback=on_joy_data)
 rospy.spin()
