@@ -2,6 +2,8 @@
 rover_ik
 ========
 
+.. _ik_joint_controller
+
 -----------------------
 ``ik_joint_controller``
 -----------------------
