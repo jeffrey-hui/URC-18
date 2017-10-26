@@ -28,6 +28,6 @@ Topics
 ------
 
 ``drive_side_controller/cmd``
----------------------------
+-----------------------------
 
 This topic is subscribed to as a Float64 topic containing the current velocity command for all the joints.
