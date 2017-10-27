@@ -1,0 +1,10 @@
+<launch>
+    <arg name="publish_tf" default="false" />
+
+    <node name="rgbd_odometry" pkg="rtabmap_ros" type="rgbd_odometry" ns="/rgbd_odom" output="screen">
+        <param name="publish_tf" value="$(arg publish_tf)" />
+        <remap from="rgb/image" to="/zed/rgb/image_raw" />
+        <remap from="rgb/camera_info" to="/zed/rgb/camera_info" />
+        <remap from="depth/image" to="/zed/depth/image_raw" />
+    </node>
+</launch>
