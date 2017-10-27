@@ -13,7 +13,7 @@
     </group>
 
     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
-          args="$(controllers)">
+          args="$(arg controllers)">
     </node>
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
           respawn="false">
