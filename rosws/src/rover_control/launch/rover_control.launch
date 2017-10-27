@@ -5,16 +5,17 @@
              default="joint_state_controller left_wheels_controller right_wheels_controller arm_ik_controller"/>
         <rosparam file="$(find rover_control)/config/rover_controllers_fake.yaml" command="load"/>
         <node name="hw_node" pkg="rover_hw" type="rover_hw_node" output="screen" />
+        <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
+              args="$(arg controllers)" />
     </group>
     <group unless="$(arg use_fake)">
         <arg name="controllers"
              default="joint_state_controller left_wheels_controller right_wheels_controller"/>
         <rosparam file="$(find rover_control)/config/rover_controllers.yaml" command="load"/>
+        <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
+              args="$(arg controllers)" />
     </group>
 
-    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
-          args="$(arg controllers)">
-    </node>
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
           respawn="false" output="screen">
     </node>
