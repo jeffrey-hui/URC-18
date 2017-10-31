@@ -26,7 +26,7 @@ def joyCB(dat):
     velocity[2] = dat.axes[5] / 20.0
     velocity[1] = dat.axes[0] / 4.0
 
-sub = rospy.Subscriber("/joy", Joy, joyCB, queue_size=10)
+sub = rospy.Subscriber("joy", Joy, joyCB, queue_size=10)
 pub = rospy.Publisher("/arm_ik_controller/target", geometry_msgs.msg.Pose, queue_size=10)
 
 rate = rospy.Rate(15)

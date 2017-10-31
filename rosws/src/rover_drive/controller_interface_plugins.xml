@@ -1,0 +1,5 @@
+<library path="lib/librover_drive">
+    <class name="rover_drive/DriveSideController" type="rover_drive::DriveSideController" base_class_type="controller_interface::ControllerBase">
+        <description>Multijoint Controller</description>
+    </class>
+</library>

@@ -1,0 +1,30 @@
+
+# all joints that have potentiometers
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+
+# wheels
+left_wheels_controller:
+  type: rover_drive/DriveSideController
+  joints:
+    - leg_to_wheel_front_left
+    - leg_to_wheel_center_left
+    - leg_to_wheel_back_left
+
+right_wheels_controller:
+  type: rover_drive/DriveSideController
+  joints:
+    - leg_to_wheel_front_right
+    - leg_to_wheel_center_right
+    - leg_to_wheel_back_right
+
+# wheel "skid" drive. (does odom too!)
+wheel_diff_drive_controller:
+  type: diff_drive_controller/DiffDriveController
+  left_wheel: ['leg_to_wheel_front_left', 'leg_to_wheel_center_left', 'leg_to_wheel_back_left']
+  right_wheel: ['leg_to_wheel_front_right', 'leg_to_wheel_center_right', 'leg_to_wheel_back_right']
+  pose_covariance_diagonal: [0.01, 0.01, 1000000.0, 1000000.0, 1000000.0, 0.03]
+  twist_covariance_diagonal: [0.3, 0.3, 0.3, 1000000.0, 1000000.0, 0.03]
+
+#  enable_odom_tf: false
