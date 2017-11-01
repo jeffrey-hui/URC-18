@@ -25,7 +25,6 @@
         </rosparam>
 
         <param name="imu0_remove_gravitational_acceleration" value="false" />
-        <param name="gravitational_acceleration" value="-9.8" />
 
     </node>
 </launch>
