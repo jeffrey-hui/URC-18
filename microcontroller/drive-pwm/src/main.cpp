@@ -46,7 +46,7 @@ void onRecieve(int bytes) {
         Serial.println("Setting pin");
         uint8_t servo = static_cast<uint8_t>(Wire.read());
         uint16_t value;
-        Wire.readBytes(&value, 2);
+        Wire.readBytes((char *)&value, 2);
       //  Serial.print("serv "); Serial.print(servo); Serial.print(" val "); Serial.println(value);
         setServo(servo, value);
     }
