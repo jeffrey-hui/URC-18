@@ -1,5 +1,14 @@
 <launch>
-    <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="--delete_db_on_start">
+    <node ns="rtabmap" name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="--delete_db_on_start">
+        <remap from="odom" to="/odometry/filtered" />
+        <remap from="rgb/image" to="/zed/rgb/image_raw" />
+        <remap from="rgb/camera_info" to="/zed/rgb/camera_info" />
+        <remap from="depth/image" to="/zed/depth/image_raw" />
 
+        <param name="grid_eroded" value="true" />
+
+        <param name="Vis/MaxDepth" type="string" value="5"/>
+        <param name="Vis/MinInliers" type="string" value="10"/>
+        <param name="Vis/InlierDistance" type="string" value="0.05"/>
     </node>
 </launch>
