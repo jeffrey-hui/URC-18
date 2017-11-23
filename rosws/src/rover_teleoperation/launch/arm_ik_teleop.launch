@@ -1,0 +1,13 @@
+<launch>
+    <arg name="dev" default="/dev/input/js2"/>
+
+    <node pkg="rover_teleoperation" name="simple_arm_ik" type="arm_ik_joy_teleop.py">
+        <remap from="joy" to="/joy/arm"/>
+    </node>
+
+    <node pkg="joy" type="joy_node" name="arm_joy">
+        <param name="~dev" value="$(arg dev)"/>
+        <param name="~deadzone" value="0.12"/>
+        <remap from="joy" to="/joy/arm"/>
+    </node>
+</launch>
