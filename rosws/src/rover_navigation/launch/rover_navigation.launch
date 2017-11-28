@@ -1,0 +1,5 @@
+<launch>
+    <include file="$(find rover_navigation)/launch/odometry.launch" />
+    <include file="$(find rover_navigation)/launch/rtabmap.launch" />
+    <include file="$(find rover_navigation)/launch/move_base.launch" />
+</launch>

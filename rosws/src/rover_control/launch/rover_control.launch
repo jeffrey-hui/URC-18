@@ -3,9 +3,12 @@
     <group if="$(arg use_fake)">
         <arg name="controllers"
              default="joint_state_controller left_wheels_controller right_wheels_controller arm_ik_controller"/>
+        <arg name="controllers_off" default="wheel_diff_drive_controller" />
         <rosparam file="$(find rover_control)/config/rover_controllers_fake.yaml" command="load"/>
         <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
               args="$(arg controllers)" />
+        <node name="controller_spawner_off" pkg="controller_manager" type="spawner" respawn="false" output="screen"
+              args="--stopped $(arg controllers_off)" />
     </group>
     <group unless="$(arg use_fake)">
         <arg name="controllers"

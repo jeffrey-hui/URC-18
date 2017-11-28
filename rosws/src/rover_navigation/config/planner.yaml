@@ -1,0 +1,17 @@
+TrajectoryPlannerROS:
+  acc_lim_x: 2.0
+  acc_lim_y: 2.0
+  acc_lim_theta: 3.0
+
+  max_vel_x: 5
+  min_vel_x: 0.1
+  max_vel_y: 0
+  min_vel_y: 0
+
+  meter_scoring: true
+  holonomic_robot: false
+
+controller_frequency: 10.0
+
+GlobalPlanner:
+  allow_unknown: true

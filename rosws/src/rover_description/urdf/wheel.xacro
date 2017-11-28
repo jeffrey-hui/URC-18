@@ -56,12 +56,12 @@
             <material>Gazebo/Red</material>
         </gazebo>
 
-        <gazebo reference="wheel_${suffix}">
+        <!--gazebo reference="wheel_${suffix}">
             <kp value="100000" />
             <kd value="1.0" />
             <mu1 value="0.5" />
             <mu2 value="0.5" />
-        </gazebo>
+        </gazebo-->
 
         <transmission name="wheel_transmission_${suffix}">
             <type>transmission_interface/SimpleTransmission</type>

@@ -6,6 +6,7 @@
         <remap from="depth/image" to="/zed/depth/image_raw" />
 
         <param name="grid_eroded" value="true" />
+        <param name="tf_delay" value="0.01" />
 
         <param name="Vis/MaxDepth" type="string" value="5"/>
         <param name="Vis/MinInliers" type="string" value="10"/>
