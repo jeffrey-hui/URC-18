@@ -29,4 +29,4 @@ obstacle_layer:
   }
 
 inflation_layer:
-  inflation_radius: 0.1
+  inflation_radius: 0.15

@@ -27,7 +27,7 @@
         </joint>
         <link name="wheel_${suffix}">
             <inertial>
-                <mass value="1" />
+                <mass value="0.25" />
                 <inertia ixx="0.00333333333333" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.00333333333333" />
             </inertial>
             <visual>
@@ -61,7 +61,7 @@
                 <surface>
                     <friction>
                         <torsional>
-                            <coefficient>0.5</coefficient>
+                            <coefficient>0.6</coefficient>
                             <use_patch_radius>true</use_patch_radius>
                             <patch_radius>0.1</patch_radius>
                         </torsional>
