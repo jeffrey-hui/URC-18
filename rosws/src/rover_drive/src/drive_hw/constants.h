@@ -10,6 +10,8 @@
 
 namespace rover_drive {
 
+    const int WHEEL_MAX_RADIANS_PER_SECOND = 5;
+
     const int LEFT_BACK_WHEEL = 7;
     const int LEFT_FRONT_WHEEL = 8;
     const int LEFT_MID_WHEEL = 9;
