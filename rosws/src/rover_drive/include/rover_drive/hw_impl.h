@@ -7,7 +7,7 @@
 
 #include <hardware_interface/robot_hw.h>
 #include <hardware_interface/joint_command_interface.h>
-#include "../../src/drive_hw/ard_device.h"
+#include "../../../eml_uberdriver/include/eml_uberdriver/ard_device.h"
 
 namespace rover_drive {
 

@@ -4,7 +4,7 @@
 
 #include <hardware_interface/robot_hw.h>
 #include <hardware_interface/joint_command_interface.h>
-#include "ard_device.h"
+#include <eml_uberdriver/ard_device.h>
 #include "constants.h"
 #include <rover_drive/hw_impl.h>
 

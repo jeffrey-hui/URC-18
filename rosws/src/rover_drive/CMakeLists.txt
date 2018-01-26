@@ -4,7 +4,7 @@ project(rover_drive)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS simpli2c roscpp std_msgs hardware_interface)
+find_package(catkin REQUIRED COMPONENTS simpli2c roscpp std_msgs hardware_interface eml_uberdriver)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -117,7 +117,7 @@ add_library(rover_drive
   src/drive_side_controller/drive_side_controller.cpp
 )
 
-add_library(rover_drive_hw src/drive_hw/ard_device.cpp src/drive_hw/hw_impl.cpp)
+add_library(rover_drive_hw ../eml_uberdriver/src/ard_device.cpp src/drive_hw/hw_impl.cpp)
 
 
 ## Add cmake target dependencies of the library
