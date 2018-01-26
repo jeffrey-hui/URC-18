@@ -224,7 +224,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'R3-URC18.tex', u'R3-URC18 Documentation',
-     u'a lot of people', 'manual'),
+     u'mincrmatt12', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
