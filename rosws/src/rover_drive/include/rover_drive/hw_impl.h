@@ -22,7 +22,7 @@ namespace rover_drive {
         void write();
 
     private:
-        ARDevice device;
+        eml_uberdriver::ARDevice device;
         union {
             double cmd[6];
             double vel[6];

@@ -47,13 +47,13 @@ namespace rover_drive {
         jnt_vel_interface.registerHandle(jRM);
 
         hw->registerInterface(&jnt_vel_interface);
-        
-        device.openPin(LEFT_BACK_WHEEL);
-        device.openPin(LEFT_MID_WHEEL);
-        device.openPin(LEFT_FRONT_WHEEL);
-        device.openPin(RIGHT_BACK_WHEEL);
-        device.openPin(RIGHT_MID_WHEEL);
-        device.openPin(RIGHT_FRONT_WHEEL);
+
+        device.openPinAsMotor(LEFT_BACK_WHEEL);
+        device.openPinAsMotor(LEFT_MID_WHEEL);
+        device.openPinAsMotor(LEFT_FRONT_WHEEL);
+        device.openPinAsMotor(RIGHT_BACK_WHEEL);
+        device.openPinAsMotor(RIGHT_MID_WHEEL);
+        device.openPinAsMotor(RIGHT_FRONT_WHEEL);
     }
 
     void DriveHW::read() {
