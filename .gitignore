@@ -8,3 +8,4 @@ rosws/src/.catkin_workspace
 cmake-build-debug  # clion
 .atom
 .vscode
+*.DS_Store
