@@ -57,10 +57,17 @@
         </gazebo>
 
         <gazebo reference="wheel_${suffix}">
-            <kp value="100000" />
-            <kd value="1.0" />
-            <mu1 value="0.5" />
-            <mu2 value="0.5" />
+            <collision name="wheel_${suffix}_collision">
+                <surface>
+                    <friction>
+                        <torsional>
+                            <coefficient>0.5</coefficient>
+                            <use_patch_radius>true</use_patch_radius>
+                            <patch_radius>0.1</patch_radius>
+                        </torsional>
+                    </friction>
+                </surface>
+            </collision>
         </gazebo>
 
         <transmission name="wheel_transmission_${suffix}">
