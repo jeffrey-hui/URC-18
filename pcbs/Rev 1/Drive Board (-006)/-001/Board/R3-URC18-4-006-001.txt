@@ -1,0 +1,12 @@
+Partlist exported from C:/Users/Gabriel Casciano/Documents/GitHub/URC-18/pcbs/Drive Board (-006)/-001/R3-URC18-4-006-001.sch at 2017-09-27 11:08 PM
+
+Part         Value   Device             Package            Description               MF MPN OC_FARNELL OC_NEWARK
+ARDUINO_DUE1         ARDUINO_DUE_SHIELD ARDUINO_DUE_SHIELD                                                      
+I2C          5566-2  5566-2             5566-2             Mini FIT connector 2 pol         1822072    unknown  
+LED1         RED     LED5MM             LED5MM             LED                                                  
+LED2         RED     LED5MM             LED5MM             LED                                                  
+PWM          5566-12 5566-12            5566-12            Mini FIT connector 12 pol        unknown    unknown  
+PWR          5566-2  5566-2             5566-2             Mini FIT connector 2 pol         1822072    unknown  
+R6           150     R-US_0207/10       0207/10            RESISTOR, American symbol                            
+R7           150     R-US_0207/10       0207/10            RESISTOR, American symbol                            
+S2                   M9040P             M9040P             TOGGLE SWITCH                                        
