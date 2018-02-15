@@ -5,19 +5,21 @@
     <arg name="right_device" default="/dev/video2"/>
     <arg name="left_device" default="/dev/video1"/>
 
-    <node name="left_cam" pkg="usb_cam" type="usb_cam_node">
-        <param name="camera_name" value="left"/>
-        <param name="image_width" value="$(arg width)"/>
-        <param name="image_height" value="$(arg height)"/>
-        <param name="video_device" value="$(arg left_device)"/>
+    <group ns="/stereo">
+        <node name="left" pkg="usb_cam" type="usb_cam_node">
+            <param name="camera_name" value="left"/>
+            <param name="image_width" value="$(arg width)"/>
+            <param name="image_height" value="$(arg height)"/>
+            <param name="video_device" value="$(arg left_device)"/>
+            <param name="camera_info_url" value="package://rover_stereo/config/left.yaml"/>
+        </node>
 
-    </node>
-
-    <node name="right_cam" pkg="usb_cam" type="usb_cam_node">
-        <param name="camera_name" value="right"/>
-        <param name="image_width" value="$(arg width)"/>
-        <param name="image_height" value="$(arg height)"/>
-        <param name="video_device" value="$(arg right_device)"/>
-
-    </node>
+        <node name="right" pkg="usb_cam" type="usb_cam_node">
+            <param name="camera_name" value="right"/>
+            <param name="image_width" value="$(arg width)"/>
+            <param name="image_height" value="$(arg height)"/>
+            <param name="video_device" value="$(arg right_device)"/>
+            <param name="camera_info_url" value="package://rover_stereo/config/right.yaml"/>
+        </node>
+    </group>
 </launch>
