@@ -46,8 +46,8 @@
                 <cameraName>stereo</cameraName>
                 <alwaysOn>true</alwaysOn>
                 <updateRate>15</updateRate>
-                <imageTopicName>left/image_raw</imageTopicName>
-                <depthImageTopicName>depth/image_raw</depthImageTopicName>
+                <imageTopicName>left/image_rect_color</imageTopicName>
+                <depthImageTopicName>depth</depthImageTopicName>
                 <pointCloudTopicName>points2</pointCloudTopicName>
                 <cameraInfoTopicName>left/camera_info</cameraInfoTopicName>
                 <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>

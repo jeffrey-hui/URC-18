@@ -3,14 +3,13 @@
 
     <node name="rgbd_odometry" pkg="rtabmap_ros" type="rgbd_odometry" ns="/rgbd_odom" output="screen">
         <param name="publish_tf" value="$(arg publish_tf)" />
-        <remap from="rgb/image" to="/zed/rgb/image_raw" />
-        <remap from="rgb/camera_info" to="/zed/rgb/camera_info" />
-        <remap from="depth/image" to="/zed/depth/image_raw" />
+        <remap from="rgb/image" to="/zed/left/image_rect_color" />
+        <remap from="rgb/camera_info" to="/zed/left/camera_info" />
+        <remap from="depth/image" to="/stereo/depth" />
 
         <param name="Vis/MaxDepth" type="string" value="5"/>
         <param name="Vis/MinInliers" type="string" value="10"/>
         <param name="Vis/InlierDistance" type="string" value="0.05"/>
         <param name="Vis/FeatureType" type="string" value="0" />
-
     </node>
 </launch>
