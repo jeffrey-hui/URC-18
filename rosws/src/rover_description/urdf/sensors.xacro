@@ -43,13 +43,13 @@
                 </clip>
             </camera>
             <plugin name="zed_camera_controller" filename="libgazebo_ros_openni_kinect.so">
-                <cameraName>zed</cameraName>
+                <cameraName>stereo</cameraName>
                 <alwaysOn>true</alwaysOn>
                 <updateRate>15</updateRate>
-                <imageTopicName>rgb/image_raw</imageTopicName>
+                <imageTopicName>left/image_raw</imageTopicName>
                 <depthImageTopicName>depth/image_raw</depthImageTopicName>
-                <pointCloudTopicName>points</pointCloudTopicName>
-                <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+                <pointCloudTopicName>points2</pointCloudTopicName>
+                <cameraInfoTopicName>left/camera_info</cameraInfoTopicName>
                 <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
                 <frameName>zed_camera_link_optical</frameName>
                 <baseline>0.1</baseline>
