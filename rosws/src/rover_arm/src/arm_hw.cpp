@@ -4,6 +4,12 @@
 
 #include <rover_arm/arm_hw.h>
 
+namespace rover_arm {
+    uint16_t convertEffToMotorV(double value) {
+        return (uint16_t)value; // todo massive
+    }
+}
+
 void rover_arm::ArmHW::init(hardware_interface::RobotHW *hw) {
     this->device.openPinAsMotor(MOTOR_INNEROUTR);
     this->device.openPinAsMotor(MOTOR_SLIDEUNIT);
@@ -29,3 +35,10 @@ void rover_arm::ArmHW::init(hardware_interface::RobotHW *hw) {
     this->jnt_eff_interface.registerHandle(jh_su);
     this->jnt_eff_interface.registerHandle(jh_sp);
 }
+
+void rover_arm::ArmHW::write() {
+    this->device.writeMicroseconds(MOTOR_INNEROUTR, convertEffToMotorV(cmd[0]));
+    this->device.writeMicroseconds(MOTOR_SLIDEUNIT, convertEffToMotorV(cmd[1]));
+    this->device.writeMicroseconds(MOTOR_SLIDEPOLE, convertEffToMotorV(cmd[2]));
+}
+
