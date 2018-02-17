@@ -42,3 +42,6 @@ void rover_arm::ArmHW::write() {
     this->device.writeMicroseconds(MOTOR_SLIDEPOLE, convertEffToMotorV(cmd[2]));
 }
 
+void rover_arm::ArmHW::read() {
+
+}
