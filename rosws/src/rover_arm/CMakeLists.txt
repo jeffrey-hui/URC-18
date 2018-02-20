@@ -105,7 +105,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
    INCLUDE_DIRS include
    LIBRARIES rover_arm_hw
-#  CATKIN_DEPENDS controller_interface eml_uberdriver pluginlib roscpp simpli2c std_msgs
+   CATKIN_DEPENDS controller_interface eml_uberdriver pluginlib roscpp simpli2c std_msgs
 #  DEPENDS system_lib
 )
 
@@ -121,11 +121,14 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+add_compile_options(-std=c++11)
+
 ## Declare a C++ library
 add_library(rover_arm_hw
   include/rover_arm/arm_hw.h
   src/arm_hw.cpp
 )
+
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
