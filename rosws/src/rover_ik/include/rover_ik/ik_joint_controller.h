@@ -44,7 +44,7 @@ namespace rover_ik {
             tf::poseMsgToKDL(pose, frame);
 
             KDL::JntArray output;
-            int rc = solver->CartToJnt(seed, frame, output);
+            int rc = solver->CartToJnt(seed, frame, output, tolerance);
             if (rc < 0) {
                 // do error
                 ROS_ERROR_STREAM("Invalid location");
