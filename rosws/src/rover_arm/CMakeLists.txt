@@ -125,8 +125,8 @@ add_compile_options(-std=c++11)
 
 ## Declare a C++ library
 add_library(rover_arm_hw
-  include/rover_arm/arm_hw.h
-  src/arm_hw.cpp
+        include/rover_arm/arm_hw/arm_hw.h
+        src/arm_hw/arm_hw.cpp
 )
 
 
