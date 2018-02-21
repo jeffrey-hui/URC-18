@@ -1,5 +1,8 @@
 <launch>
-    <param name="robot_description" command="$(find xacro)/xacro $(find rover_description)/urdf/rover.xacro.urdf" />
+    <arg name="arm" default="true" />
+    <arg name="gripper_type" default="normal_gripper" />
+
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find rover_description)/urdf/rover.xacro.urdf arm:=$(arg arm) gripper_type:=$(arg gripper_type)" />
 
     <node name="zed_camera_link_optical" type="static_transform_publisher" pkg="tf" args="0 0 0 -1.5708 0 -1.5708 zed_camera_link zed_camera_link_optical 100" />
 </launch>
