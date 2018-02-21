@@ -1,0 +1,106 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <link name="science_drill">
+        <inertial>
+            <mass value="1.0"/>
+            <inertia ixx="0.00536962333333" ixy="0" ixz="0" iyy="0.00536962333333" iyz="0" izz="0.00032258"/>
+        </inertial>
+        <visual>
+            <material name="Red"/>
+            <origin xyz="0 0 -0.06" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.0127" length="0.12"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 -0.06" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.0127" length="0.12"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="science_sensors_crossbar">
+        <inertial>
+            <mass value="0.07"/>
+            <inertia ixx="0.204164923433" ixy="0" ixz="0" iyy="4.70429166667e-06" iyz="0" izz="0.204162100858"/>
+        </inertial>
+        <visual>
+            <material name="White"/>
+            <origin xyz="0 -0.02958 0.0063" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.0254 0.05916 0.0127" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 -0.02958 0.0063" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.0254 0.05916 0.0127" />
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="science_sensors">
+        <inertial>
+            <mass value="1.0"/>
+            <inertia ixx="0.00536962333333" ixy="0" ixz="0" iyy="0.00536962333333" iyz="0" izz="0.00032258"/>
+        </inertial>
+        <visual>
+            <material name="Green"/>
+            <origin xyz="0 0 -0.125" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.0127" length="0.25"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 -0.125" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.0127" length="0.25"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="arm_inner_to_science_drill" type="continuous">
+        <parent link="arm_inner" />
+        <child link="science_drill" />
+        <origin xyz="0.14 0 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+
+    <joint name="arm_inner_to_science_sensors_crossbar" type="fixed">
+        <parent link="arm_inner" />
+        <child link="science_sensors_crossbar" />
+        <origin xyz="0.1268 0 0" rpy="0 0 0" />
+    </joint>
+
+    <joint name="science_crossbar_to_science_sensors" type="prismatic">
+        <parent link="science_sensors_crossbar" />
+        <child link="science_sensors" />
+        <origin xyz="0 -0.05968 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit effort="2000" velocity="1" lower="0" upper="0.23"/>
+    </joint>
+
+    <transmission name="science_drill_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="arm_inner_to_science_drill">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="science_drill_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="science_sensors_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="science_crossbar_to_science_sensors">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="science_sensors_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+</robot>
