@@ -80,7 +80,7 @@
         <child link="science_sensors" />
         <origin xyz="0 -0.05968 0" rpy="0 0 0" />
         <axis xyz="0 0 1" />
-        <limit effort="2000" velocity="1" lower="0" upper="0.23"/>
+        <limit effort="2000" velocity="1" lower="0" upper="0.25"/>
     </joint>
 
     <transmission name="science_drill_trans">
