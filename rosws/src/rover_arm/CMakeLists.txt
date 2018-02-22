@@ -136,16 +136,16 @@ add_library(rover_arm_hw
 add_dependencies(rover_arm_hw ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(rover_arm_node src/rover_arm_node.cpp)
-
-## Add cmake target dependencies of the executable
-## same as for the library above
-# add_dependencies(rover_arm_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(rover_arm_node
-#   ${catkin_LIBRARIES}
-# )
+#add_executable(rover_science_arm_node src/rover_science_arm/main.cpp src/rover_science_arm/ScienceArmManager.cpp src/rover_science_arm/ScienceArmManager.h)
+#
+### Add cmake target dependencies of the executable
+### same as for the library above
+#add_dependencies(rover_science_arm_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+#
+### Specify libraries to link a library or executable target against
+#target_link_libraries(rover_science_arm_node
+#  ${catkin_LIBRARIES}
+#)
 
 #############
 ## Install ##
