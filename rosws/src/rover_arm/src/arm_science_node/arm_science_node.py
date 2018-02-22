@@ -2,6 +2,7 @@
 import rospy
 from cont_mode import ensure_controllers_are_loaded, set_manual_mode_on_arm
 from teleop import Teleop
+from sm import sm
 
 
 def wait_for_services():
@@ -19,5 +20,7 @@ if __name__ == "__main__":
     teleop = Teleop()
     teleop.enable_teleop()
     teleop.enable_drill()
+    teleop.daemon = True
     teleop.start()
-    teleop.join()
+    while not rospy.is_shutdown():
+        pass

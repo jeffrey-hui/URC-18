@@ -5,6 +5,7 @@ from std_msgs.msg import Float64, Float64MultiArray
 
 DRILL_POWER = 0.25
 Y_SPEED = 0.25 / 30.0
+THETA_SPEED = 1.57 / 30.0
 
 
 class Teleop(threading.Thread):
@@ -72,10 +73,11 @@ class Teleop(threading.Thread):
             if self.joy_state is not None:
                 if self.drill_on:
                     self.drill_pub.publish(DRILL_POWER * int(self.joy_state.buttons[0]))
-                    print DRILL_POWER * int(self.joy_state.buttons[0])
                 if self.teleop_on:
                     y_offset = self.joy_state.axes[1] * Y_SPEED
-                    self.target_position[0] += y_offset
-                    print self.target_position
-
+                    y_s_offset = self.joy_state.axes[5] * Y_SPEED
+                    theta_offset = self.joy_state.axes[2] * THETA_SPEED
+                    self.target_position[0] -= y_offset
+                    self.target_position[1] += theta_offset
+                    self.target_position[2] += y_s_offset
                     self.target_pub.publish(Float64MultiArray(data=self.target_position))
