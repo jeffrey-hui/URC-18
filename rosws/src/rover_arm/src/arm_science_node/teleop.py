@@ -52,6 +52,7 @@ class Teleop(threading.Thread):
     def disable_teleop(self):
         self.drill_on = False
         self.teleop_on = False
+        self.drill_pub.publish(0)
 
     def wait_for_teleop_done(self):
         with self.teleop_done:
@@ -81,3 +82,7 @@ class Teleop(threading.Thread):
                     self.target_position[1] += theta_offset
                     self.target_position[2] += y_s_offset
                     self.target_pub.publish(Float64MultiArray(data=self.target_position))
+                    if self.falling_edge(1):
+                        self.disable_teleop()
+                        with self.teleop_done:
+                            self.teleop_done.notify()
