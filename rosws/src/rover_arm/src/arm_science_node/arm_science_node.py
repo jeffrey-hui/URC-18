@@ -18,10 +18,9 @@ if __name__ == "__main__":
 
     set_manual_mode_on_arm()
     teleop = Teleop()
-    teleop.enable_teleop()
-    teleop.enable_drill()
     teleop.daemon = True
     teleop.start()
 
-    sm.start_action_server()
+    rospy.sleep(2)
+    sm.sm.execute()
     rospy.spin()
