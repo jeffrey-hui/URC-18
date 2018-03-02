@@ -24,6 +24,7 @@ class Teleop(threading.Thread):
         self.teleop_on = False
         self.lock_theta = False
         self.teleop_done = threading.Condition()
+        self.cooldown = 0
 
         self.last_joy_state = None  # type: Joy
         self.joy_state = None
@@ -53,6 +54,7 @@ class Teleop(threading.Thread):
         while self.position is None:
             pass
         self.target_position = self.position[:]
+        self.last_joy_state = None
 
     def lock_theta(self):
         self.lock_theta = False
@@ -61,6 +63,7 @@ class Teleop(threading.Thread):
         self.drill_on = False
         self.teleop_on = False
         self.lock_theta = False
+        self.last_joy_state = None
         self.drill_pub.publish(0)
 
     def wait_for_teleop_done(self):
@@ -73,7 +76,8 @@ class Teleop(threading.Thread):
     def falling_edge(self, i):
         if self.last_joy_state is None:
             return False
-        if self.last_joy_state.buttons[i] and not self.joy_state.buttons[i]:
+        if self.last_joy_state.buttons[i] and not self.joy_state.buttons[i] and self.cooldown == 0:
+            self.cooldown = 15
             return True
         return False
 
@@ -84,6 +88,7 @@ class Teleop(threading.Thread):
                 if self.drill_on:
                     self.drill_pub.publish(DRILL_POWER * int(self.joy_state.buttons[0]))
                 if self.teleop_on:
+                    self.cooldown = max(0, self.cooldown - 1)
                     y_offset = self.joy_state.axes[1] * Y_SPEED
                     y_s_offset = self.joy_state.axes[5] * Y_SPEED
                     theta_offset = self.joy_state.axes[2] * THETA_SPEED

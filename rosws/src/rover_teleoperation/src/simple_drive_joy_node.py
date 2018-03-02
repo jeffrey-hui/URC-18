@@ -14,7 +14,7 @@ drive_control_right = rospy.Publisher("/right_wheels_controller/cmd", std_msgs.m
 
 
 def ctrl_curve(val):
-    return math.copysign(val, val) *1.75
+    return math.copysign(val, val) * 4.75
 
 
 def on_joy_data(msg):

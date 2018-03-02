@@ -60,6 +60,8 @@
         </collision>
     </link>
 
+    <xacro:linkColor link="science_sensors" mat="Gazebo/Green" />
+
     <joint name="arm_inner_to_science_drill" type="continuous">
         <parent link="arm_inner" />
         <child link="science_drill" />

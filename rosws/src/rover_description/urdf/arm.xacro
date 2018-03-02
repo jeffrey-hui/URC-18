@@ -77,6 +77,8 @@
         </collision>
     </link>
 
+    <xacro:linkColor link="arm_slider_unit" mat="Gazebo/Blue" />
+
     <joint name="arm_slide_pole_to_arm_slider_unit" type="prismatic">
         <parent link="arm_z_pole_back"/>
         <child link="arm_slider_unit"/>
@@ -132,6 +134,8 @@
             </geometry>
         </visual>
     </link>
+
+    <xacro:linkColor link="arm_inner" mat="Gazebo/Red" />
 
     <joint name="arm_xy_pole_to_arm_inner" type="fixed">
         <child link="arm_inner"/>
