@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="8.6.3">
+<eagle version="8.6.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -159,7 +159,7 @@ VDD GND</text>
 VDD GND</text>
 <text x="170.053" y="89.8906" size="3.048" layer="21">Ryerson Rams Robotics
 R3-URC18-4-002-004</text>
-<dimension x1="0" y1="195.58" x2="381" y2="195.58" x3="190.5" y3="214.63" textsize="3.81" layer="20" unit="mil" visible="yes"/>
+<dimension x1="0" y1="195.58" x2="381" y2="195.58" x3="190.5" y3="215.9" textsize="3.81" layer="20" unit="mil" visible="yes"/>
 <dimension x1="0" y1="195.58" x2="0" y2="0" x3="-20.32" y3="97.79" textsize="3.81" layer="20" unit="mil" visible="yes"/>
 <hole x="3.81" y="3.81" drill="4" locked="yes"/>
 <text x="126.365" y="35.56" size="1.778" layer="20">FABRICATION NOTES (UNLESS OTHERWISE SPECIFIED):
