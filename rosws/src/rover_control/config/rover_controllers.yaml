@@ -28,3 +28,16 @@ wheel_diff_drive_controller:
   twist_covariance_diagonal: [0.3, 0.3, 0.3, 1000000.0, 1000000.0, 0.03]
 
 #  enable_odom_tf: false
+
+arm_ik_controller:
+  type: rover_ik/IKJointController
+  joints:
+    - arm_slide_pole_to_arm_slider_unit
+    - arm_slider_unit_to_arm_xy_pole
+    - arm_inner_to_arm_outer
+  gains:
+    arm_slider_unit_to_arm_xy_pole: {p: 170.0, d: 1.4, i: 0, i_clamp: 1}
+    arm_inner_to_arm_outer: {p: 170.0, d: 0.5, i: 0, i_clamp: 1}
+    arm_slide_pole_to_arm_slider_unit: {p: 4075.0, d: 0, i: 0, i_clamp: 0}
+  base_link: base_link
+  tip_link: arm_outer

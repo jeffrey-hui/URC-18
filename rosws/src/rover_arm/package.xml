@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>rover_hw</name>
+  <name>rover_arm</name>
   <version>0.0.0</version>
-  <description>The rover_hw package</description>
+  <description>The rover_arm package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/rover_hw</url> -->
+  <!-- <url type="website">http://wiki.ros.org/rover_arm</url> -->
 
 
   <!-- Author tags are optional, mutiple are allowed, one per tag -->
@@ -40,20 +40,26 @@
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>hardware_interface</build_depend>
+  <build_depend>controller_interface</build_depend>
+  <build_depend>eml_uberdriver</build_depend>
   <build_depend>pluginlib</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>simpli2c</build_depend>
-  <build_depend>controller_manager</build_depend>
-  <build_depend>rover_drive</build_depend>
-  <build_depend>rover_arm</build_depend>
-  <run_depend>hardware_interface</run_depend>
+  <build_depend>message_generation</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>actionlib</build_depend>
+  <build_depend>actionlib_msgs</build_depend>
+  <run_depend>controller_interface</run_depend>
+  <run_depend>eml_uberdriver</run_depend>
   <run_depend>pluginlib</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>simpli2c</run_depend>
-  <run_depend>rover_drive</run_depend>
-  <run_depend>controller_manager</run_depend>
-  <run_depend>rover_arm</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>smach</run_depend>
+  <run_depend>joy</run_depend>
+  <run_depend>message_runtime</run_depend>
+  <run_depend>actionlib</run_depend>
+  <run_depend>actionlib_msgs</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

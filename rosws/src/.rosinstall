@@ -1,3 +1,6 @@
 - git:
     local-name: simpli2c
     uri: https://github.com/mincrmatt12/simpli2c.git
+- git:
+    local-name: eml_uberdriver
+    uri: https://github.com/teamr3/eml_uberdriver.git

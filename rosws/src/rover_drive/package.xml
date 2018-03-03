@@ -45,10 +45,12 @@
     <build_depend>controller_interface</build_depend>
     <build_depend>pluginlib</build_depend>
     <build_depend>std_msgs</build_depend>
+    <build_depend>eml_uberdriver</build_depend>
     <run_depend>simpli2c</run_depend>
     <run_depend>controller_interface</run_depend>
     <run_depend>roscpp</run_depend>
     <run_depend>pluginlib</run_depend>
+    <run_depend>eml_uberdriver</run_depend>
     <!-- The export tag contains other, unspecified, tags -->
     <export>
         <!-- Other tools can request additional information be placed here -->

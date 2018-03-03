@@ -1,5 +1,6 @@
 # place all packages from wstool here
-simpli2c
+simpli2c/
+eml_uberdriver/
 
 # e.g.
 # robot_localization/
