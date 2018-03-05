@@ -1,0 +1,21 @@
+joint_limits:
+  arm_inner_to_science_drill:
+    has_velocity_limits: true
+    max_velocity: 0.3
+    has_acceleration_limits: false
+    max_acceleration: 0
+  arm_slide_pole_to_arm_slider_unit:
+    has_velocity_limits: true
+    max_velocity: 1
+    has_acceleration_limits: false
+    max_acceleration: 0
+  arm_slider_unit_to_arm_xy_pole:
+    has_velocity_limits: true
+    max_velocity: 3.875
+    has_acceleration_limits: false
+    max_acceleration: 0
+  science_crossbar_to_science_sensors:
+    has_velocity_limits: true
+    max_velocity: 1
+    has_acceleration_limits: false
+    max_acceleration: 0
