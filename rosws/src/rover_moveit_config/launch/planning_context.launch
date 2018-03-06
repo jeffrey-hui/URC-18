@@ -13,6 +13,6 @@
     <!-- Load default settings for kinematics; these settings are overridden by settings in a node's namespace -->
     <group ns="robot_description_kinematics">
         <rosparam command="load"
-                  file="$(find rover_moveit_config)/config/$(arg gripper_type)/$(arg gripper_type)/kinematics.yaml"/>
+                  file="$(find rover_moveit_config)/config/$(arg gripper_type)/kinematics.yaml"/>
     </group>
 </launch>

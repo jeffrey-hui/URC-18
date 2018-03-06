@@ -8,14 +8,6 @@
         <chain base_link="base_link" tip_link="arm_inner" />
     </group>
 
-    <group name="science_gripper">
-        <joint name="science_drill" />
-        <joint name="arm_inner_to_science_sensors_crossbar" />
-        <joint name="science_crossbar_to_science_sensors" />
-    </group>
-
-    <end_effector name="science_gripper" parent_link="arm_inner" group="science_gripper" />
-
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="arm_inner" link2="arm_slider_unit" reason="Never" />
     <disable_collisions link1="arm_inner" link2="arm_xy_pole" reason="Adjacent" />

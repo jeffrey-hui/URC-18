@@ -9,6 +9,7 @@
     <arg name="info" default="$(arg debug)" />
     <arg unless="$(arg info)" name="command_args" value="" />
     <arg     if="$(arg info)" name="command_args" value="--debug" />
+    <arg name="launch_prefix" value="" />
 
     <!-- move_group settings -->
     <arg name="allow_trajectory_execution" default="true"/>
@@ -30,7 +31,6 @@
 
     <!-- Sensors Functionality -->
     <include ns="move_group" file="$(find rover_moveit_config)/launch/sensor_manager.launch.xml" if="$(arg allow_trajectory_execution)">
-        <arg name="moveit_sensor_manager" value="rover" />
     </include>
 
     <!-- Start the actual move_group node/action server -->

@@ -1,0 +1,7 @@
+<launch>
+    <arg name="gripper_type" default="science_gripper" />
+
+    <node name="$(anon rviz)" type="rviz" pkg="rviz" args="-d $(find rover_moveit_config)/rviz/moveit.rviz">
+        <rosparam command="load" file="$(find rover_moveit_config)/config/$(arg gripper_type)/kinematics.yaml" />
+    </node>
+</launch>
