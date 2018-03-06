@@ -5,7 +5,7 @@ cont_server = rospy.ServiceProxy("/controller_manager/switch_controller", Switch
 cont_list_server = rospy.ServiceProxy("/controller_manager/list_controllers", ListControllers)
 cont_load = rospy.ServiceProxy("/controller_manager/load_controller", LoadController)
 
-NEED_CONTROLLERS = {"drill_controller", "arm_manual_controller"}
+NEED_CONTROLLERS = {"drill_controller", "arm_manual_controller", "arm_moveit_controller"}
 
 
 def ensure_controllers_are_loaded():
@@ -32,7 +32,20 @@ def set_manual_mode_on_arm():
             "drill_controller"
         ],
         stop_controllers=[
+            "arm_moveit_controller"
+        ],
+        strictness=1
+    ))
 
+
+def set_moveit_mode_on_arm():
+    cont_server(SwitchControllerRequest(
+        stop_controllers=[
+            "arm_manual_controller",
+            "drill_controller"
+        ],
+        start_controllers=[
+            "arm_moveit_controller"
         ],
         strictness=1
     ))

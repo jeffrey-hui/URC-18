@@ -21,6 +21,4 @@ if __name__ == "__main__":
     teleop.daemon = True
     teleop.start()
 
-    rospy.sleep(2)
-    sm.sm.execute()
     rospy.spin()

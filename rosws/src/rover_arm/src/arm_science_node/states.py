@@ -9,11 +9,13 @@ my_target = rospy.Publisher("/arm_manual_controller/command", Float64MultiArray,
 
 class MarkGroundPos(State):
     # noinspection PyTypeChecker
-    def __init__(self):
+    def __init__(self, sas):
         super(MarkGroundPos, self).__init__(outcomes=("succeeded", "aborted", "preempted"),
                                             output_keys=["arm_pos_tuple"])
+        self.sas = sas
 
     def execute(self, ud):
+        self.sas.feedback("Waiting for user to mark ground position")
         teleop.Teleop.instance.enable_teleop()
         teleop.Teleop.instance.target_position[2] = 0.24
         teleop.Teleop.instance.wait_for_teleop_done()
@@ -26,12 +28,14 @@ class MarkGroundPos(State):
 
 
 class DrillHole(State):
-    def __init__(self):
+    def __init__(self, sas):
         super(DrillHole, self).__init__(outcomes=("succeeded", "aborted", "preempted"),
                                         input_keys=["arm_pos_tuple"],
                                         output_keys=["ground_pos_tuple"])
+        self.sas = sas
 
     def execute(self, ud):
+        self.sas.feedback("Waiting for user to drill hole")
         teleop.Teleop.instance.enable_teleop()
         teleop.Teleop.instance.enable_drill()
         teleop.Teleop.instance.lock_theta = True
@@ -66,30 +70,36 @@ class GoToTarget(State):
 
 
 class ReturnToGroundPosition(GoToTarget):
-    def __init__(self):
+    def __init__(self, sas):
         super(ReturnToGroundPosition, self).__init__(lambda ud: ud.ground_pos_tuple, 0,
                                                      outcomes=("succeeded", "aborted", "preempted"),
                                                      input_keys=["ground_pos_tuple"],
                                                      output_keys=["ground_pos_tuple"])
+        self.sas = sas
+
+    def execute(self, ud):
+        self.sas.feedback("Raising arm to ground")
+        super(ReturnToGroundPosition, self).execute(ud)
 
 
 class MoveToSciencePos(GoToTarget):
-    def __init__(self):
+    def __init__(self, sas):
         super(MoveToSciencePos, self).__init__(
             lambda ud: (ud.ground_pos_tuple[0], ud.ground_pos_tuple[1] + 0.261, ud.ground_pos_tuple[2]), 1,
             outcomes=("succeeded", "aborted", "preempted"),
             input_keys=["ground_pos_tuple"],
             output_keys=["science_pos_tuple"])
+        self.sas = sas
 
     def execute(self, ud):
+        self.sas.feedback("Rotating arm to science location")
         res = super(MoveToSciencePos, self).execute(ud)
-        print("ok")
         ud.science_pos_tuple = teleop.Teleop.instance.position[:]
         return res
 
 
 class LowerScienceSensors(GoToTarget):
-    def __init__(self):
+    def __init__(self, sas):
         super(LowerScienceSensors, self).__init__(
             lambda ud: (ud.science_pos_tuple[0], ud.science_pos_tuple[1], 0), 2,
             outcomes=("succeeded", "aborted", "preempted"),
@@ -98,21 +108,28 @@ class LowerScienceSensors(GoToTarget):
 
 
 class WaitForScienceStabilize(State):
-    def __init__(self):
+    def __init__(self, sas):
         super(WaitForScienceStabilize, self).__init__(
             outcomes=("succeeded", "aborted", "preempted"),
             input_keys=["science_pos_tuple"],
             output_keys=["science_pos_tuple"])
+        self.sas = sas
 
     def execute(self, ud):
+        self.sas.feedback("DEBUG - waiting for science sensors (waiting 2 seconds)")
         rospy.sleep(2)
         return "succeeded"
 
 
 class RaiseScienceSensors(GoToTarget):
-    def __init__(self):
+    def __init__(self, sas):
         super(RaiseScienceSensors, self).__init__(
             lambda ud: (ud.science_pos_tuple[0], ud.science_pos_tuple[1], 0.27), 2,
             outcomes=("succeeded", "aborted", "preempted"),
             input_keys=["science_pos_tuple"],
             output_keys=["science_pos_tuple"])
+        self.sas = sas
+
+    def execute(self, ud):
+        self.sas.feedback("Raising science sensors")
+        super(RaiseScienceSensors, self).execute(ud)
