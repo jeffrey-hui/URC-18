@@ -66,6 +66,10 @@ class Teleop(threading.Thread):
         self.last_joy_state = None
         self.drill_pub.publish(0)
 
+    def wake(self):
+        with self.teleop_done:
+            self.teleop_done.notify()
+
     def wait_for_teleop_done(self):
         with self.teleop_done:
             self.teleop_done.wait()
@@ -99,5 +103,5 @@ class Teleop(threading.Thread):
                     self.target_pub.publish(Float64MultiArray(data=self.target_position))
                     if self.falling_edge(1):
                         self.disable_teleop()
-                        with self.teleop_done:
-                            self.teleop_done.notify()
+                        self.wake()
+

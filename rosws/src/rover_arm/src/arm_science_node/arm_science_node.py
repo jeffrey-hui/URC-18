@@ -12,6 +12,7 @@ def wait_for_services():
 if __name__ == "__main__":
     rospy.init_node("arm_science_node")
     wait_for_services()
+    sm.sas.go()
     rospy.loginfo("service found, starting node")
     ensure_controllers_are_loaded()
     rospy.loginfo("done init!")
@@ -22,3 +23,4 @@ if __name__ == "__main__":
     teleop.start()
 
     rospy.spin()
+    teleop.stop()

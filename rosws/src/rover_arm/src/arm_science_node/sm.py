@@ -11,22 +11,13 @@ sm = smach.StateMachine(outcomes=["succeeded", "aborted", "preempted"])
 
 class ScienceActionServer:
     def __init__(self):
-        self.as_ = SimpleActionServer("science_arm_action", ScienceArmAction)
-        self.as_.register_goal_callback(self.goal)
+        self.as_ = SimpleActionServer("science_arm_action", ScienceArmAction, auto_start=False, execute_cb=self.execute)
         self.as_.register_preempt_callback(self.preempt)
         self.goal_running = False
 
-    def goal(self):
-        goal_ = self.as_.accept_new_goal()
+    def execute(self, goal):
         self.goal_running = True
-        sm.execute()
-
-    def feedback(self, str_):
-        if self.goal_running:
-            self.as_.publish_feedback(ScienceArmFeedback(currentAction=str_))
-
-    def termination_cb(self, ud, ts, outcome):
-        rospy.logdebug("ended")
+        outcome = sm.execute()
         self.goal_running = False
         if outcome == "succeeded":
             self.as_.set_succeeded()
@@ -35,7 +26,15 @@ class ScienceActionServer:
         else:
             self.as_.set_aborted()
 
+    def feedback(self, str_):
+        if self.goal_running:
+            self.as_.publish_feedback(ScienceArmFeedback(currentAction=str_))
+
+    def termination_cb(self, ud, ts, outcome):
+        rospy.logdebug("ended")
+
     def preempt(self):
+        rospy.loginfo("ASDF")
         sm.request_preempt()
 
     def go(self):
@@ -43,8 +42,6 @@ class ScienceActionServer:
 
 
 sas = ScienceActionServer()
-sas.go()
-
 
 with sm:
     smach.StateMachine.add('MARK_GROUND_POS', MarkGroundPos(sas),

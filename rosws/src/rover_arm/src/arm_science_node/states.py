@@ -21,10 +21,13 @@ class MarkGroundPos(State):
         teleop.Teleop.instance.wait_for_teleop_done()
         ud.arm_pos_tuple = teleop.Teleop.instance.target_position
         teleop.Teleop.instance.disable_teleop()
-        return "succeeded"
+        return "succeeded" if not self.preempt_requested() else "preempted"
 
     def request_preempt(self):
         super(MarkGroundPos, self).request_preempt()
+        rospy.loginfo("STOPPING TELEOP")
+        teleop.Teleop.instance.disable_teleop()
+        teleop.Teleop.instance.wake()
 
 
 class DrillHole(State):
@@ -43,7 +46,12 @@ class DrillHole(State):
         teleop.Teleop.instance.wait_for_teleop_done()
         ud.ground_pos_tuple = ud.arm_pos_tuple[:]
         teleop.Teleop.instance.disable_teleop()
-        return "succeeded"
+        return "succeeded" if not self.preempt_requested() else "preempted"
+
+    def request_preempt(self):
+        super(DrillHole, self).request_preempt()
+        teleop.Teleop.instance.disable_teleop()
+        teleop.Teleop.instance.wake()
 
 
 class GoToTarget(State):
@@ -58,15 +66,15 @@ class GoToTarget(State):
         my_target.publish(data=target_pos[:])
         max_time = 30 * 30
         i = 0
-        while abs(teleop.Teleop.instance.position[self.target_direction] - target_pos[self.target_direction]) > 0.02:
-            # print("error: " + str(teleop.Teleop.instance.position[0]) + " < " + str(target_pos[0]) + ", i =" + str(i))
+        while (abs(teleop.Teleop.instance.position[self.target_direction] - target_pos[self.target_direction]) > 0.03) and not self.preempt_requested():
+            print("error: " + str(teleop.Teleop.instance.position[self.target_direction]) + " < " + str(target_pos[self.target_direction]) + ", i =" + str(i))
             teleop.Teleop.instance.rate.sleep()
             my_target.publish(data=target_pos[:])
             i += 1
             if i > max_time:
                 my_target.publish(data=teleop.Teleop.instance.position)
                 return "aborted"
-        return "succeeded"
+        return "succeeded" if not self.preempt_requested() else "preempted"
 
 
 class ReturnToGroundPosition(GoToTarget):
@@ -79,7 +87,7 @@ class ReturnToGroundPosition(GoToTarget):
 
     def execute(self, ud):
         self.sas.feedback("Raising arm to ground")
-        super(ReturnToGroundPosition, self).execute(ud)
+        return super(ReturnToGroundPosition, self).execute(ud)
 
 
 class MoveToSciencePos(GoToTarget):
@@ -124,7 +132,7 @@ class WaitForScienceStabilize(State):
 class RaiseScienceSensors(GoToTarget):
     def __init__(self, sas):
         super(RaiseScienceSensors, self).__init__(
-            lambda ud: (ud.science_pos_tuple[0], ud.science_pos_tuple[1], 0.27), 2,
+            lambda ud: (ud.science_pos_tuple[0], ud.science_pos_tuple[1], 0.25), 2,
             outcomes=("succeeded", "aborted", "preempted"),
             input_keys=["science_pos_tuple"],
             output_keys=["science_pos_tuple"])
@@ -132,4 +140,4 @@ class RaiseScienceSensors(GoToTarget):
 
     def execute(self, ud):
         self.sas.feedback("Raising science sensors")
-        super(RaiseScienceSensors, self).execute(ud)
+        return super(RaiseScienceSensors, self).execute(ud)
