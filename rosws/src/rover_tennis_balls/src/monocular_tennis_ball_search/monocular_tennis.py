@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import numpy as np
 import rospy
 import cv_bridge
@@ -7,11 +8,7 @@ from rover_tennis_balls.tennis import find_tennis_ball
 import projmath
 
 rospy.init_node("monocular_tennis_ball_search")
-camera_info_topic_name = rospy.get_param("~camera_info_topic")
-tennis_balls_topic_name = rospy.get_param("~tennis_balls_topic")
-camera_topic_name = rospy.get_param("~camera_topic")
-
-cam_info = rospy.wait_for_message(camera_info_topic_name,
+cam_info = rospy.wait_for_message("camera/camera_info",
                                   sensor_msgs.msg.CameraInfo)  # type: sensor_msgs.msg.CameraInfo
 
 proj_mat = np.array(cam_info.P, dtype=np.float32)
@@ -19,7 +16,7 @@ proj_mat = proj_mat.reshape((3, 4))
 proj_mat = proj_mat[:, :3]
 
 pos_tolerance = rospy.get_param("~pos_tolerance", 10)
-size_tolerance = rospy.get_param("~size_tolerance", 10)
+size_tolerance = rospy.get_param("~size_tolerance", 15)
 
 last_tennis_ball = None
 frames = 0
@@ -34,7 +31,7 @@ def publish_tennis_ball(ball):
     frames += 1
     decay = 10
     ray = projmath.get_ray(ball[0], ball[1], proj_mat)
-    confidence = min(1, (frames / 35) ** 2) / 2
+    confidence = min(1, (frames / 35) ** 2) * 0.9
     confidence -= (10 - decay) / 30
     if ball[2] < 20:
         confidence -= 0.25
@@ -78,7 +75,7 @@ def on_image(msg):
             publish_tennis_ball(ball)
 
 
-sub = rospy.Subscriber(camera_topic_name, sensor_msgs.msg.Image, callback=on_image, queue_size=30)
-pub = rospy.Publisher(tennis_balls_topic_name, TennisBall, queue_size=10)
+sub = rospy.Subscriber("camera/image", sensor_msgs.msg.Image, callback=on_image, queue_size=30)
+pub = rospy.Publisher("tennis_ball_measurements", TennisBall, queue_size=10)
 
 rospy.spin()
