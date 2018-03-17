@@ -19,7 +19,7 @@ def f(pt, rays, points):
     errors = np.full([(len(rays) + len(points)) * 3], np.inf)
     for i in range(0, len(rays)):
         ray = rays[i]  # type: Ray
-        time_on_ray = ray.vec.dot((pt - ray.pos).T/ray.vec.dot(ray.vec.T))
+        time_on_ray = ray.vec.dot((pt - ray.pos).T)
         if time_on_ray > 0:
             errors[i*3:(i+1)*3] = (pt - (ray.pos + time_on_ray * ray.vec)).T * ray.conf
         else:
