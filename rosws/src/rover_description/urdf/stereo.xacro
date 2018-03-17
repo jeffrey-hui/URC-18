@@ -1,0 +1,78 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <link name="stereo_camera_link">
+        <inertial>
+            <inertia ixx="0.000604166666667" ixy="0" ixz="0" iyy="0.000166666666667" iyz="0" izz="0.000604166666667"/>
+            <mass value="0.1"/>
+        </inertial>
+        <visual>
+            <material name="Yellow"/>
+            <origin xyz="0 0 0.05" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.17 0.08 0.1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.05" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.17 0.08 0.1"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="base_to_camera_link" type="fixed">
+        <parent link="base_link"/>
+        <child link="stereo_camera_link"/>
+        <origin xyz="0.38 0 0.25" rpy="0 0 0"/>
+    </joint>
+    
+    <link name="stereo_left_optical_frame" />
+    <link name="stereo_right_optical_frame" />
+
+    <xacro:macro name="camera_optical_frame" params="side offset">
+        <joint name="camera_to_${side}_optical" type="fixed">
+            <origin xyz="${offset}" rpy="-1.5707 0 -1.5707" />
+            <parent link="stereo_camera_link" />
+            <child link="stereo_${side}_optical_frame" />
+        </joint>
+    </xacro:macro>
+
+    <xacro:camera_optical_frame side="left" offset=""
+
+    <gazebo reference="stereo_camera_link">
+        <sensor type="depth" name="zed">
+            <always_on>true</always_on>
+            <update_rate>30</update_rate>
+            <camera>
+                <horizontal_fov>1.65</horizontal_fov>
+                <image>
+                    <format>B8G8R8</format>
+                    <width>1280</width>
+                    <height>720</height>
+                </image>
+                <clip>
+                    <near>0.1</near>
+                    <far>100</far>
+                </clip>
+            </camera>
+            <plugin name="stereo_camera_controller" filename="libgazebo_ros_openni_kinect.so">
+                <cameraName>stereo</cameraName>
+                <alwaysOn>true</alwaysOn>
+                <updateRate>15</updateRate>
+                <imageTopicName>left/image_rect_color</imageTopicName>
+                <depthImageTopicName>depth</depthImageTopicName>
+                <pointCloudTopicName>points2</pointCloudTopicName>
+                <cameraInfoTopicName>left/camera_info</cameraInfoTopicName>
+                <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+                <frameName>stereo_left_optical_frame</frameName>
+                <baseline>0.1</baseline>
+                <distortion_k1>0.0</distortion_k1>
+                <distortion_k2>0.0</distortion_k2>
+                <distortion_k3>0.0</distortion_k3>
+                <distortion_t1>0.0</distortion_t1>
+                <distortion_t2>0.0</distortion_t2>
+                <pointCloudCutoff>0.2</pointCloudCutoff>
+            </plugin>
+        </sensor>
+    </gazebo>
+</robot>
