@@ -9,13 +9,13 @@
             <material name="Yellow"/>
             <origin xyz="0 0 0.05" rpy="0 0 0"/>
             <geometry>
-                <box size="0.17 0.08 0.1"/>
+                <box size="0.14 0.08 0.1"/>
             </geometry>
         </visual>
         <collision>
             <origin xyz="0 0 0.05" rpy="0 0 0"/>
             <geometry>
-                <box size="0.17 0.08 0.1"/>
+                <box size="0.14 0.08 0.1"/>
             </geometry>
         </collision>
     </link>
@@ -23,7 +23,7 @@
     <joint name="base_to_camera_link" type="fixed">
         <parent link="base_link"/>
         <child link="stereo_camera_link"/>
-        <origin xyz="0.38 0 0.25" rpy="0 0 0"/>
+        <origin xyz="0.38 0.1 0.25" rpy="0 0 0"/>
     </joint>
     
     <link name="stereo_left_optical_frame" />
@@ -37,7 +37,8 @@
         </joint>
     </xacro:macro>
 
-    <xacro:camera_optical_frame side="left" offset=""
+    <xacro:camera_optical_frame side="left" offset="0 0.03 0.05" />
+    <xacro:camera_optical_frame side="right" offset="0 -0.03 0.05" />
 
     <gazebo reference="stereo_camera_link">
         <sensor type="depth" name="zed">
