@@ -9,13 +9,13 @@
             <material name="Yellow"/>
             <origin xyz="0 0 0.05" rpy="0 0 0"/>
             <geometry>
-                <box size="0.14 0.08 0.1"/>
+                <box size="0.08 0.14 0.1"/>
             </geometry>
         </visual>
         <collision>
             <origin xyz="0 0 0.05" rpy="0 0 0"/>
             <geometry>
-                <box size="0.14 0.08 0.1"/>
+                <box size="0.08 0.14 0.1"/>
             </geometry>
         </collision>
     </link>
@@ -25,54 +25,92 @@
         <child link="stereo_camera_link"/>
         <origin xyz="0.38 0.1 0.25" rpy="0 0 0"/>
     </joint>
-    
-    <link name="stereo_left_optical_frame" />
-    <link name="stereo_right_optical_frame" />
+
+    <link name="stereo_left_optical_frame"/>
+    <link name="stereo_right_optical_frame"/>
 
     <xacro:macro name="camera_optical_frame" params="side offset">
         <joint name="camera_to_${side}_optical" type="fixed">
-            <origin xyz="${offset}" rpy="-1.5707 0 -1.5707" />
-            <parent link="stereo_camera_link" />
-            <child link="stereo_${side}_optical_frame" />
+            <origin xyz="${offset}" rpy="-1.5707 0 -1.5707"/>
+            <parent link="stereo_camera_link"/>
+            <child link="stereo_${side}_optical_frame"/>
         </joint>
     </xacro:macro>
 
-    <xacro:camera_optical_frame side="left" offset="0 0.03 0.05" />
-    <xacro:camera_optical_frame side="right" offset="0 -0.03 0.05" />
+    <xacro:camera_optical_frame side="left" offset="0 0.03 0.05"/>
+    <xacro:camera_optical_frame side="right" offset="0 -0.03 0.05"/>
 
     <gazebo reference="stereo_camera_link">
-        <sensor type="depth" name="zed">
-            <always_on>true</always_on>
-            <update_rate>30</update_rate>
-            <camera>
-                <horizontal_fov>1.65</horizontal_fov>
+        <sensor type="camera" name="left_camera">
+            <update_rate>30.0</update_rate>
+            <pose>0 0.03 0.05 0 -0 0</pose> <!-- offset to left -->
+            <always_on>1</always_on>
+            <camera name="left">
+                <horizontal_fov>1.57</horizontal_fov> <!-- fixme: work out how to simulate a 170 deg camera -->
                 <image>
-                    <format>B8G8R8</format>
-                    <width>1280</width>
-                    <height>720</height>
+                    <width>640</width>
+                    <height>480</height>
+                    <format>R8G8B8</format>
                 </image>
                 <clip>
-                    <near>0.1</near>
-                    <far>100</far>
+                    <near>0.02</near>
+                    <far>300</far>
                 </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.003</stddev>
+                </noise>
             </camera>
-            <plugin name="stereo_camera_controller" filename="libgazebo_ros_openni_kinect.so">
-                <cameraName>stereo</cameraName>
+            <plugin name="left_controller" filename="libgazebo_ros_camera.so">
                 <alwaysOn>true</alwaysOn>
-                <updateRate>15</updateRate>
-                <imageTopicName>left/image_rect_color</imageTopicName>
-                <depthImageTopicName>depth</depthImageTopicName>
-                <pointCloudTopicName>points2</pointCloudTopicName>
-                <cameraInfoTopicName>left/camera_info</cameraInfoTopicName>
-                <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+                <updateRate>0.0</updateRate>
+                <cameraName>stereo/left</cameraName>
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
                 <frameName>stereo_left_optical_frame</frameName>
-                <baseline>0.1</baseline>
-                <distortion_k1>0.0</distortion_k1>
-                <distortion_k2>0.0</distortion_k2>
-                <distortion_k3>0.0</distortion_k3>
-                <distortion_t1>0.0</distortion_t1>
-                <distortion_t2>0.0</distortion_t2>
-                <pointCloudCutoff>0.2</pointCloudCutoff>
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+            </plugin>
+        </sensor>
+        <sensor type="camera" name="right_camera">
+            <update_rate>30.0</update_rate>
+            <pose>0 -0.03 0.05 0 -0 0</pose> <!-- offset to r -->
+            <always_on>1</always_on>
+            <camera name="right">
+                <horizontal_fov>1.57</horizontal_fov> <!-- fixme: work out how to simulate a 170 deg camera -->
+                <image>
+                    <width>640</width>
+                    <height>480</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.02</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.003</stddev>
+                </noise>
+            </camera>
+            <plugin name="right_controller" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>stereo/right</cameraName>
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>stereo_right_optical_frame</frameName>
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
             </plugin>
         </sensor>
     </gazebo>
