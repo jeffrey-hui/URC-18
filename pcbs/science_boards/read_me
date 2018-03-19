@@ -6,4 +6,5 @@ optocoupler used on the main board)
 -decoupling capacitors for all supply lines
 -bidirectional logic level converter for i2c, refer to battery boards
 for how to do this (Ask Gabe if you cant figure it out)
-
+//NOTE:
+-1206 series 
