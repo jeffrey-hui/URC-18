@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="8.6.0">
+<eagle version="8.6.3">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -1802,7 +1802,6 @@ design rules under a new name.</description>
 <contactref element="A2" pad="27"/>
 <contactref element="X1" pad="3"/>
 <contactref element="A1" pad="27"/>
-<contactref element="X2" pad="3"/>
 <contactref element="X3" pad="3"/>
 <contactref element="X4" pad="3"/>
 <contactref element="X7" pad="3"/>
@@ -1818,13 +1817,12 @@ design rules under a new name.</description>
 <wire x1="-19.49" y1="90.38" x2="-26.67" y2="99.06" width="0" layer="19" extent="1-1"/>
 <wire x1="-38.1" y1="99.06" x2="-26.67" y2="99.06" width="0" layer="19" extent="1-1"/>
 <wire x1="-53.34" y1="100.33" x2="-38.1" y2="99.06" width="0" layer="19" extent="1-1"/>
-<wire x1="-19.49" y1="73.87" x2="-19.49" y2="90.38" width="0" layer="19" extent="1-1"/>
-<wire x1="-20.76" y1="57.36" x2="-19.49" y2="73.87" width="0" layer="19" extent="1-1"/>
-<wire x1="-37.27" y1="73.87" x2="-19.49" y2="73.87" width="0" layer="19" extent="1-1"/>
-<wire x1="-38.54" y1="57.36" x2="-37.27" y2="73.87" width="0" layer="19" extent="1-1"/>
-<wire x1="-55.05" y1="73.87" x2="-37.27" y2="73.87" width="0" layer="19" extent="1-1"/>
-<wire x1="-54.61" y1="82.55" x2="-55.05" y2="73.87" width="0" layer="19" extent="1-1"/>
+<wire x1="-54.61" y1="82.55" x2="-53.34" y2="100.33" width="0" layer="19" extent="1-1"/>
+<wire x1="-55.05" y1="73.87" x2="-54.61" y2="82.55" width="0" layer="19" extent="1-1"/>
 <wire x1="-56.32" y1="57.36" x2="-55.05" y2="73.87" width="0" layer="19" extent="1-1"/>
+<wire x1="-37.27" y1="73.87" x2="-55.05" y2="73.87" width="0" layer="19" extent="1-1"/>
+<wire x1="-38.54" y1="57.36" x2="-37.27" y2="73.87" width="0" layer="19" extent="1-1"/>
+<wire x1="-20.76" y1="57.36" x2="-38.54" y2="57.36" width="0" layer="19" extent="1-1"/>
 <wire x1="-72.83" y1="73.87" x2="-55.05" y2="73.87" width="0" layer="19" extent="1-1"/>
 <wire x1="-76.2" y1="82.55" x2="-72.83" y2="73.87" width="0" layer="19" extent="1-1"/>
 <wire x1="-35.56" y1="35.56" x2="-38.54" y2="57.36" width="0" layer="19" extent="1-1"/>
@@ -1853,8 +1851,8 @@ design rules under a new name.</description>
 </signal>
 <signal name="DATA1_ECT">
 <contactref element="X4" pad="1"/>
-<contactref element="A1" pad="5"/>
-<wire x1="-30.48" y1="33.02" x2="-20.76" y2="51.86" width="0" layer="19" extent="1-1"/>
+<contactref element="A1" pad="8"/>
+<wire x1="-30.48" y1="25.4" x2="-20.76" y2="51.86" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="DATA1_HY">
 <contactref element="X7" pad="1"/>
@@ -1880,8 +1878,8 @@ design rules under a new name.</description>
 </signal>
 <signal name="DATA1_GEI">
 <contactref element="X8" pad="1"/>
-<contactref element="A1" pad="8"/>
-<wire x1="-30.48" y1="25.4" x2="-38.54" y2="51.86" width="0" layer="19" extent="1-1"/>
+<contactref element="A1" pad="5"/>
+<wire x1="-30.48" y1="33.02" x2="-38.54" y2="51.86" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="DO_RX">
 <contactref element="A2" pad="5"/>
@@ -1929,6 +1927,9 @@ design rules under a new name.</description>
 <contactref element="X9" pad="2"/>
 <contactref element="A1" pad="9"/>
 <wire x1="-30.48" y1="22.86" x2="-23.69" y2="84.88" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="7V">
+<contactref element="X2" pad="3"/>
 </signal>
 </signals>
 </board>

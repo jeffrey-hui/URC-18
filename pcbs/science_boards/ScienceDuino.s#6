@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -4535,6 +4535,7 @@ W = angled&lt;p&gt;
 <part name="SV3" library="con-lsta" library_urn="urn:adsk.eagle:library:161" deviceset="FE05-1" device="" package3d_urn="urn:adsk.eagle:package:8190/1"/>
 <part name="SV4" library="con-lsta" library_urn="urn:adsk.eagle:library:161" deviceset="FE05-1" device="" package3d_urn="urn:adsk.eagle:package:8190/1"/>
 <part name="SV5" library="con-lsta" library_urn="urn:adsk.eagle:library:161" deviceset="FE05-1" device="" package3d_urn="urn:adsk.eagle:package:8190/1"/>
+<part name="X9" library="con-molex" library_urn="urn:adsk.eagle:library:165" deviceset="5566-4" device="" value="Dust sensor"/>
 </parts>
 <sheets>
 <sheet>
@@ -4545,6 +4546,7 @@ W = angled&lt;p&gt;
 <text x="168.91" y="59.69" size="1.016" layer="91">DO circuit to inline voltage isolator</text>
 <dimension x1="143.51" y1="77.47" x2="161.29" y2="77.47" x3="152.4" y3="88.9" textsize="1.016" layer="91"/>
 <text x="149.86" y="50.8" size="1.016" layer="91">BNC</text>
+<text x="147.32" y="83.82" size="1.016" layer="91">inline voltage isolator</text>
 </plain>
 <instances>
 <instance part="A1" gate="G$1" x="45.72" y="60.96"/>
@@ -4587,6 +4589,10 @@ W = angled&lt;p&gt;
 <instance part="SV3" gate="G$1" x="158.75" y="72.39"/>
 <instance part="SV4" gate="G$1" x="140.97" y="72.39"/>
 <instance part="SV5" gate="G$1" x="149.86" y="40.64"/>
+<instance part="X9" gate="-1" x="48.26" y="15.24"/>
+<instance part="X9" gate="-2" x="48.26" y="12.7"/>
+<instance part="X9" gate="-3" x="48.26" y="10.16"/>
+<instance part="X9" gate="-4" x="48.26" y="7.62"/>
 </instances>
 <busses>
 </busses>
@@ -4683,6 +4689,11 @@ W = angled&lt;p&gt;
 <wire x1="157.48" y1="40.64" x2="161.29" y2="40.64" width="0.1524" layer="91"/>
 <label x="158.75" y="40.64" size="1.016" layer="95"/>
 </segment>
+<segment>
+<pinref part="X9" gate="-3" pin="S"/>
+<wire x1="45.72" y1="10.16" x2="30.48" y2="10.16" width="0.1524" layer="91"/>
+<label x="30.48" y="10.16" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="GND" class="0">
 <segment>
@@ -4749,6 +4760,11 @@ W = angled&lt;p&gt;
 <pinref part="SV1" gate="G$1" pin="3"/>
 <wire x1="187.96" y1="49.53" x2="191.77" y2="49.53" width="0.1524" layer="91"/>
 <label x="189.23" y="49.53" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="X9" gate="-4" pin="S"/>
+<wire x1="45.72" y1="7.62" x2="30.48" y2="7.62" width="0.1524" layer="91"/>
+<label x="30.48" y="7.62" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="DATA1_ANO" class="0">
@@ -4932,6 +4948,20 @@ W = angled&lt;p&gt;
 <pinref part="A1" gate="G$1" pin="VIN"/>
 <wire x1="60.96" y1="78.74" x2="64.77" y2="78.74" width="0.1524" layer="91"/>
 <label x="62.23" y="78.74" size="1.016" layer="95"/>
+</segment>
+</net>
+<net name="DATA1_DUST" class="0">
+<segment>
+<pinref part="X9" gate="-1" pin="S"/>
+<wire x1="45.72" y1="15.24" x2="30.48" y2="15.24" width="0.1524" layer="91"/>
+<label x="30.48" y="15.24" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="DATA2_DUST" class="0">
+<segment>
+<pinref part="X9" gate="-2" pin="S"/>
+<wire x1="45.72" y1="12.7" x2="30.48" y2="12.7" width="0.1524" layer="91"/>
+<label x="30.48" y="12.7" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>

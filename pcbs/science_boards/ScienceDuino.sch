@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="8.6.0">
+<eagle version="8.6.3">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -4685,11 +4685,6 @@ W = angled&lt;p&gt;
 <label x="60.96" y="71.12" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="X2" gate="-3" pin="S"/>
-<wire x1="-7.62" y1="68.58" x2="-22.86" y2="68.58" width="0.1524" layer="91"/>
-<label x="-22.86" y="68.58" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="X3" gate="-3" pin="S"/>
 <wire x1="-7.62" y1="53.34" x2="-22.86" y2="53.34" width="0.1524" layer="91"/>
 <label x="-22.86" y="53.34" size="1.778" layer="95"/>
@@ -4855,9 +4850,9 @@ W = angled&lt;p&gt;
 <label x="-22.86" y="43.18" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="A1" gate="G$1" pin="D2"/>
-<wire x1="30.48" y1="68.58" x2="15.24" y2="68.58" width="0.1524" layer="91"/>
-<label x="15.24" y="68.58" size="1.778" layer="95"/>
+<pinref part="A1" gate="G$1" pin="D5"/>
+<wire x1="30.48" y1="60.96" x2="15.24" y2="60.96" width="0.1524" layer="91"/>
+<label x="15.24" y="60.96" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="DATA1_HY" class="0">
@@ -4916,9 +4911,9 @@ W = angled&lt;p&gt;
 <label x="-22.86" y="0" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="A1" gate="G$1" pin="D5"/>
-<wire x1="30.48" y1="60.96" x2="15.24" y2="60.96" width="0.1524" layer="91"/>
-<label x="15.24" y="60.96" size="1.778" layer="95"/>
+<pinref part="A1" gate="G$1" pin="D2"/>
+<wire x1="30.48" y1="68.58" x2="15.24" y2="68.58" width="0.1524" layer="91"/>
+<label x="15.24" y="68.58" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="DO_RX" class="0">
@@ -5034,6 +5029,13 @@ W = angled&lt;p&gt;
 <pinref part="A1" gate="G$1" pin="D6"/>
 <wire x1="30.48" y1="58.42" x2="15.24" y2="58.42" width="0.1524" layer="91"/>
 <label x="15.24" y="58.42" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="7V" class="0">
+<segment>
+<pinref part="X2" gate="-3" pin="S"/>
+<wire x1="-7.62" y1="68.58" x2="-22.86" y2="68.58" width="0.1524" layer="91"/>
+<label x="-22.86" y="68.58" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
