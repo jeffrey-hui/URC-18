@@ -50,12 +50,10 @@
     <xacro:camera_optical_frame side="right" offset="0.0405 -0.03 0"/>
 
     <gazebo reference="stereo_left_physical_frame">
-        <sensor type="camera" name="left_camera">
+        <sensor type="multicamera" name="stereo_camera">
             <update_rate>30.0</update_rate>
-            <pose>0 0 0 0 0 0</pose> <!-- offset to left -->
-            <always_on>1</always_on>
             <camera name="left">
-                <horizontal_fov>1.57</horizontal_fov> <!-- fixme: work out how to simulate a 170 deg camera -->
+                <horizontal_fov>1.6</horizontal_fov>
                 <image>
                     <width>640</width>
                     <height>480</height>
@@ -68,54 +66,35 @@
                 <noise>
                     <type>gaussian</type>
                     <mean>0.0</mean>
-                    <stddev>0.003</stddev>
+                    <stddev>0.007</stddev>
                 </noise>
             </camera>
-            <plugin name="left_controller" filename="libgazebo_ros_camera.so">
+            <camera name="right">
+                <pose>0 -0.06 0 0 0 0</pose>
+                <horizontal_fov>1.6</horizontal_fov>
+                <image>
+                    <width>640</width>
+                    <height>480</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.02</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+            <plugin name="stereo_camera_controller" filename="libgazebo_ros_multicamera.so">
                 <alwaysOn>true</alwaysOn>
                 <updateRate>0.0</updateRate>
-                <cameraName>stereo/left</cameraName>
+                <cameraName>stereo</cameraName>
                 <imageTopicName>image_raw</imageTopicName>
                 <cameraInfoTopicName>camera_info</cameraInfoTopicName>
                 <frameName>stereo_left_optical_frame</frameName>
-                <hackBaseline>0.07</hackBaseline>
-                <distortionK1>0.0</distortionK1>
-                <distortionK2>0.0</distortionK2>
-                <distortionK3>0.0</distortionK3>
-                <distortionT1>0.0</distortionT1>
-                <distortionT2>0.0</distortionT2>
-            </plugin>
-        </sensor>
-    </gazebo>
-    <gazebo reference="stereo_right_physical_frame">
-        <sensor type="camera" name="right_camera">
-            <update_rate>30.0</update_rate>
-            <pose>0 0 0 0 -0 0</pose> <!-- offset to r -->
-            <always_on>1</always_on>
-            <camera name="right">
-                <horizontal_fov>1.57</horizontal_fov> <!-- fixme: work out how to simulate a 170 deg camera -->
-                <image>
-                    <width>640</width>
-                    <height>480</height>
-                    <format>R8G8B8</format>
-                </image>
-                <clip>
-                    <near>0.02</near>
-                    <far>300</far>
-                </clip>
-                <noise>
-                    <type>gaussian</type>
-                    <mean>0.0</mean>
-                    <stddev>0.003</stddev>
-                </noise>
-            </camera>
-            <plugin name="right_controller" filename="libgazebo_ros_camera.so">
-                <alwaysOn>true</alwaysOn>
-                <updateRate>0.0</updateRate>
-                <cameraName>stereo/right</cameraName>
-                <imageTopicName>image_raw</imageTopicName>
-                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-                <frameName>stereo_right_optical_frame</frameName>
+                <rightFrameName>stereo_right_optical_frame</rightFrameName>
                 <hackBaseline>0.07</hackBaseline>
                 <distortionK1>0.0</distortionK1>
                 <distortionK2>0.0</distortionK2>
