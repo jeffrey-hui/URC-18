@@ -1,0 +1,23 @@
+TrajectoryPlannerROS:
+  acc_lim_x: 0.2
+  acc_lim_y: 0
+  acc_lim_theta: 0.2
+
+  max_vel_x: 2.2
+  min_vel_x: 0.3
+  max_vel_y: 0
+  min_vel_y: 0
+  min_in_place_vel_theta: 0.9
+
+  angular_sim_granularity: 0.025
+
+  yaw_goal_tolerance: 1
+  xy_goal_tolerance: 0.5
+
+  meter_scoring: true
+  holonomic_robot: false
+
+controller_frequency: 30.0
+
+GlobalPlanner:
+  allow_unknown: true

@@ -27,7 +27,7 @@
         </joint>
         <link name="wheel_${suffix}">
             <inertial>
-                <mass value="1" />
+                <mass value="0.25" />
                 <inertia ixx="0.00333333333333" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.00333333333333" />
             </inertial>
             <visual>
@@ -49,7 +49,7 @@
             <parent link="wheel_leg_${suffix}" />
             <child link="wheel_${suffix}" />
             <axis xyz="0 1 0" />
-            <dynamics damping="0.015" friction="0.02" />
+            <!-- dynamics damping="0.015" friction="0.02" / -->
         </joint>
 
         <gazebo reference="wheel_leg_${suffix}">

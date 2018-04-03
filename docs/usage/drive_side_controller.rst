@@ -10,7 +10,7 @@ Parameters
 ----------
 
 ``joints``
-----------
+==========
 
 This is the only parameter in ``drive_side_controller``. It is a list and its contents are the joints to use for this side.
 Example:
@@ -28,6 +28,6 @@ Topics
 ------
 
 ``drive_side_controller/cmd``
------------------------------
+=============================
 
 This topic is subscribed to as a Float64 topic containing the current velocity command for all the joints.
