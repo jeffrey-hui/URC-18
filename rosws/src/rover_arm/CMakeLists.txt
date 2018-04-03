@@ -11,6 +11,9 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   simpli2c
   std_msgs
+  message_generation
+  actionlib
+  actionlib_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -61,17 +64,17 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
-# )
+add_action_files(
+  FILES
+  ScienceArm.action
+)
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+  actionlib_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -105,7 +108,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
    INCLUDE_DIRS include
    LIBRARIES rover_arm_hw
-   CATKIN_DEPENDS controller_interface eml_uberdriver pluginlib roscpp simpli2c std_msgs
+   CATKIN_DEPENDS controller_interface eml_uberdriver pluginlib roscpp simpli2c std_msgs message_runtime
 #  DEPENDS system_lib
 )
 
@@ -125,8 +128,8 @@ add_compile_options(-std=c++11)
 
 ## Declare a C++ library
 add_library(rover_arm_hw
-  include/rover_arm/arm_hw.h
-  src/arm_hw.cpp
+        include/rover_arm/arm_hw/arm_hw.h
+        src/arm_hw/arm_hw.cpp
 )
 
 
@@ -136,16 +139,16 @@ add_library(rover_arm_hw
 add_dependencies(rover_arm_hw ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(rover_arm_node src/rover_arm_node.cpp)
-
-## Add cmake target dependencies of the executable
-## same as for the library above
-# add_dependencies(rover_arm_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(rover_arm_node
-#   ${catkin_LIBRARIES}
-# )
+#add_executable(rover_science_arm_node src/rover_science_arm/main.cpp src/rover_science_arm/ScienceArmManager.cpp src/rover_science_arm/ScienceArmManager.h)
+#
+### Add cmake target dependencies of the executable
+### same as for the library above
+#add_dependencies(rover_science_arm_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+#
+### Specify libraries to link a library or executable target against
+#target_link_libraries(rover_science_arm_node
+#  ${catkin_LIBRARIES}
+#)
 
 #############
 ## Install ##

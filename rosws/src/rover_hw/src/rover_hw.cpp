@@ -4,7 +4,7 @@
 
 #include <hardware_interface/robot_hw.h>
 #include <rover_drive/hw_impl.h>
-#include <rover_arm/arm_hw.h>
+#include <rover_arm/arm_hw/arm_hw.h>
 #include <controller_manager/controller_manager.h>
 
 namespace rover_hw {

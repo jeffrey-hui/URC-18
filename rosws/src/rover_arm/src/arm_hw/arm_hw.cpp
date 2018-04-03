@@ -2,7 +2,7 @@
 // Created by matthew on 2/15/18.
 //
 
-#include <rover_arm/arm_hw.h>
+#include <rover_arm/arm_hw/arm_hw.h>
 
 namespace rover_arm {
     uint16_t convertEffToMotorV(double value) {
