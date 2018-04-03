@@ -29,21 +29,30 @@
     <link name="stereo_left_optical_frame"/>
     <link name="stereo_right_optical_frame"/>
 
+    <link name="stereo_left_physical_frame"/>
+    <link name="stereo_right_physical_frame"/>
+
+
     <xacro:macro name="camera_optical_frame" params="side offset">
         <joint name="camera_to_${side}_optical" type="fixed">
             <origin xyz="${offset}" rpy="-1.5707 0 -1.5707"/>
             <parent link="stereo_camera_link"/>
             <child link="stereo_${side}_optical_frame"/>
         </joint>
+        <joint name="camera_to_${side}_physical" type="fixed">
+            <origin xyz="${offset}" rpy="0 0 0"/>
+            <parent link="stereo_camera_link"/>
+            <child link="stereo_${side}_physical_frame"/>
+        </joint>
     </xacro:macro>
 
-    <xacro:camera_optical_frame side="left" offset="0 0.03 0.05"/>
-    <xacro:camera_optical_frame side="right" offset="0 -0.03 0.05"/>
+    <xacro:camera_optical_frame side="left" offset="0.0405 0.03 0"/>
+    <xacro:camera_optical_frame side="right" offset="0.0405 -0.03 0"/>
 
-    <gazebo reference="stereo_camera_link">
+    <gazebo reference="stereo_left_physical_frame">
         <sensor type="camera" name="left_camera">
             <update_rate>30.0</update_rate>
-            <pose>0 0.03 0.05 0 -0 0</pose> <!-- offset to left -->
+            <pose>0 0 0 0 0 0</pose> <!-- offset to left -->
             <always_on>1</always_on>
             <camera name="left">
                 <horizontal_fov>1.57</horizontal_fov> <!-- fixme: work out how to simulate a 170 deg camera -->
@@ -77,9 +86,11 @@
                 <distortionT2>0.0</distortionT2>
             </plugin>
         </sensor>
+    </gazebo>
+    <gazebo reference="stereo_right_physical_frame">
         <sensor type="camera" name="right_camera">
             <update_rate>30.0</update_rate>
-            <pose>0 -0.03 0.05 0 -0 0</pose> <!-- offset to r -->
+            <pose>0 0 0 0 -0 0</pose> <!-- offset to r -->
             <always_on>1</always_on>
             <camera name="right">
                 <horizontal_fov>1.57</horizontal_fov> <!-- fixme: work out how to simulate a 170 deg camera -->
