@@ -1,0 +1,17 @@
+<library path="src">
+    <class name="Heading" type="rover_gui.heading.HeadingPlugin" base_class_type="rqt_gui_py::Plugin" >
+        <description>
+            Visualizes headings from an imu
+        </description>
+        <qtgui>
+            <group>
+                <label>Visualization</label>
+                <icon type="theme">folder</icon>
+                <statustip>Plugins related to visualization.</statustip>
+            </group>
+            <label>Plot</label>
+            <icon type="theme">emblem-web</icon>
+            <statustip>Visualized headings</statustip>
+        </qtgui>
+    </class>
+</library>
