@@ -9,7 +9,7 @@
                 <icon type="theme">folder</icon>
                 <statustip>Plugins related to visualization.</statustip>
             </group>
-            <label>Plot</label>
+            <label>Heading</label>
             <icon type="theme">emblem-web</icon>
             <statustip>Visualized headings</statustip>
         </qtgui>
