@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="8.6.3">
+<eagle version="8.6.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -7355,34 +7355,9 @@ Grid 2.54 mm&lt;p&gt;
 <text x="-6.604" y="1.778" size="1.27" layer="25">&gt;NAME</text>
 <text x="-6.604" y="-3.048" size="1.27" layer="27">&gt;VALUE</text>
 </package>
-<package name="4POL254" urn="urn:adsk.eagle:footprint:9307/1" library_version="1">
-<description>&lt;b&gt;PHOENIX CONNECTOR&lt;/b&gt;</description>
-<wire x1="-5.21" y1="-1.45" x2="5.21" y2="-1.45" width="0.254" layer="21"/>
-<wire x1="5.21" y1="-1.45" x2="5.21" y2="1.45" width="0.254" layer="21"/>
-<wire x1="5.21" y1="1.45" x2="-5.21" y2="1.45" width="0.254" layer="21"/>
-<wire x1="-5.21" y1="1.45" x2="-5.21" y2="-1.45" width="0.254" layer="21"/>
-<wire x1="-5.1" y1="1.1" x2="5.1" y2="1.1" width="0.1524" layer="21"/>
-<wire x1="-4.445" y1="-0.508" x2="-3.302" y2="0.635" width="0.1524" layer="51"/>
-<wire x1="-2.032" y1="-0.254" x2="-0.508" y2="0.127" width="0.1524" layer="51"/>
-<wire x1="0.762" y1="0.635" x2="1.778" y2="-0.635" width="0.1524" layer="51"/>
-<wire x1="3.048" y1="0.381" x2="4.572" y2="-0.381" width="0.1524" layer="51"/>
-<circle x="-3.81" y="0" radius="0.889" width="0.1524" layer="51"/>
-<circle x="-1.27" y="0" radius="0.889" width="0.1524" layer="51"/>
-<circle x="1.27" y="0" radius="0.889" width="0.1524" layer="51"/>
-<circle x="3.81" y="0" radius="0.889" width="0.1524" layer="51"/>
-<pad name="1" x="-3.81" y="0" drill="1.2" shape="long" rot="R90"/>
-<pad name="2" x="-1.27" y="0" drill="1.2" shape="long" rot="R90"/>
-<pad name="3" x="1.27" y="0" drill="1.2" shape="long" rot="R90"/>
-<pad name="4" x="3.81" y="0" drill="1.2" shape="long" rot="R90"/>
-<text x="-5.334" y="1.778" size="1.27" layer="25">&gt;NAME</text>
-<text x="-5.334" y="-3.048" size="1.27" layer="27">&gt;VALUE</text>
-</package>
 </packages>
 <packages3d>
 <package3d name="5POL254" urn="urn:adsk.eagle:package:9317/1" type="box" library_version="1">
-<description>PHOENIX CONNECTOR</description>
-</package3d>
-<package3d name="4POL254" urn="urn:adsk.eagle:package:9326/1" type="box" library_version="1">
 <description>PHOENIX CONNECTOR</description>
 </package3d>
 </packages3d>
@@ -7422,36 +7397,6 @@ Grid 2.54 mm&lt;p&gt;
 </connects>
 <package3dinstances>
 <package3dinstance package3d_urn="urn:adsk.eagle:package:9317/1"/>
-</package3dinstances>
-<technologies>
-<technology name="">
-<attribute name="MF" value="" constant="no"/>
-<attribute name="MPN" value="" constant="no"/>
-<attribute name="OC_FARNELL" value="unknown" constant="no"/>
-<attribute name="OC_NEWARK" value="unknown" constant="no"/>
-</technology>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="MPT4" urn="urn:adsk.eagle:component:9333/1" prefix="X" uservalue="yes" library_version="1">
-<description>&lt;b&gt;PHOENIX CONNECTOR&lt;/b&gt;</description>
-<gates>
-<gate name="-1" symbol="SKB" x="0" y="10.16" addlevel="always"/>
-<gate name="-2" symbol="SKB" x="0" y="5.08" addlevel="always"/>
-<gate name="-3" symbol="SKB" x="0" y="0" addlevel="always"/>
-<gate name="-4" symbol="SKBV" x="0" y="-5.08" addlevel="always"/>
-</gates>
-<devices>
-<device name="" package="4POL254">
-<connects>
-<connect gate="-1" pin="1" pad="1"/>
-<connect gate="-2" pin="1" pad="2"/>
-<connect gate="-3" pin="1" pad="3"/>
-<connect gate="-4" pin="1" pad="4"/>
-</connects>
-<package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:9326/1"/>
 </package3dinstances>
 <technologies>
 <technology name="">
@@ -7991,19 +7936,17 @@ Source: &lt;a href="http://www.fairchildsemi.com/datasheets/BS/BSS138.pdf"&gt;ht
 </classes>
 <parts>
 <part name="U$1" library="Arduino Nano" deviceset="ARDUINO_NANO" device=""/>
-<part name="R1" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2"/>
-<part name="R2" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2"/>
+<part name="R1" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10k"/>
+<part name="R2" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="30k"/>
 <part name="BATTERY_CON" library="con-phoenix-254" library_urn="urn:adsk.eagle:library:172" deviceset="MPT5" device="" package3d_urn="urn:adsk.eagle:package:9317/1"/>
 <part name="C1" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-US" device="C1206" package3d_urn="urn:adsk.eagle:package:23618/2" value="220u"/>
 <part name="C2" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-US" device="C1206" package3d_urn="urn:adsk.eagle:package:23618/2" value=".1u"/>
 <part name="SUPPLY" library="con-molex" library_urn="urn:adsk.eagle:library:165" deviceset="5566-2" device=""/>
 <part name="MAIN_I2C" library="con-molex" library_urn="urn:adsk.eagle:library:165" deviceset="5566-4" device=""/>
-<part name="R3" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2"/>
-<part name="R4" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2"/>
-<part name="R5" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2"/>
-<part name="R6" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2"/>
-<part name="R7" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2"/>
-<part name="R8" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2"/>
+<part name="R3" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="20k"/>
+<part name="R4" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10k"/>
+<part name="R5" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10k"/>
+<part name="R6" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10k"/>
 <part name="SUPPLY1" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="SUPPLY2" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="SUPPLY3" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
@@ -8020,7 +7963,6 @@ Source: &lt;a href="http://www.fairchildsemi.com/datasheets/BS/BSS138.pdf"&gt;ht
 <part name="R14" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10k"/>
 <part name="R15" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10k"/>
 <part name="R16" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10k"/>
-<part name="BATTERY_CON_2" library="con-phoenix-254" library_urn="urn:adsk.eagle:library:172" deviceset="MPT4" device="" package3d_urn="urn:adsk.eagle:package:9326/1"/>
 </parts>
 <sheets>
 <sheet>
@@ -8028,8 +7970,8 @@ Source: &lt;a href="http://www.fairchildsemi.com/datasheets/BS/BSS138.pdf"&gt;ht
 </plain>
 <instances>
 <instance part="U$1" gate="G$1" x="55.88" y="81.28"/>
-<instance part="R1" gate="G$1" x="17.78" y="71.12"/>
-<instance part="R2" gate="G$1" x="2.54" y="71.12"/>
+<instance part="R1" gate="G$1" x="17.78" y="76.2"/>
+<instance part="R2" gate="G$1" x="2.54" y="76.2"/>
 <instance part="BATTERY_CON" gate="-1" x="119.38" y="101.6"/>
 <instance part="BATTERY_CON" gate="-2" x="119.38" y="96.52"/>
 <instance part="BATTERY_CON" gate="-3" x="119.38" y="91.44"/>
@@ -8045,10 +7987,8 @@ Source: &lt;a href="http://www.fairchildsemi.com/datasheets/BS/BSS138.pdf"&gt;ht
 <instance part="MAIN_I2C" gate="-4" x="83.82" y="93.98"/>
 <instance part="R3" gate="G$1" x="2.54" y="66.04"/>
 <instance part="R4" gate="G$1" x="17.78" y="66.04"/>
-<instance part="R5" gate="G$1" x="2.54" y="60.96"/>
-<instance part="R6" gate="G$1" x="17.78" y="60.96"/>
-<instance part="R7" gate="G$1" x="2.54" y="55.88"/>
-<instance part="R8" gate="G$1" x="17.78" y="55.88"/>
+<instance part="R5" gate="G$1" x="2.54" y="55.88"/>
+<instance part="R6" gate="G$1" x="17.78" y="55.88"/>
 <instance part="SUPPLY1" gate="GND" x="17.78" y="48.26"/>
 <instance part="SUPPLY2" gate="GND" x="48.26" y="48.26" rot="R270"/>
 <instance part="SUPPLY3" gate="GND" x="81.28" y="50.8" rot="R90"/>
@@ -8065,10 +8005,6 @@ Source: &lt;a href="http://www.fairchildsemi.com/datasheets/BS/BSS138.pdf"&gt;ht
 <instance part="R14" gate="G$1" x="53.34" y="22.86" rot="R90"/>
 <instance part="R15" gate="G$1" x="38.1" y="-2.54" rot="R90"/>
 <instance part="R16" gate="G$1" x="53.34" y="-2.54" rot="R90"/>
-<instance part="BATTERY_CON_2" gate="-1" x="119.38" y="124.46"/>
-<instance part="BATTERY_CON_2" gate="-2" x="119.38" y="119.38"/>
-<instance part="BATTERY_CON_2" gate="-3" x="119.38" y="114.3"/>
-<instance part="BATTERY_CON_2" gate="-4" x="119.38" y="109.22"/>
 </instances>
 <busses>
 </busses>
@@ -8089,15 +8025,12 @@ Source: &lt;a href="http://www.fairchildsemi.com/datasheets/BS/BSS138.pdf"&gt;ht
 <segment>
 <pinref part="R1" gate="G$1" pin="2"/>
 <pinref part="R4" gate="G$1" pin="2"/>
-<wire x1="22.86" y1="71.12" x2="22.86" y2="66.04" width="0.1524" layer="91"/>
+<wire x1="22.86" y1="76.2" x2="22.86" y2="66.04" width="0.1524" layer="91"/>
 <pinref part="R6" gate="G$1" pin="2"/>
-<wire x1="22.86" y1="66.04" x2="22.86" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="22.86" y1="66.04" x2="22.86" y2="55.88" width="0.1524" layer="91"/>
 <junction x="22.86" y="66.04"/>
-<pinref part="R8" gate="G$1" pin="2"/>
-<wire x1="22.86" y1="60.96" x2="22.86" y2="55.88" width="0.1524" layer="91"/>
-<junction x="22.86" y="60.96"/>
-<wire x1="22.86" y1="55.88" x2="22.86" y2="50.8" width="0.1524" layer="91"/>
 <junction x="22.86" y="55.88"/>
+<wire x1="22.86" y1="55.88" x2="22.86" y2="50.8" width="0.1524" layer="91"/>
 <wire x1="22.86" y1="50.8" x2="17.78" y2="50.8" width="0.1524" layer="91"/>
 <pinref part="SUPPLY1" gate="GND" pin="GND"/>
 </segment>
@@ -8112,6 +8045,9 @@ Source: &lt;a href="http://www.fairchildsemi.com/datasheets/BS/BSS138.pdf"&gt;ht
 <segment>
 <pinref part="MAIN_I2C" gate="-4" pin="S"/>
 <pinref part="SUPPLY4" gate="GND" pin="GND"/>
+<pinref part="MAIN_I2C" gate="-3" pin="S"/>
+<wire x1="81.28" y1="96.52" x2="81.28" y2="93.98" width="0.1524" layer="91"/>
+<junction x="81.28" y="93.98"/>
 </segment>
 <segment>
 <pinref part="R9" gate="G$1" pin="1"/>
@@ -8174,14 +8110,14 @@ Source: &lt;a href="http://www.fairchildsemi.com/datasheets/BS/BSS138.pdf"&gt;ht
 <segment>
 <pinref part="R1" gate="G$1" pin="1"/>
 <pinref part="R2" gate="G$1" pin="2"/>
-<wire x1="12.7" y1="71.12" x2="10.16" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="12.7" y1="76.2" x2="10.16" y2="76.2" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="A0"/>
-<wire x1="10.16" y1="71.12" x2="7.62" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="10.16" y1="76.2" x2="7.62" y2="76.2" width="0.1524" layer="91"/>
 <wire x1="50.8" y1="71.12" x2="27.94" y2="71.12" width="0.1524" layer="91"/>
 <wire x1="27.94" y1="71.12" x2="27.94" y2="73.66" width="0.1524" layer="91"/>
 <wire x1="27.94" y1="73.66" x2="10.16" y2="73.66" width="0.1524" layer="91"/>
-<wire x1="10.16" y1="73.66" x2="10.16" y2="71.12" width="0.1524" layer="91"/>
-<junction x="10.16" y="71.12"/>
+<wire x1="10.16" y1="73.66" x2="10.16" y2="76.2" width="0.1524" layer="91"/>
+<junction x="10.16" y="76.2"/>
 </segment>
 </net>
 <net name="N$2" class="0">
@@ -8200,27 +8136,13 @@ Source: &lt;a href="http://www.fairchildsemi.com/datasheets/BS/BSS138.pdf"&gt;ht
 <segment>
 <pinref part="R6" gate="G$1" pin="1"/>
 <pinref part="R5" gate="G$1" pin="2"/>
-<wire x1="12.7" y1="60.96" x2="10.16" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="12.7" y1="55.88" x2="10.16" y2="55.88" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="A2"/>
-<wire x1="10.16" y1="60.96" x2="7.62" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="10.16" y1="55.88" x2="7.62" y2="55.88" width="0.1524" layer="91"/>
 <wire x1="50.8" y1="66.04" x2="27.94" y2="66.04" width="0.1524" layer="91"/>
 <wire x1="27.94" y1="66.04" x2="27.94" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="27.94" y1="63.5" x2="10.16" y2="63.5" width="0.1524" layer="91"/>
-<wire x1="10.16" y1="63.5" x2="10.16" y2="60.96" width="0.1524" layer="91"/>
-<junction x="10.16" y="60.96"/>
-</segment>
-</net>
-<net name="N$4" class="0">
-<segment>
-<pinref part="R8" gate="G$1" pin="1"/>
-<pinref part="R7" gate="G$1" pin="2"/>
-<wire x1="12.7" y1="55.88" x2="10.16" y2="55.88" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="A3"/>
-<wire x1="10.16" y1="55.88" x2="7.62" y2="55.88" width="0.1524" layer="91"/>
-<wire x1="50.8" y1="63.5" x2="30.48" y2="63.5" width="0.1524" layer="91"/>
-<wire x1="30.48" y1="63.5" x2="30.48" y2="58.42" width="0.1524" layer="91"/>
-<wire x1="30.48" y1="58.42" x2="10.16" y2="58.42" width="0.1524" layer="91"/>
-<wire x1="10.16" y1="58.42" x2="10.16" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="10.16" y1="63.5" x2="10.16" y2="55.88" width="0.1524" layer="91"/>
 <junction x="10.16" y="55.88"/>
 </segment>
 </net>
@@ -8232,8 +8154,8 @@ Source: &lt;a href="http://www.fairchildsemi.com/datasheets/BS/BSS138.pdf"&gt;ht
 </segment>
 <segment>
 <pinref part="R2" gate="G$1" pin="1"/>
-<wire x1="-2.54" y1="71.12" x2="-7.62" y2="71.12" width="0.1524" layer="91"/>
-<label x="-7.62" y="71.12" size="1.778" layer="95"/>
+<wire x1="-2.54" y1="76.2" x2="-7.62" y2="76.2" width="0.1524" layer="91"/>
+<label x="-7.62" y="76.2" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="BATT2" class="0">
@@ -8247,11 +8169,6 @@ Source: &lt;a href="http://www.fairchildsemi.com/datasheets/BS/BSS138.pdf"&gt;ht
 <wire x1="-2.54" y1="66.04" x2="-7.62" y2="66.04" width="0.1524" layer="91"/>
 <label x="-7.62" y="66.04" size="1.778" layer="95"/>
 </segment>
-<segment>
-<pinref part="BATTERY_CON_2" gate="-1" pin="1"/>
-<wire x1="116.84" y1="124.46" x2="111.76" y2="124.46" width="0.1524" layer="91"/>
-<label x="111.76" y="124.46" size="1.778" layer="95"/>
-</segment>
 </net>
 <net name="BATT3" class="0">
 <segment>
@@ -8261,13 +8178,8 @@ Source: &lt;a href="http://www.fairchildsemi.com/datasheets/BS/BSS138.pdf"&gt;ht
 </segment>
 <segment>
 <pinref part="R5" gate="G$1" pin="1"/>
-<wire x1="-2.54" y1="60.96" x2="-7.62" y2="60.96" width="0.1524" layer="91"/>
-<label x="-7.62" y="60.96" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="BATTERY_CON_2" gate="-2" pin="1"/>
-<wire x1="116.84" y1="119.38" x2="111.76" y2="119.38" width="0.1524" layer="91"/>
-<label x="111.76" y="119.38" size="1.778" layer="95"/>
+<wire x1="-2.54" y1="55.88" x2="-10.16" y2="55.88" width="0.1524" layer="91"/>
+<label x="-7.62" y="55.88" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="BATT4" class="0">
@@ -8277,14 +8189,10 @@ Source: &lt;a href="http://www.fairchildsemi.com/datasheets/BS/BSS138.pdf"&gt;ht
 <label x="111.76" y="86.36" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="R7" gate="G$1" pin="1"/>
-<wire x1="-2.54" y1="55.88" x2="-7.62" y2="55.88" width="0.1524" layer="91"/>
-<label x="-7.62" y="55.88" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="BATTERY_CON_2" gate="-3" pin="1"/>
-<wire x1="116.84" y1="114.3" x2="111.76" y2="114.3" width="0.1524" layer="91"/>
-<label x="111.76" y="114.3" size="1.778" layer="95"/>
+<pinref part="U$1" gate="G$1" pin="A3"/>
+<wire x1="50.8" y1="63.5" x2="33.02" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="33.02" y1="63.5" x2="33.02" y2="55.88" width="0.1524" layer="91"/>
+<label x="33.02" y="55.88" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="BATT5" class="0">
@@ -8292,16 +8200,6 @@ Source: &lt;a href="http://www.fairchildsemi.com/datasheets/BS/BSS138.pdf"&gt;ht
 <pinref part="BATTERY_CON" gate="-5" pin="1"/>
 <wire x1="116.84" y1="81.28" x2="111.76" y2="81.28" width="0.1524" layer="91"/>
 <label x="111.76" y="81.28" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="U$1" gate="G$1" pin="A6"/>
-<wire x1="50.8" y1="55.88" x2="43.18" y2="55.88" width="0.1524" layer="91"/>
-<label x="43.18" y="55.88" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="BATTERY_CON_2" gate="-4" pin="1"/>
-<wire x1="116.84" y1="109.22" x2="111.76" y2="109.22" width="0.1524" layer="91"/>
-<label x="111.76" y="109.22" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SDA" class="0">
@@ -8460,6 +8358,17 @@ Source: &lt;a href="http://www.fairchildsemi.com/datasheets/BS/BSS138.pdf"&gt;ht
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="202,1,78.74,48.26,U$1,RST,,,,"/>
+<approved hash="202,1,50.8,55.88,U$1,A6,,,,"/>
+<approved hash="204,1,50.8,45.72,U$1,P$10,,,,"/>
+<approved hash="204,1,50.8,50.8,U$1,5V,,,,"/>
+<approved hash="104,1,50.8,76.2,U$1,3.3V,3.3,,,"/>
+<approved hash="202,1,50.8,53.34,U$1,A7,,,,"/>
+<approved hash="202,1,50.8,73.66,U$1,REF,,,,"/>
+<approved hash="106,1,116.84,81.28,BATT5,,,,,"/>
+<approved hash="113,1,128.446,101.623,BATTERY_CON,,,,,"/>
+</errors>
 </schematic>
 </drawing>
 <compatibility>
