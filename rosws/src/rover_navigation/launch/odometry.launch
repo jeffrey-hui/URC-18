@@ -28,9 +28,6 @@
 
         <param name="odom1_differential" value="true" />
 
-        <param name="odom0_relative" value="true" />
-        <param name="odom1_relative" value="true" />
-
         <!--
 
         <param name="imu0" value="/imu/data" />

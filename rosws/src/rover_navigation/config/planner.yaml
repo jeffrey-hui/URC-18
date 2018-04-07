@@ -17,7 +17,7 @@ TrajectoryPlannerROS:
   meter_scoring: true
   holonomic_robot: false
 
-controller_frequency: 30.0
+controller_frequency: 10.0
 
 GlobalPlanner:
   allow_unknown: true
