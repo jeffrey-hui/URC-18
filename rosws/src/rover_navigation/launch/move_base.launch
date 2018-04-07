@@ -1,4 +1,6 @@
 <launch>
+    <include file="$(find rover_navigation)/launch/obstacle_segment.launch" />
+
     <node pkg="move_base" type="move_base" output="screen" name="move_base">
         <remap from="map" to="/rtabmap/grid_map" />
         <remap from="cmd_vel" to="/wheel_diff_drive_controller/cmd_vel" />

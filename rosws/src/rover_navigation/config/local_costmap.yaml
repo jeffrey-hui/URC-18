@@ -1,5 +1,5 @@
 footprint: [[-0.7, -0.45], [0.7, -0.45], [0.7, 0.45], [-0.7, 0.45]]
-global_frame: odom
+global_frame: map
 transform_tolerance: 2
 rolling_window: true
 width: 5
@@ -21,7 +21,7 @@ obstacle_layer:
 
   zed_sensor: {
     data_type: PointCloud2,
-    topic: "/rtabmap/cloud_obstacles",
+    topic: "/obstacle_segment/obstacles",
     expected_update_rate: 0.25,
     marking: true,
     clearing: true,
