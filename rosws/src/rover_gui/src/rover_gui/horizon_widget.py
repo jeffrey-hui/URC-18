@@ -41,7 +41,8 @@ class HorizonWidget(QWidget):
 
         pen = QPen()
 
-        deg1 = -math.degrees(self.pitch)
+        deg1 = math.degrees(self.pitch)
+        deg2 = -math.degrees(self.roll)
 
         painter.setPen(pen)
         painter.setBrush(Qt.blue)
@@ -51,11 +52,15 @@ class HorizonWidget(QWidget):
         elif deg1 < -80:
             deg1 = -80
 
-        painter.drawChord(0, 0, width, height, (0+deg1)*16, (180-deg1*2)*16)
+        start_pos = deg1 + deg2
+        size = 180 - (deg1 * 2)
+        o_size = (360 - size)
+
+        painter.drawChord(0, 0, width, height, start_pos*16, size*16)
 
         painter.setBrush(Qt.green)
 
-        painter.drawChord(0, 0, width, height, (0-deg1)*16, -(180-deg1*2)*16)
+        painter.drawChord(0, 0, width, height, start_pos*16, -o_size*16)
 
         pen = QPen()
         pen.setBrush(Qt.black)

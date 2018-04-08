@@ -10,7 +10,6 @@ class HorizonPlugin(Plugin):
     emit_data = Signal(float, float)
 
     def __init__(self, context):
-        print("okeydoket")
         super(HorizonPlugin, self).__init__(context)
 
         self.horizon = HorizonWidget()
@@ -30,9 +29,16 @@ class HorizonPlugin(Plugin):
 
         context.add_widget(self.widget)
 
-    def on_new_imu_data(self, msg):
-        pass
+    def on_new_imu_data(self, m):
+        orientation = PyKDL.Rotation.Quaternion(
+            m.orientation.x, m.orientation.y, m.orientation.z, m.orientation.w
+        )
+        rpy = orientation.GetRPY()
+        self.emit_data.emit(rpy[1], rpy[0])
 
     @Slot(float, float)
     def set_new_data(self, pitch, roll):
-        pass
+        self.horizon.set_pitch_roll(pitch, roll)
+
+    def shutdown_plugin(self):
+        self.sub.unregister()
