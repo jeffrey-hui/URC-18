@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="50" unitdist="mil" unit="inch" style="lines" multiple="1" display="yes" altdistance="5" altunitdist="mil" altunit="inch"/>
+<grid distance="50" unitdist="mil" unit="mm" style="lines" multiple="1" display="yes" altdistance="5" altunitdist="mil" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -74,10 +74,6 @@
 </layers>
 <board>
 <plain>
-<circle x="22.86" y="92.71" radius="1.79605" width="0.254" layer="20"/>
-<circle x="22.86" y="48.26" radius="1.79605" width="0.254" layer="20"/>
-<circle x="67.31" y="92.71" radius="1.79605" width="0.254" layer="20"/>
-<circle x="67.31" y="48.26" radius="1.79605" width="0.254" layer="20"/>
 <wire x1="20.32" y1="95.25" x2="20.32" y2="90.17" width="0.254" layer="20"/>
 <wire x1="20.32" y1="90.17" x2="25.4" y2="87.63" width="0.254" layer="20"/>
 <wire x1="25.4" y1="87.63" x2="25.4" y2="53.34" width="0.254" layer="20"/>
@@ -91,6 +87,14 @@
 <wire x1="69.85" y1="90.17" x2="69.85" y2="95.25" width="0.254" layer="20"/>
 <wire x1="69.85" y1="95.25" x2="20.32" y2="95.25" width="0.254" layer="20"/>
 <text x="29.21" y="92.71" size="1.016" layer="21">R3-URC18-4-Batt_Checker</text>
+<dimension x1="20.32" y1="95.25" x2="69.85" y2="95.25" x3="45.085" y3="97.79" textsize="1.778" layer="20" unit="mil" visible="yes"/>
+<dimension x1="20.32" y1="95.25" x2="20.32" y2="45.72" x3="13.97" y3="70.485" textsize="1.778" layer="20" unit="mil" visible="yes"/>
+<dimension x1="20.32" y1="95.25" x2="25.4" y2="87.63" x3="8.89" y3="91.44" textsize="1.778" layer="20" dtype="vertical" unit="mil" visible="yes"/>
+<dimension x1="20.32" y1="95.25" x2="25.4" y2="87.63" x3="22.86" y3="101.6" textsize="1.778" layer="20" dtype="horizontal" unit="mil" visible="yes"/>
+<hole x="22.86" y="92.71" drill="3.25"/>
+<hole x="67.31" y="92.71" drill="3.25"/>
+<hole x="67.31" y="48.26" drill="3.25"/>
+<hole x="22.86" y="48.26" drill="3.25"/>
 </plain>
 <libraries>
 <library name="con-phoenix-254" urn="urn:adsk.eagle:library:172">
@@ -1865,14 +1869,10 @@ design rules under a new name.</description>
 <signal name="BATT4">
 <contactref element="BATTERY_CON" pad="4"/>
 <contactref element="U$1" pad="A3"/>
-<wire x1="46.99" y1="68.58" x2="57.15" y2="68.58" width="0" layer="19" extent="1-1"/>
+<wire x1="57.15" y1="68.58" x2="46.99" y2="68.58" width="0.1524" layer="1"/>
 </signal>
 <signal name="BATT5">
 <contactref element="BATTERY_CON" pad="5"/>
-<wire x1="57.15" y1="71.12" x2="53.15105625" y2="71.12" width="0.1524" layer="1"/>
-<wire x1="45.72" y1="69.85" x2="45.72" y2="76.2" width="0.1524" layer="1"/>
-<wire x1="51.88105625" y1="69.85" x2="45.72" y2="69.85" width="0.1524" layer="1"/>
-<wire x1="53.15105625" y1="71.12" x2="51.88105625" y2="69.85" width="0.1524" layer="1"/>
 </signal>
 <signal name="SDA">
 <contactref element="MAIN_I2C" pad="2"/>
