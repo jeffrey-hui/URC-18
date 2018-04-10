@@ -29,4 +29,19 @@
             <statustip>Visualized horizons</statustip>
         </qtgui>
     </class>
+    <class name="ToggleTeleop" type="rover_gui.toggle.TogglePlugin" base_class_type="rqt_gui_py::Plugin" >
+        <description>
+            Toggles using services (starts in on position)
+        </description>
+        <qtgui>
+            <group>
+                <label>Services</label>
+                <icon type="theme">folder</icon>
+                <statustip>Plugins related to services.</statustip>
+            </group>
+            <label>Horizon</label>
+            <icon type="theme">media-playback-start</icon>
+            <statustip>Does things</statustip>
+        </qtgui>
+    </class>
 </library>
