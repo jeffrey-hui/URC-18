@@ -39,7 +39,7 @@
                 <icon type="theme">folder</icon>
                 <statustip>Plugins related to services.</statustip>
             </group>
-            <label>Horizon</label>
+            <label>Toggle Button</label>
             <icon type="theme">media-playback-start</icon>
             <statustip>Does things</statustip>
         </qtgui>

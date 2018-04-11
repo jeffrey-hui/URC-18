@@ -17,14 +17,15 @@ drive_control_right = rospy.Publisher("/right_wheels_controller/cmd", std_msgs.m
 
 def toggle_enabled(resp):
     global is_enabled
-    is_enabled = resp.data
+    if resp.data:
+        is_enabled = not is_enabled
     if not is_enabled:
         drive_control_left.publish(0.0)
         drive_control_right.publish(0.0)
-    return std_srvs.srv.SetBoolResponse(success=True)
+    return std_srvs.srv.SetBoolResponse(success=is_enabled)
 
 
-enable_service = rospy.Service("set_enabled", std_srvs.srv.SetBool, toggle_enabled)
+enable_service = rospy.Service("~set_enabled", std_srvs.srv.SetBool, toggle_enabled)
 
 
 speed_value = 1.175
