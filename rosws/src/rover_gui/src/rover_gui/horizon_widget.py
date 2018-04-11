@@ -42,7 +42,7 @@ class HorizonWidget(QWidget):
         pen = QPen()
 
         deg1 = math.degrees(self.pitch)
-        deg2 = -math.degrees(self.roll)
+        deg2 = math.degrees(self.roll)
 
         painter.setPen(pen)
         painter.setBrush(Qt.blue)
