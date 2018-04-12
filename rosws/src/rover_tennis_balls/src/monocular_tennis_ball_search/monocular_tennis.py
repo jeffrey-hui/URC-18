@@ -5,6 +5,7 @@ import cv_bridge
 import sensor_msgs.msg
 from rover_tennis_balls.msg import TennisBall
 from rover_tennis_balls.tennis import find_tennis_ball
+from geometry_msgs.msg import Vector3
 import projmath
 
 rospy.init_node("monocular_tennis_ball_search")
@@ -37,19 +38,23 @@ def publish_tennis_ball(ball):
         confidence -= 0.25
     elif ball[2] > 300:
         confidence -= 0.25
+
+    confidence = max(0.1, confidence)
     msg = TennisBall()
     msg.confidence = confidence
     msg.tennis_ball_type = msg.TENNIS_BALL_RAY
     msg.header.frame_id = cam_info.header.frame_id
-    msg.position_or_ray_dir = ray
+    msg.position_or_ray_dir = Vector3(*ray)
     pub.publish(msg)
 
 
 def on_image(msg):
     global last_tennis_ball, frames, decay
     cv_mat = cvb.imgmsg_to_cv2(msg, desired_encoding="bgr8")
+    print("yae")
     ball = find_tennis_ball(cv_mat)
     if ball is None:
+        print("aww")
         if decay > 0:
             decay -= 1
             return
@@ -63,6 +68,7 @@ def on_image(msg):
             return
         elif last_tennis_ball is None:
             last_tennis_ball = ball
+            publish_tennis_ball(ball)
         frames += 1
         decay = 10
         x, y, radius = ball
