@@ -27,8 +27,8 @@ pub = rospy.Publisher("tennis_ball_pos", rover_tennis_balls.msg.TennisBallPredic
 
 
 def make_prediction():
-    rays = [x for x in measurements if type(x) is collider.Ray]
-    points = [x for x in measurements if type(x) is collider.Point]
+    rays = [x for x in measurements if isinstance(x, collider.Ray)]
+    points = [x for x in measurements if isinstance(x, collider.Point)]
 
     pred = collider.calc_min_f(rays, points)
     if not pred.success:

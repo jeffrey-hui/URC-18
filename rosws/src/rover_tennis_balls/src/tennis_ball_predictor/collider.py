@@ -33,7 +33,9 @@ def f(pt, rays, points):
 
 
 def calc_min_f(rays, points):
+    print (rays, points)
     rays_p = [ray.pos for ray in rays] + [point.pos for point in points]
+    print(rays_p)
     guess = np.stack(rays_p).mean(axis=0).ravel()
 
     ans = least_squares(f, guess, args=(rays, points))
