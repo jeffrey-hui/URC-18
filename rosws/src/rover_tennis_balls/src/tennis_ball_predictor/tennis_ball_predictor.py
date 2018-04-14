@@ -30,12 +30,10 @@ def make_prediction():
     rays = [x for x in measurements if isinstance(x, collider.Ray)]
     points = [x for x in measurements if isinstance(x, collider.Point)]
 
-    pred = collider.calc_min_f(rays, points)
+    pred, conf = collider.calc_min_f(rays, points)
     if not pred.success:
         rospy.logwarn("Failed to converge on a prediction!")
     else:
-        print(pred.cost)
-        conf = min(1, len(measurements) / max(1, pred.cost + 1))
         rospy.loginfo("Tennis ball prediction w/ conf={}, pos={}".format(
             conf, pred.x
         ))
