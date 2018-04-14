@@ -14,7 +14,6 @@ def find_tennis_ball(frame):
     _, contours, _ = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     contours_sorted = sorted(contours, key=lambda c: cv2.arcLength(c, True))
     if len(contours_sorted) >= 1:
-        print("color")
         big_contour_area = cv2.contourArea(contours_sorted[-1])
         if big_contour_area > 120:
             convex_hull = cv2.convexHull(contours_sorted[-1])

@@ -34,6 +34,7 @@ def make_prediction():
     if not pred.success:
         rospy.logwarn("Failed to converge on a prediction!")
     else:
+        print(pred.cost)
         conf = min(1, len(measurements) / max(1, pred.cost + 1))
         rospy.loginfo("Tennis ball prediction w/ conf={}, pos={}".format(
             conf, pred.x

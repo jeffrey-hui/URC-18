@@ -19,6 +19,9 @@ proj_mat = proj_mat[:, :3]
 pos_tolerance = rospy.get_param("~pos_tolerance", 10)
 size_tolerance = rospy.get_param("~size_tolerance", 15)
 
+min_depth = rospy.get_param("~min_depth", 0.1)
+max_depth = rospy.get_param("~max_depth", 2)
+
 last_tennis_ball = None
 frames = 0
 decay = 0
@@ -32,22 +35,39 @@ def publish_tennis_ball(ball):
     frames += 1
     decay = 10
     ray = projmath.get_ray(ball[0], ball[1], proj_mat)
-    confidence = min(1, (frames / 35) ** 2) * 0.9
+    confidence = min(1, (frames / 35) ** 2)
     confidence -= (10 - decay) / 30
     if ball[2] < 20:
         confidence -= 0.25
     elif ball[2] > 300:
         confidence -= 0.25
 
-    confidence = max(0.1, confidence)
-    rospy.loginfo("Publishing tennis ball with confidence " + str(confidence))
+    try:
+        depth_image = rospy.wait_for_message("camera/depth", sensor_msgs.msg.Image, 0.2)
+    except rospy.ROSException:
+        rospy.logerr("Couldn't get a depth image in time! Skipping this measurement")
+        return
 
-    msg = TennisBall()
-    msg.confidence = confidence
-    msg.tennis_ball_type = msg.TENNIS_BALL_RAY
-    msg.header.frame_id = cam_info.header.frame_id
-    msg.position_or_ray_dir = Vector3(*ray)
-    pub.publish(msg)
+    cv_mat_depth = cvb.imgmsg_to_cv2(depth_image)
+    depth = cv_mat_depth[int(ball[0])][int(ball[1])]
+    if min_depth <= depth <= max_depth:
+        rospy.loginfo("Publishing tennis ball as point")
+        confidence = max(0.1, confidence)
+        msg = TennisBall()
+        msg.confidence = confidence
+        msg.tennis_ball_type = msg.TENNIS_BALL_POS
+        msg.header.frame_id = cam_info.header.frame_id
+        msg.position_or_ray_dir = Vector3(*(ray * depth))
+        pub.publish(msg)
+    else:
+        rospy.logwarn("Depth data made no sense, so publishing as a ray with low confidence")
+        confidence = max(0.1, confidence-0.3)
+        msg = TennisBall()
+        msg.confidence = confidence
+        msg.tennis_ball_type = msg.TENNIS_BALL_RAY
+        msg.header.frame_id = cam_info.header.frame_id
+        msg.position_or_ray_dir = Vector3(*ray)
+        pub.publish(msg)
 
 
 def on_image(msg):
@@ -84,5 +104,4 @@ def on_image(msg):
 sub = rospy.Subscriber("camera/image", sensor_msgs.msg.Image, callback=on_image, queue_size=30)
 pub = rospy.Publisher("tennis_ball_measurements", TennisBall, queue_size=10)
 
-rospy.loginfo("monocular node is running!")
 rospy.spin()
