@@ -46,12 +46,15 @@ def calc_min_f(rays, points):
     guess = np.stack(rays_p).mean(axis=0).ravel()
 
     ans = least_squares(f, guess, args=(rays, points))
-    c = confidence(rays, points)
+    if ans.success:
+        c = confidence(rays, points, ans.x)
+    else:
+        c = 0
 
     return ans, c
 
 
-def confidence(rays, points):
+def confidence(rays, points, p):
     """
     Calculates confidence of points and rays
 
@@ -66,7 +69,7 @@ def confidence(rays, points):
         div_mes = []
         for i in itertools.combinations(rays, 2):  # for all combinations of rays..
             dot = i[0].vec.dot(i[1].vec) # take the dot product (rays are normalized so this is cos(theta))
-            diversity = abs(np.arccos(dot) / np.pi) * ((i[0].conf+i[1].conf) / 2)
+            diversity = (abs(np.arccos(dot) / np.pi)) * ((i[0].conf+i[1].conf) / 2)
             # arccos = angle between vectors if vectors have length 1
             # / pi scales to -1,1
             # average confidence scales result, result is now "diversity" of angles that can be reached by these rays
@@ -74,15 +77,21 @@ def confidence(rays, points):
         m = max(div_mes) * len(div_mes) # normalize & divide by length
         div_mes = sum(map(lambda x: x / float(m), div_mes)) # sum is now high if large diversity, but won't explode
     if len(points) > 1:
-        f_p = points[0].pos
         d = 0
-        for i in points[1:]:
+        for i in points:
             i = i.pos
             d += np.sqrt(
-                (f_p[0] - i[0])**2 + (f_p[1] - i[1])**2 + (f_p[2] - i[2]) ** 2  # take total distance of point n to point 0 for all n
-            )
-        d /= len(points)-1
+                (p[0] - i[0])**2 + (p[1] - i[1])**2 + (p[2] - i[2]) ** 2  # take total distance of point n to point 0 for all n
+            ) / len(points)
         d = 1 - max(0, min(1, d))
     if len(points) == 1:
         d = 0.5
-    return (d * 0.3 + min(1, div_mes) * 0.3) + (1 - (1 / float((len(rays) + len(points)) + 1))) * 0.4 # magic!
+    if len(rays) + len(points) == 0:
+        return 0  # should never happen
+    if len(rays) == 0:
+        return d
+    if len(points) == 0:
+        return div_mes
+    else:
+        su = len(rays) + len(points)
+        return min(1, div_mes) * 0.3 * (float(len(rays)) / su) + d * 0.7 * (float(len(points)) / su)
