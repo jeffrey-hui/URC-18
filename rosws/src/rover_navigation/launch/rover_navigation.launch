@@ -4,4 +4,12 @@
     </include>
     <include file="$(find rover_navigation)/launch/rtabmap.launch" />
     <include file="$(find rover_navigation)/launch/move_base.launch" />
+
+    <group ns="tennis_ball_map"> <!-- for tracking in nice localized map frame for when we have odom + mapping -->
+        <include file="$(find rover_tennis_balls)/launch/rover_tennis_balls.launch">
+            <arg name="fixed_frame" value="map" />
+        </include>
+    </group>
+
+    <!-- todo: add section for running tennis balls in gps -->
 </launch>
