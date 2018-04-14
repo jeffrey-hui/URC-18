@@ -49,7 +49,11 @@ def publish_tennis_ball(ball):
         return
 
     cv_mat_depth = cvb.imgmsg_to_cv2(depth_image)
-    depth = cv_mat_depth[int(ball[0])][int(ball[1])]
+    try:
+        depth = cv_mat_depth[int(ball[0])][int(ball[1])]
+    except IndexError:
+        rospy.loginfo("Coordinates out of range, tennis ball was partially off-screen.")
+        depth = -1  # min_depth should not be below 0, as last time i checked you can't see directly through plastic
     if min_depth <= depth <= max_depth:
         rospy.loginfo("Publishing tennis ball as point")
         confidence = max(0.1, confidence)
