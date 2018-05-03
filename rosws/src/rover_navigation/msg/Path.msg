@@ -1,3 +1,1 @@
-Header header  # proper dohicker trrafns
-
-geometry_msgs/Point[] points #points (start, ..., end)
+geometry_msgs/PointStamped[] points #points (start, ..., end)
