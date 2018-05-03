@@ -7,3 +7,4 @@ simpli2c
 .rosinstall.bak
 *.idea*
 cmake-build-debug/
+compile_commands.json

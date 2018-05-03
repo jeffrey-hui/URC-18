@@ -33,17 +33,18 @@ void rover_navigation::LineLayer::raytrace(int x0, int y0, int x1, int y1, std::
     }
 }
 
-void rover_navigation::LineLayer::parseFromMsg(rover_navigation::Path &p) {
+void rover_navigation::LineLayer::parseFromMsg(const rover_navigation::PathConstPtr& p) {
     std::string globalFrameID = this->layered_costmap_->getGlobalFrameID();
 
     this->waypoints.clear();
-    for (auto stampy_the_stamp : p.points) {
+    for (auto stampy_the_stamp : p->points) {
         geometry_msgs::PointStamped strampy_the_cramp;
         this->tf_->transformPoint(globalFrameID, stampy_the_stamp, strampy_the_cramp);
         this->waypoints.push_back(strampy_the_cramp.point);
     }
 
     computeBounds();
+    ROS_INFO_STREAM("Set the path to " << this->waypoints.size() << " points.");
 }
 
 void rover_navigation::LineLayer::computeBounds() {
@@ -86,7 +87,7 @@ void rover_navigation::LineLayer::updateCosts(costmap_2d::Costmap2D &master_grid
     }
 
     for (auto e : points) {
-        unsigned int mx, my
+        unsigned int mx, my;
         if (master_grid.worldToMap(e.x, e.y, mx, my)) {
             if (master_grid.getCost(mx, my) == costmap_2d::NO_INFORMATION) {
                 master_grid.setCost(mx, my, costmap_2d::FREE_SPACE);
@@ -110,7 +111,8 @@ void rover_navigation::LineLayer::reset() {
 void rover_navigation::LineLayer::onInitialize() {
     ros::NodeHandle nh("~/" + name_);
     this->subscriber = nh.subscribe("~path", 10, &LineLayer::parseFromMsg, this);
-    this->subscriber.
+    ROS_INFO_STREAM("I am start");
+    ROS_INFO_STREAM("GO");
 }
 
 PLUGINLIB_EXPORT_CLASS(rover_navigation::LineLayer, costmap_2d::Layer)

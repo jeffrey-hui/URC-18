@@ -38,11 +38,11 @@ namespace rover_navigation {
 
         void computeBounds();
 
-        void parseFromMsg(Path &p);
+        void parseFromMsg(const PathConstPtr &p);
         void raytrace(int x0, int y0, int x1, int y1, std::vector<Point>& cells);
 
         std::vector<geometry_msgs::Point> waypoints; // tf-ed to the frame of the map
-        ros::Subscriber<Path> subscriber;
+        ros::Subscriber subscriber;
     };
 }
 
