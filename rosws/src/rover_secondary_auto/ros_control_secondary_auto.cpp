@@ -10,8 +10,9 @@
 
 class roverPID{
 private:
-    ros::NodeHandle nh_; //represents the node... sue this to sub and pub
+    ros::NodeHandle nh_; //represents the node... use this to sub and pub
     ros::Publisher cmd_vel_pub_;
+    ros::Subscriber odom_info;
 public:
     roverPID(ros::NodeHandle &nh)
     {
