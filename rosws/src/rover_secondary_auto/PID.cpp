@@ -62,11 +62,3 @@ double PID_imp::calculate(double setpoint,double pv){
 
 	return output;
 }
-
-int main(){
-
-
-
-
-}
-
