@@ -1,0 +1,6 @@
+#goal definition
+geometry_msgs/PointStamped[] waypoints
+---
+---
+#feedback
+int32 index_currently_going_towards
