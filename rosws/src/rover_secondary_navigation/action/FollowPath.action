@@ -1,6 +1,9 @@
 #goal definition
 geometry_msgs/PointStamped[] waypoints
 ---
+#result
+string finished = Finished
 ---
 #feedback
-int32 index_currently_going_towards
+int32 pid_error
+

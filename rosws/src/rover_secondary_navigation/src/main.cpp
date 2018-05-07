@@ -8,25 +8,35 @@
 #include <control_toolbox/pid.h>
 #include <algorithm>
 #include <actionlib/server/simple_action_server.h>
+#include <rover_secondary_navigation/FollowPathAction.h>
 
 /*TODO:
  * Use tf2 to take path msg and extract x and y for 'xCoo' and 'yCoo'
  * implement actionlib
- * 
+ *
  */
 class roverPID{
 private:
-    ros::NodeHandle nh_; //represents the node... use this to sub and pub
+    ros::NodeHandle nh_;
+
+    actionlib::SimpleActionServer<rover_secondary_navigation::FollowPathAction> as_;
+    //create messages for the action server
+    rover_secondary_navigation::FollowPathActionFeedback feedback_;
+    rover_secondary_navigation::FollowPathActionResult result_;
+    rover_secondary_navigation::FollowPathActionGoal goal_;
+
     ros::Publisher cmd_vel_pub_;
     ros::Subscriber odom_info;
 
     ros::Time currentTime;
-
     control_toolbox::Pid ang_pid;
     control_toolbox::Pid lin_pid;
 public:
     roverPID()
     {
+//        as_(nh_,name,boost::bind(&roverPID::PIDcontrol,this,_1), false), FollowPath_(name){
+//            as_.start();
+//        }
         cmd_vel_pub_ = nh_.advertise<geometry_msgs::Twist>("/wheel_diff_drive_controller/cmd_vel",1);
         odom_info = nh_.subscribe("odom",10, &roverPID::PIDcontrol, this);
 
