@@ -16,7 +16,7 @@ speed_value = 1.175
 
 
 def ctrl_curve(val):
-    return math.copysign(val ** 3, val) * speed_value
+    return val * speed_value
 
 
 push_button_last = False
@@ -27,8 +27,8 @@ def on_joy_data(msg):
     global speed_value
     # type: (sensor_msgs.msg.Joy) -> None
 
-    left = ctrl_curve(msg.axes[LEFT_AXIS])
-    right = ctrl_curve(msg.axes[RIGHT_AXIS])
+    right = ctrl_curve(msg.axes[LEFT_AXIS])
+    left = ctrl_curve(msg.axes[RIGHT_AXIS])
 
     tri_state = int(msg.axes[7])
     if tri_state == 0:
