@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   actionlib
   actionlib_msgs
+  controller_diagnostics
 )
 
 ## System dependencies are found with CMake's conventions
@@ -108,7 +109,7 @@ generate_messages(
 catkin_package(
    INCLUDE_DIRS include
    LIBRARIES rover_arm_hw
-   CATKIN_DEPENDS controller_interface eml_uberdriver pluginlib roscpp simpli2c std_msgs message_runtime
+   CATKIN_DEPENDS controller_interface eml_uberdriver pluginlib roscpp simpli2c std_msgs message_runtime controller_diagnostics
 #  DEPENDS system_lib
 )
 

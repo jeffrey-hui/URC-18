@@ -1,5 +1,13 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- arm terms
+
+    arm_outer = outer arm bar
+    arm_spin  = fake for tilt (todo: set up sim for this correctly)
+
+    todo: add other joints YELL AT OMAR AAAA
+    -->
+
     <link name="arm_outer">
         <inertial>
             <mass value="0.12" />

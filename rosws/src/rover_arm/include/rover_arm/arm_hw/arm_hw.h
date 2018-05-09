@@ -9,8 +9,12 @@
 #include <hardware_interface/robot_hw.h>
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/joint_command_interface.h>
+#include <controller_diagnostics/diagnostic_interface.h>
 
 namespace rover_arm {
+    const uint8_t ARDUINO_ARM_BUS = 1;
+    const uint8_t ARDUINO_ARM_ADDRESS = 0x21;
+
     const int ADDRESS = 0x30;
     const int BUS = 1;
 
@@ -26,6 +30,7 @@ namespace rover_arm {
     const int MOTOR_SLIDEPOLE = 2;
     const int MOTOR_SLIDEUNIT = 3;
     const int MOTOR_INNEROUTR = 4;
+    const int MOTOR_GRIPPTILT = 5;
 
     class ArmHW {
     public:
@@ -45,11 +50,16 @@ namespace rover_arm {
         double pos[4] = {0, 0, 0, 0};
         double vel[4] = {0, 0, 0, 0};
 
+        void setupDeviceOnConnect();
+
         eml_uberdriver::Encoder  jointEncoders[4];
         eml_uberdriver::ARDevice device;
 
         hardware_interface::JointStateInterface  jnt_state_interface;
         hardware_interface::EffortJointInterface jnt_eff_interface;
+        controller_diagnostics::DiagnosticHandleData diag_dhd;
+        controller_diagnostics::DiagnosticStateInterface diag_interface;
+        ros::Time lastReconnectAttemptTime;
     };
 }
 
