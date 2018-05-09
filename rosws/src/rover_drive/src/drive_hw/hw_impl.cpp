@@ -74,7 +74,10 @@ namespace rover_drive {
                 this->lastReconnectAttemptTime = ros::Time::now();
                 if (this->device.tryOpen()) {
                     this->setupDeviceOnConnect();
-                    ROS_WARN_STREAM("The I2C device for drive is not responding, attempting reconnect");
+                    ROS_INFO_STREAM("Connected!");
+                }
+                else {
+                    ROS_WARN_STREAM("Failed to connect to I2C device, retry in 3 seconds");
                 }
             }
         }
