@@ -8,6 +8,7 @@ The file structure of this repo is fairly simple:
 | rosws | contains all the packages we have written in ros, packages that are deps should either be done with wstool or rosdep |
 | scripts | contains various scripts to make things easier |
 | microcontroller | contains platformio projects for each microcontroller |
+| pcbs | contains PCB eagle design files |
 
 ## getting setup
 

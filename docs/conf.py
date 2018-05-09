@@ -48,8 +48,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'R3-URC18'
-copyright = u'2017, a lot of people'
-author = u'a lot of people'
+copyright = u'2017, mincrmatt12'
+author = u'mincrmatt12'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -224,7 +224,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'R3-URC18.tex', u'R3-URC18 Documentation',
-     u'a lot of people', 'manual'),
+     u'mincrmatt12', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

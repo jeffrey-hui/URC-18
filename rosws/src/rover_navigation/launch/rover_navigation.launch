@@ -1,0 +1,9 @@
+<launch>
+    <arg name="use_fake" default="false" />
+
+    <include file="$(find rover_navigation)/launch/odometry.launch">
+        <arg name="use_fake" value="$(arg use_fake)" />
+    </include>
+    <include file="$(find rover_navigation)/launch/rtabmap.launch" />
+    <include file="$(find rover_navigation)/launch/move_base.launch" />
+</launch>

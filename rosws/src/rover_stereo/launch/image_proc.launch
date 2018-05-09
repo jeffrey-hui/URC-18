@@ -1,0 +1,11 @@
+<launch>
+    <group ns="/stereo">
+        <node name="stereo_proc" pkg="stereo_image_proc" type="stereo_image_proc">
+            <rosparam command="load" file="$(find rover_stereo)/config/stereo.yaml" />
+
+            <param name="approximate_sync" value="true" />
+        </node>
+
+        <node name="disp_to_depth" pkg="nodelet" type="nodelet" args="standalone rtabmap_ros/disparity_to_depth" />
+    </group>
+</launch>

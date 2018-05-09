@@ -4,15 +4,18 @@
 
 #include "JointPositionControl.h"
 
-rover_ik::JointPositionControl::JointPositionControl(std::vector<std::string> names, ros::NodeHandle nh_,
+rover_ik::JointPositionControl::JointPositionControl(std::vector<std::string> names, ros::NodeHandle &nh_,
                                                      hardware_interface::EffortJointInterface *hw) {
     std::vector<double> dat(names.size(), 0.0);
     int i = 0;
-    for (std::string s : names) {
-        this->nodeHandles.push_back(ros::NodeHandle(nh_, "gains/" + s));
+    for (const std::string &s : names) {
+        ros::NodeHandle nh_poa(nh_, std::string("gains/") + s);
+
         this->jointHandles.push_back(hw->getHandle(s));
-        this->pidLoops.push_back(control_toolbox::Pid());
-        this->pidLoops[i].init(this->nodeHandles[i], false);
+        this->pidLoops.emplace_back();
+        if (!this->pidLoops[i].init(nh_poa, false)) {
+            ROS_FATAL_STREAM("AAAAAAAH we failed to start a pid with the name "<<s);
+        }
         dat[i] = this->jointHandles[i].getPosition();
         i++;
     }

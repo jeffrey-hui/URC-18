@@ -1,6 +1,7 @@
 # place all packages from wstool here
 simpli2c/
 eml_uberdriver/
+controller_diagnostics/
 
 # e.g.
 # robot_localization/

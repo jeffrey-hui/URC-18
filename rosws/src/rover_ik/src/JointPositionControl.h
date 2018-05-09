@@ -13,7 +13,7 @@ namespace rover_ik {
     class JointPositionControl {
 
     public:
-        JointPositionControl(std::vector<std::string> names, ros::NodeHandle nh_,
+        JointPositionControl(std::vector<std::string> names, ros::NodeHandle &nh_,
                              hardware_interface::EffortJointInterface *hw);
         void updateSetpoints(std::vector<double> chainValues);
         void update(ros::Duration duration);

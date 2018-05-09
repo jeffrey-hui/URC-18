@@ -11,12 +11,17 @@
 namespace rover_drive {
     
     uint16_t convert_to_msecs(double vel) {
-        double clamped = std::min(5.0d, std::max(-5.0d, vel));
-        double v = clamped / 5.0;
+        double max_val = static_cast<double>(WHEEL_MAX_RADIANS_PER_SECOND);
+        double clamped = std::min(max_val, std::max(-max_val, vel));
+        double v = clamped / max_val;
         return (uint16_t)(((MOTOR_OFFSET * v)) + MOTOR_MID);
     }
 
     void DriveHW::init(hardware_interface::RobotHW *hw) {
+        if (!this->device.isDisconnected()) {
+            setupDeviceOnConnect();
+        }
+
         hardware_interface::JointStateHandle jsLB("leg_to_wheel_back_left", &pos[0], &vel[0], &eff[0]);
         hardware_interface::JointStateHandle jsRB("leg_to_wheel_back_right", &pos[3], &vel[3], &eff[3]);
         hardware_interface::JointStateHandle jsLF("leg_to_wheel_front_left", &pos[1], &vel[1], &eff[1]);
@@ -48,16 +53,36 @@ namespace rover_drive {
 
         hw->registerInterface(&jnt_vel_interface);
 
-        device.openPinAsMotor(LEFT_BACK_WHEEL);
-        device.openPinAsMotor(LEFT_MID_WHEEL);
-        device.openPinAsMotor(LEFT_FRONT_WHEEL);
-        device.openPinAsMotor(RIGHT_BACK_WHEEL);
-        device.openPinAsMotor(RIGHT_MID_WHEEL);
-        device.openPinAsMotor(RIGHT_FRONT_WHEEL);
+        diag_dhd.hardwareID = "due-drive";
+        diag_dhd.data["connected"] = !this->device.isDisconnected() ? "yes" : "no";
+        diag_dhd.data["device"] = "/dev/i2c-" + std::to_string(ARDUINO_DRIVE_BUS);
+        diag_dhd.data["address"] = std::to_string(ARDUINO_DRIVE_ADDRESS);
+        controller_diagnostics::DiagnosticHandle dH("drive_arduino", &diag_dhd);
+        
+        diag_interface.registerHandle(dH);
+
+        hw->registerInterface(&diag_interface);
     }
 
     void DriveHW::read() {
-        
+        if (this->device.isDisconnected()) {
+            diag_dhd.data["connected"] = "no";
+            diag_dhd.status = diagnostic_msgs::DiagnosticStatus::ERROR;
+            diag_dhd.message = "The arduino is not connected or is not listening to i2c";
+
+            if ((ros::Time::now() - this->lastReconnectAttemptTime).toSec() > 3.0) {
+                this->lastReconnectAttemptTime = ros::Time::now();
+                if (this->device.tryOpen()) {
+                    this->setupDeviceOnConnect();
+                    ROS_WARN_STREAM("The I2C device for drive is not responding, attempting reconnect");
+                }
+            }
+        }
+        else {
+            diag_dhd.data["connected"] = "yes";
+            diag_dhd.status = diagnostic_msgs::DiagnosticStatus::OK;
+            diag_dhd.message = "The arduino is connected and responding to i2c";
+        }
     }
 
     void DriveHW::write() {
@@ -67,6 +92,15 @@ namespace rover_drive {
         device.writeMicroseconds(RIGHT_BACK_WHEEL, convert_to_msecs(cmd[3]));
         device.writeMicroseconds(RIGHT_FRONT_WHEEL, convert_to_msecs(cmd[4]));
         device.writeMicroseconds(RIGHT_MID_WHEEL, convert_to_msecs(cmd[5]));
+    }
+
+    void DriveHW::setupDeviceOnConnect() {
+        device.openPinAsMotor(LEFT_BACK_WHEEL);
+        device.openPinAsMotor(LEFT_MID_WHEEL);
+        device.openPinAsMotor(LEFT_FRONT_WHEEL);
+        device.openPinAsMotor(RIGHT_BACK_WHEEL);
+        device.openPinAsMotor(RIGHT_MID_WHEEL);
+        device.openPinAsMotor(RIGHT_FRONT_WHEEL);
     }
 
 
