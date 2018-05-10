@@ -14,11 +14,11 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   actionlib
   actionlib_msgs
-  controller_diagnostics
+  controller_diagnostics transmission_interface
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -109,7 +109,7 @@ generate_messages(
 catkin_package(
    INCLUDE_DIRS include
    LIBRARIES rover_arm_hw
-   CATKIN_DEPENDS controller_interface eml_uberdriver pluginlib roscpp simpli2c std_msgs message_runtime controller_diagnostics
+   CATKIN_DEPENDS controller_interface eml_uberdriver pluginlib roscpp simpli2c std_msgs message_runtime controller_diagnostics transmission_interface
 #  DEPENDS system_lib
 )
 
@@ -123,6 +123,7 @@ include_directories(include)
 
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIRS}
 )
 
 add_compile_options(-std=c++11)
@@ -131,7 +132,7 @@ add_compile_options(-std=c++11)
 add_library(rover_arm_hw
         include/rover_arm/arm_hw/arm_hw.h
         src/arm_hw/arm_hw.cpp
-)
+        src/arm_hw/motor_params.h)
 
 
 ## Add cmake target dependencies of the library

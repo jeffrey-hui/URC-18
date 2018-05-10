@@ -36,9 +36,7 @@ namespace rover_drive {
         double eff[6] = {0, 0, 0, 0, 0, 0};
         double pos[6] = {0, 0, 0, 0, 0, 0};
 
-        hardware_interface::JointStateInterface jnt_state_interface;
         hardware_interface::VelocityJointInterface jnt_vel_interface;
-        controller_diagnostics::DiagnosticStateInterface diag_interface;
 
         ros::Time lastReconnectAttemptTime = ros::Time::now();
 

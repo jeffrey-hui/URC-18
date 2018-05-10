@@ -7,9 +7,10 @@
 
 #include <eml_uberdriver/eml_uberdriver.h>
 #include <hardware_interface/robot_hw.h>
-#include <hardware_interface/joint_state_interface.h>
-#include <hardware_interface/joint_command_interface.h>
+#include <hardware_interface/actuator_state_interface.h>
+#include <hardware_interface/actuator_command_interface.h>
 #include <controller_diagnostics/diagnostic_interface.h>
+#include <transmission_interface/transmission_interface_loader.h>
 
 namespace rover_arm {
     const uint8_t ARDUINO_ARM_BUS = 1;
@@ -35,6 +36,9 @@ namespace rover_arm {
     class ArmHW {
     public:
         ArmHW() : device(ADDRESS, BUS) {};
+        ~ArmHW() {
+            delete this->transmission_loader_;
+        }
 
         void init(hardware_interface::RobotHW *hw);
 
@@ -55,11 +59,15 @@ namespace rover_arm {
         eml_uberdriver::Encoder  jointEncoders[4];
         eml_uberdriver::ARDevice device;
 
-        hardware_interface::JointStateInterface  jnt_state_interface;
-        hardware_interface::EffortJointInterface jnt_eff_interface;
-        controller_diagnostics::DiagnosticHandleData diag_dhd;
+        hardware_interface::ActuatorStateInterface  act_state_interface;
+        hardware_interface::EffortActuatorInterface act_eff_interface;
+
         controller_diagnostics::DiagnosticStateInterface diag_interface;
+        controller_diagnostics::DiagnosticHandleData diag_dhd;
         ros::Time lastReconnectAttemptTime;
+
+        transmission_interface::TransmissionInterfaceLoader *transmission_loader_;
+        transmission_interface::RobotTransmissions robot_transmissions;
     };
 }
 

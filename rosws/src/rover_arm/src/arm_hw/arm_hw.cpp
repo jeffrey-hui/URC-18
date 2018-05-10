@@ -3,40 +3,48 @@
 //
 
 #include <rover_arm/arm_hw/arm_hw.h>
-#include <controller_diagnostics/diagnostic_interface.h>
+#include <boost/algorithm/string.hpp>
+#include "motor_params.h"
 
 namespace rover_arm {
     uint16_t convertEffToMotorV(double value) {
-        return (uint16_t)value; // todo massive
+        double effort_normalized = value / MOTOR_EXERTED_EFFORT;
+        double offset = MOTOR_OFFSET * effort_normalized;
+
+        // todo: update for different joints
+
+        return (uint16_t)(MOTOR_MID + offset);
     }
 }
 
 void rover_arm::ArmHW::init(hardware_interface::RobotHW *hw) {
+    ros::NodeHandle nh("/");
+
     if (!this->device.isDisconnected()) {
         this->setupDeviceOnConnect();
     }
 
     this->lastReconnectAttemptTime = ros::Time::now();
 
-    hardware_interface::JointStateHandle jsh_io("arm_slide_pole_to_arm_slider_unit", &pos[0], &eff[0], &vel[0]);
-    hardware_interface::JointStateHandle jsh_su("arm_slider_unit_to_arm_xy_pole", &pos[1], &eff[1], &vel[1]);
-    hardware_interface::JointStateHandle jsh_sp("arm_inner_to_arm_outer", &pos[2], &eff[2], &vel[2]);
-    hardware_interface::JointStateHandle jsh_tl("arm_outer_to_grip_spin", &pos[3], &eff[3], &vel[3]);
+    hardware_interface::ActuatorStateHandle jsh_io("arm_slide_motor", &pos[0], &eff[0], &vel[0]);
+    hardware_interface::ActuatorStateHandle jsh_su("arm_xy_inner_motor", &pos[1], &eff[1], &vel[1]);
+    hardware_interface::ActuatorStateHandle jsh_sp("arm_xy_outer_motor", &pos[2], &eff[2], &vel[2]);
+    hardware_interface::ActuatorStateHandle jsh_tl("arm_spin_inner_motor", &pos[3], &eff[3], &vel[3]);
 
-    this->jnt_state_interface.registerHandle(jsh_io);
-    this->jnt_state_interface.registerHandle(jsh_su);
-    this->jnt_state_interface.registerHandle(jsh_sp);
-    this->jnt_state_interface.registerHandle(jsh_tl);
+    this->act_state_interface.registerHandle(jsh_io);
+    this->act_state_interface.registerHandle(jsh_su);
+    this->act_state_interface.registerHandle(jsh_sp);
+    this->act_state_interface.registerHandle(jsh_tl);
 
-    hardware_interface::JointHandle jh_io(jsh_io, &cmd[0]);
-    hardware_interface::JointHandle jh_su(jsh_su, &cmd[1]);
-    hardware_interface::JointHandle jh_sp(jsh_sp, &cmd[2]);
-    hardware_interface::JointHandle jh_tl(jsh_tl, &cmd[3]);
+    hardware_interface::ActuatorHandle jh_io(jsh_io, &cmd[0]);
+    hardware_interface::ActuatorHandle jh_su(jsh_su, &cmd[1]);
+    hardware_interface::ActuatorHandle jh_sp(jsh_sp, &cmd[2]);
+    hardware_interface::ActuatorHandle jh_tl(jsh_tl, &cmd[3]);
 
-    this->jnt_eff_interface.registerHandle(jh_io);
-    this->jnt_eff_interface.registerHandle(jh_su);
-    this->jnt_eff_interface.registerHandle(jh_sp);
-    this->jnt_eff_interface.registerHandle(jh_tl);
+    this->act_eff_interface.registerHandle(jh_io);
+    this->act_eff_interface.registerHandle(jh_su);
+    this->act_eff_interface.registerHandle(jh_sp);
+    this->act_eff_interface.registerHandle(jh_tl);
 
     diag_dhd.hardwareID = "due-arm";
     diag_dhd.data["connected"] = !this->device.isDisconnected() ? "yes" : "no";
@@ -46,12 +54,32 @@ void rover_arm::ArmHW::init(hardware_interface::RobotHW *hw) {
 
     diag_interface.registerHandle(dH);
 
+    hw->registerInterface(&act_eff_interface);
+    hw->registerInterface(&act_state_interface);
     hw->registerInterface(&diag_interface);
-    hw->registerInterface(&jnt_eff_interface);
-    hw->registerInterface(&jnt_state_interface);
+
+    std::string robot_description;
+    if (!nh.getParam("robot_description", robot_description)) {
+        ROS_FATAL_STREAM("Failed to load robot_description, this node will probably now crash");
+    }
+
+    this->transmission_loader_ = new transmission_interface::TransmissionInterfaceLoader(hw, &this->robot_transmissions);
+    transmission_interface::TransmissionParser parser;
+    std::vector<transmission_interface::TransmissionInfo> infos;
+    parser.parse(robot_description, infos);
+    for (auto e : infos) {
+        if (boost::starts_with(e.name_, "arm")) {
+            if (!this->transmission_loader_->load(e)) {
+                ROS_FATAL_STREAM("ASDF");
+            }
+        }
+    }
+
 }
 
 void rover_arm::ArmHW::write() {
+    this->robot_transmissions.get<transmission_interface::JointToActuatorEffortInterface>()->propagate();
+    ROS_INFO_STREAM("a " << cmd[0]);
     if (!this->device.isDisconnected()) {
         this->device.writeMicroseconds(MOTOR_INNEROUTR, convertEffToMotorV(cmd[0]));
         this->device.writeMicroseconds(MOTOR_SLIDEUNIT, convertEffToMotorV(cmd[1]));
@@ -61,6 +89,7 @@ void rover_arm::ArmHW::write() {
 }
 
 void rover_arm::ArmHW::read() {
+    this->robot_transmissions.get<transmission_interface::ActuatorToJointStateInterface>()->propagate();
     if (this->device.isDisconnected()) {
         diag_dhd.data["connected"] = "no";
         diag_dhd.status = diagnostic_msgs::DiagnosticStatus::ERROR;
@@ -70,7 +99,10 @@ void rover_arm::ArmHW::read() {
             this->lastReconnectAttemptTime = ros::Time::now();
             if (this->device.tryOpen()) {
                 this->setupDeviceOnConnect();
-                ROS_WARN_STREAM("The I2C device for drive is not responding, attempting reconnect");
+                ROS_INFO_STREAM("Connected!");
+            }
+            else {
+                ROS_WARN_STREAM("Failed to connect to I2C device, retry in 3 seconds");
             }
         }
     }
@@ -79,7 +111,7 @@ void rover_arm::ArmHW::read() {
         diag_dhd.status = diagnostic_msgs::DiagnosticStatus::OK;
         diag_dhd.message = "The arduino is connected and responding to i2c";
 
-        // todo: add encoder reads
+        // todo: add encoders
     }
 }
 
@@ -93,3 +125,4 @@ void rover_arm::ArmHW::setupDeviceOnConnect() {
     //this->jointEncoders[1] = this->device.openPinAsEncoder(ENCODER_SLIDEUNIT_A, ENCODER_SLIDEUNIT_B);
     //this->jointEncoders[2] = this->device.openPinAsEncoder(ENCODER_SLIDEPOLE_A, ENCODER_SLIDEPOLE_B);
 }
+

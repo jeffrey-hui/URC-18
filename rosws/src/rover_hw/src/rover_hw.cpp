@@ -17,8 +17,8 @@ namespace rover_hw {
 
             // ------------------ ADD INITIALIZING CALLS HERE --------------------
 
-            drive_hw.init(this);
             arm_hw.init(this);
+            drive_hw.init(this);
 
             // ------------------ END INITIALIZATION SECTION ---------------------
 
