@@ -14,7 +14,7 @@
 
 namespace rover_arm {
     const uint8_t ARDUINO_ARM_BUS = 1;
-    const uint8_t ARDUINO_ARM_ADDRESS = 0x21;
+    const uint8_t ARDUINO_ARM_ADDRESS = 0x23;
 
     const int ADDRESS = 0x30;
     const int BUS = 1;
