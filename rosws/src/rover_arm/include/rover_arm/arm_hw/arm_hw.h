@@ -35,7 +35,7 @@ namespace rover_arm {
 
     class ArmHW {
     public:
-        ArmHW() : device(ARDUINO_ARM_ADDRESS, ARDUINO_ARM_BUS) {};
+        ArmHW() : device(ARDUINO_ARM_BUS, ARDUINO_ARM_ADDRESS) {};
         ~ArmHW() {
             delete this->transmission_loader_;
         }
