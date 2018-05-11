@@ -8,23 +8,22 @@ rover::rover(){
     ros::Subscriber sub = n.subscribe("test", 1000, &rover::GPScallBack,this);
 }
 rover::~rover(){}
-double rover::getXCoordinates(){
+double rover::getAngCoordinates(){
+    return 1;
 
 }
-double rover::getYCoordinates(){
+double rover::getLinCoordinates(){
+    return 1;
 
 }
-double rover::calculateRightDrivePower(){
-
+double rover::calculateDrivePower(){
+    double errorLin  = targetLin - rover::getLinCoordinates();
+    return Kp*errorLin;
 }
-double rover::calculateLeftDrivePower(){
-
+double rover::calculateTurnPower(){
+    double errorAng  = targetAng - rover::getAngCoordinates();
+    return Kp*errorAng;
 }
-std::string rover::publishedValue(){
-    //combine right and left drive into a string
-    return "dummy";
-}
-
 
 void rover::GPScallBack(const std_msgs::String::ConstPtr& msg){
     receiveGPS = msg->data.c_str();
