@@ -16,8 +16,8 @@ namespace rover_arm {
     const uint8_t ARDUINO_ARM_BUS = 1;
     const uint8_t ARDUINO_ARM_ADDRESS = 0x23;
 
-    const int ADDRESS = 0x30;
-    const int BUS = 1;
+    //const int ADDRESS = 0x30;
+    //const int BUS = 1;
 
     const int ENCODER_SLIDEPOLE_A = 22; // slider pole (vertical)
     const int ENCODER_SLIDEPOLE_B = 23;
@@ -35,7 +35,7 @@ namespace rover_arm {
 
     class ArmHW {
     public:
-        ArmHW() : device(ADDRESS, BUS) {};
+        ArmHW() : device(ARDUINO_ARM_ADDRESS, ARDUINO_ARM_BUS) {};
         ~ArmHW() {
             delete this->transmission_loader_;
         }

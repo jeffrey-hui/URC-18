@@ -32,3 +32,4 @@ arm_manual_controller:
     - arm_slide_pole_to_arm_slider_unit
     - arm_slider_unit_to_arm_xy_pole
     - arm_inner_to_arm_outer
+    - arm_outer_to_grip_spin
