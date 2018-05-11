@@ -79,7 +79,7 @@ void rover_arm::ArmHW::init(hardware_interface::RobotHW *hw) {
 
 void rover_arm::ArmHW::write() {
     this->robot_transmissions.get<transmission_interface::JointToActuatorEffortInterface>()->propagate();
-    ROS_INFO_STREAM("a " << cmd[0]);
+    //ROS_INFO_STREAM("a " << cmd[0]);
     if (!this->device.isDisconnected()) {
         this->device.writeMicroseconds(MOTOR_INNEROUTR, convertEffToMotorV(cmd[0]));
         this->device.writeMicroseconds(MOTOR_SLIDEUNIT, convertEffToMotorV(cmd[1]));
