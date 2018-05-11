@@ -3,9 +3,8 @@
 //
 
 #include "rover.h"
+std::string receiveGPS;
 rover::rover(){
-    ros::NodeHandle n;
-    ros::Subscriber sub = n.subscribe("test", 1000, &rover::GPScallBack,this);
 }
 rover::~rover(){}
 double rover::getAngCoordinates(){
@@ -23,8 +22,4 @@ double rover::calculateDrivePower(){
 double rover::calculateTurnPower(){
     double errorAng  = targetAng - rover::getAngCoordinates();
     return Kp*errorAng;
-}
-
-void rover::GPScallBack(const std_msgs::String::ConstPtr& msg){
-    receiveGPS = msg->data.c_str();
 }
