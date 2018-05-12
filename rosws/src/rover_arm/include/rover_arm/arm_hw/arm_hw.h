@@ -31,9 +31,9 @@ namespace rover_arm {
     const int ENCODER_GRIPPTILT_A = 28;
     const int ENCODER_GRIPPTILT_B = 29;
 
-    const int MOTOR_SLIDEPOLE = 3;
-    const int MOTOR_SLIDEUNIT = 2;
-    const int MOTOR_INNEROUTR = 4;
+    const int MOTOR_SLIDEPOLE = 2;
+    const int MOTOR_SLIDEUNIT = 4;
+    const int MOTOR_INNEROUTR = 3;
     const int MOTOR_GRIPPTILT = 5;
 
     class ArmHW {
