@@ -10,6 +10,7 @@ namespace rover_arm {
     const int MOTOR_OFFSET = 800;
 
     const double MOTOR_EXERTED_EFFORT = 590;
+    const double TICKS_PER_REVOLUTION = 853.98;
 }
 
 #endif //ROVERARMHW_MOTOR_PARAMS_H

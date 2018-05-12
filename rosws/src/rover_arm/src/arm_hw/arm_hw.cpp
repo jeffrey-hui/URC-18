@@ -15,6 +15,10 @@ namespace rover_arm {
 
         return (uint16_t)(MOTOR_MID + offset);
     }
+
+    double convertToPositionOffsetRotate(int ticks) {
+        return (ticks / TICKS_PER_REVOLUTION) * (3.1415926 * 2);
+    }
 }
 
 void rover_arm::ArmHW::init(hardware_interface::RobotHW *hw) {
@@ -26,9 +30,9 @@ void rover_arm::ArmHW::init(hardware_interface::RobotHW *hw) {
 
     this->lastReconnectAttemptTime = ros::Time::now();
 
-    hardware_interface::ActuatorStateHandle jsh_io("arm_slide_motor", &pos[0], &eff[0], &vel[0]);
-    hardware_interface::ActuatorStateHandle jsh_su("arm_xy_inner_motor", &pos[1], &eff[1], &vel[1]);
-    hardware_interface::ActuatorStateHandle jsh_sp("arm_xy_outer_motor", &pos[2], &eff[2], &vel[2]);
+    hardware_interface::ActuatorStateHandle jsh_io("arm_xy_inner_motor", &pos[0], &eff[0], &vel[0]);
+    hardware_interface::ActuatorStateHandle jsh_su("arm_xy_outer_motor", &pos[1], &eff[1], &vel[1]);
+    hardware_interface::ActuatorStateHandle jsh_sp("arm_slide_motor", &pos[2], &eff[2], &vel[2]);
     hardware_interface::ActuatorStateHandle jsh_tl("arm_spin_inner_motor", &pos[3], &eff[3], &vel[3]);
 
     this->act_state_interface.registerHandle(jsh_io);
@@ -111,7 +115,15 @@ void rover_arm::ArmHW::read() {
         diag_dhd.status = diagnostic_msgs::DiagnosticStatus::OK;
         diag_dhd.message = "The arduino is connected and responding to i2c";
 
-        // todo: add encoders
+        int ticks_inneroutr = this->jointEncoders[0].encoderValue();
+        int ticks_slideunit = this->jointEncoders[1].encoderValue();
+        int ticks_slidepole = this->jointEncoders[2].encoderValue();
+        int ticks_gripptilt = this->jointEncoders[3].encoderValue();
+
+        pos[0] = convertToPositionOffsetRotate(ticks_inneroutr); // todo: get gear crappo for this
+        pos[1] = convertToPositionOffsetRotate(ticks_slideunit);
+        pos[2] = 0; // todo
+        pos[3] = convertToPositionOffsetRotate(ticks_gripptilt);
     }
 }
 
@@ -121,8 +133,9 @@ void rover_arm::ArmHW::setupDeviceOnConnect() {
     this->device.openPinAsMotor(MOTOR_SLIDEPOLE);
     this->device.openPinAsMotor(MOTOR_GRIPPTILT);
 
-    //this->jointEncoders[0] = this->device.openPinAsEncoder(ENCODER_INNEROUTR_A, ENCODER_INNEROUTR_B);
-    //this->jointEncoders[1] = this->device.openPinAsEncoder(ENCODER_SLIDEUNIT_A, ENCODER_SLIDEUNIT_B);
-    //this->jointEncoders[2] = this->device.openPinAsEncoder(ENCODER_SLIDEPOLE_A, ENCODER_SLIDEPOLE_B);
+    this->jointEncoders[0] = this->device.openPinAsEncoder(ENCODER_INNEROUTR_A, ENCODER_INNEROUTR_B);
+    this->jointEncoders[1] = this->device.openPinAsEncoder(ENCODER_SLIDEUNIT_A, ENCODER_SLIDEUNIT_B);
+    this->jointEncoders[2] = this->device.openPinAsEncoder(ENCODER_SLIDEPOLE_A, ENCODER_SLIDEPOLE_B);
+    this->jointEncoders[3] = this->device.openPinAsEncoder(ENCODER_GRIPPTILT_A, ENCODER_GRIPPTILT_B);
 }
 
