@@ -1,0 +1,13 @@
+pub_rate: 2.0
+analyzers:
+  hw:
+    type: GenericAnalyzer
+    path: Hardware
+    find_and_remove_prefix: diagnostics_controller
+  # js_teleop:
+  #  type: GenericAnalyser
+  #  path: Joysticks
+  # todo: get all joysticks in this config
+
+  # robot_localization:
+  # todo: configure this

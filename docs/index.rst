@@ -23,12 +23,12 @@ Usage
  
    usage/*
 
-API
+Hardware
 ------
 
 .. toctree::
    :maxdepth: 2
-   :caption: API documentation
+   :caption: Hardware protocols
    :glob:
 
    api/*

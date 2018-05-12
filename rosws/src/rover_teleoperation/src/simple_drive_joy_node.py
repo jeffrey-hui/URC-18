@@ -16,7 +16,7 @@ speed_value = 1.175
 
 
 def ctrl_curve(val):
-    return math.copysign(val ** 3, val) * speed_value
+    return val * speed_value
 
 
 push_button_last = False
@@ -27,8 +27,8 @@ def on_joy_data(msg):
     global speed_value
     # type: (sensor_msgs.msg.Joy) -> None
 
-    left = ctrl_curve(msg.axes[LEFT_AXIS])
-    right = ctrl_curve(msg.axes[RIGHT_AXIS])
+    right = ctrl_curve(msg.axes[LEFT_AXIS])
+    left = ctrl_curve(msg.axes[RIGHT_AXIS])
 
     tri_state = int(msg.axes[7])
     if tri_state == 0:
@@ -37,10 +37,8 @@ def on_joy_data(msg):
         if not push_button_last:
             speed_value += tri_state
             speed_value = max(1.175, min(4.75, speed_value))
-
     drive_control_right.publish(left)
     drive_control_left.publish(-right)
-
 
 joy_listener = rospy.Subscriber("joy", sensor_msgs.msg.Joy, queue_size=20, callback=on_joy_data)
 rospy.spin()
