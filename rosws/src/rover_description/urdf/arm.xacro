@@ -149,7 +149,7 @@
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
         </joint>
         <actuator name="arm_slide_motor">
-            <mechanicalReduction>1</mechanicalReduction>
+            <mechanicalReduction>49</mechanicalReduction>
         </actuator>
     </transmission>
 

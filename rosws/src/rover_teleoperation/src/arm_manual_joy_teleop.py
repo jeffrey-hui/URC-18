@@ -17,13 +17,16 @@ def joyCB(dat):
     :return:
     '''
 
-    rawvel = dat.axes[2]
-    if dat.buttons[0]:
-        pub.publish(data=[0, 0, rawvel, 0])
-    elif dat.buttons[1]:
-        pub.publish(data=[0, 0, 0, rawvel])
-    else:
-        pub.publish(data=[rawvel, rawvel, 0, 0])
+    rawvel_outer = -dat.axes[2] * 100
+
+    rawvel_inner = 0
+    if dat.buttons[4]:
+        rawvel_inner -= 100
+    if dat.buttons[5]:
+        rawvel_inner += 100
+
+    rawvel_tilt = -dat.axes[5] * 100
+    pub.publish(data=[0, rawvel_outer, rawvel_inner, rawvel_tilt])
 
 
 sub = rospy.Subscriber("joy", Joy, joyCB, queue_size=10)

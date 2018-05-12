@@ -9,7 +9,7 @@ namespace rover_arm {
     const int MOTOR_MID = 1500;
     const int MOTOR_OFFSET = 800;
 
-    const double MOTOR_EXERTED_EFFORT = 1;
+    const double MOTOR_EXERTED_EFFORT = 590;
 }
 
 #endif //ROVERARMHW_MOTOR_PARAMS_H

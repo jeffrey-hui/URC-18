@@ -69,7 +69,7 @@
         </joint>
         <actuator name="arm_spin_inner_motor">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
+            <mechanicalReduction>-6.33333333</mechanicalReduction>
         </actuator>
     </transmission>
 
