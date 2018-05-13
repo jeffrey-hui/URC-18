@@ -4,6 +4,7 @@
     <node pkg="move_base" type="move_base" output="screen" name="move_base">
         <remap from="map" to="/rtabmap/grid_map" />
         <remap from="cmd_vel" to="/wheel_diff_drive_controller/cmd_vel" />
+        <remap from="odom" to="/odometry/filtered" />
 
         <param name="base_global_planner" value="global_planner/GlobalPlanner" />
         <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS" />

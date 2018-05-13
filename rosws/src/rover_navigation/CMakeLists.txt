@@ -117,7 +117,7 @@ include_directories(include)
 # Declare a C++ library
 add_library(rover_navigation
 
-        src/lines_layer.cpp include/rover_navigation/lines_layer.h)
+        src/lines_layer/lines_layer.cpp include/rover_navigation/lines_layer/lines_layer.h)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

@@ -3,7 +3,7 @@
 //
 
 #include <vector>
-#include <rover_navigation/lines_layer.h>
+#include <rover_navigation/lines_layer/lines_layer.h>
 #include <pluginlib/class_list_macros.h>
 
 void rover_navigation::LineLayer::raytrace(int x0, int y0, int x1, int y1, std::vector<Point> &cells) {

@@ -50,6 +50,9 @@
   <run_depend>rtabmap</run_depend>
   <run_depend>rtabmap_ros</run_depend>
   <run_depend>navigation</run_depend>
+  <run_depend>rover_stereo</run_depend>
+  <run_depend>executive_smach</run_depend>
+  <run_depend>tf</run_depend> <!-- I know its old, but the api is easier) -->
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

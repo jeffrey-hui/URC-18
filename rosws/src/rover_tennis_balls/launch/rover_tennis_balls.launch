@@ -1,5 +1,5 @@
 <launch>
-    <arg name="fixed_frame" default="odom" /> <!-- fixme: make this map when navigation integration is done -->
+    <arg name="fixed_frame" default="map" />
 
     <!-- this needs to be called somewhere from inside rover_navigation, probably twice for if odom is lost to run
          on only gps + wheel + imu. Using visual odom is better for using move_base, but backup auton will want
