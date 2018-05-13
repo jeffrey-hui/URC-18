@@ -3,6 +3,7 @@ global_frame: map
 transform_tolerance: 2
 plugins:
    - {name: static_layer, type: "rtabmap_ros::StaticLayer"}
+   - {name: lines_layer, type: "rover_navigation::LineLayer"}
    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
 
 inflation_layer:

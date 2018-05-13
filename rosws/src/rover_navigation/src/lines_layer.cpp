@@ -8,6 +8,9 @@
 
 void rover_navigation::LineLayer::raytrace(int x0, int y0, int x1, int y1, std::vector<Point> &cells) {
     // totally not stolen from another package because i couldn't be bothered to write out a line algorithm
+    // todo: maybe use different precisions (bresenham is an integer math solution, but the current ints are not converted
+    // todo: to costmap units)
+    ROS_DEBUG_STREAM("raytracing");
     int dx = abs(x1 - x0);
     int dy = abs(y1 - y0);
     Point pt = {};
@@ -45,6 +48,7 @@ void rover_navigation::LineLayer::parseFromMsg(const rover_navigation::PathConst
 
     computeBounds();
     ROS_INFO_STREAM("Set the path to " << this->waypoints.size() << " points.");
+    this->current_ = false;
 }
 
 void rover_navigation::LineLayer::computeBounds() {
@@ -52,6 +56,8 @@ void rover_navigation::LineLayer::computeBounds() {
         _minX = _minY = _maxX = _maxY = 0;
         return;
     }
+    ROS_DEBUG_STREAM("computing");
+
     _minX = _maxX = static_cast<int>(this->waypoints[0].x);
     _minY = _maxY = static_cast<int>(this->waypoints[0].z);
     _maxX++;
@@ -71,6 +77,8 @@ void rover_navigation::LineLayer::updateBounds(double robot_x, double robot_y, d
     if (!this->enabled_) return;
     if (this->waypoints.empty()) return;
 
+    ROS_INFO_STREAM("updating");
+
     *min_x = std::min((double)_minX, *min_x);
     *min_y = std::min((double)_minY, *min_y);
     *max_x = std::min((double)_maxX, *max_x);
@@ -79,12 +87,20 @@ void rover_navigation::LineLayer::updateBounds(double robot_x, double robot_y, d
 
 void rover_navigation::LineLayer::updateCosts(costmap_2d::Costmap2D &master_grid, int min_i, int min_j, int max_i,
                                               int max_j) {
-    if (!enabled_) return;
+    ROS_DEBUG_STREAM("UPDATING");
+    // if (!enabled_) return; fixme: why doesn't this work?
+    if (this->waypoints.empty()) return;
+
+    ROS_DEBUG_STREAM("UPDATING_MAYBE");
 
     std::vector<Point> points;
     for (int i = 0; i < waypoints.size()-1; i++) {
-        raytrace(waypoints[i].x, waypoints[i].y, waypoints[i+1].x, waypoints[i+1].y, points);
+        ROS_DEBUG_STREAM("Trying to do waitpoint " << i << " and " << i +1 << "[size=" << waypoints.size() << "]");
+        raytrace(static_cast<int>(waypoints[i].x), static_cast<int>(waypoints[i].y),
+                 static_cast<int>(waypoints[i + 1].x), static_cast<int>(waypoints[i + 1].y), points);
     }
+
+    ROS_DEBUG_STREAM("UPDATING_FOR_REAL");
 
     for (auto e : points) {
         unsigned int mx, my;
@@ -97,11 +113,13 @@ void rover_navigation::LineLayer::updateCosts(costmap_2d::Costmap2D &master_grid
 }
 
 void rover_navigation::LineLayer::deactivate() {
-    this->onInitialize();
+    this->subscriber.shutdown();
+    this->enabled_ = false;
 }
 
 void rover_navigation::LineLayer::activate() {
-    this->subscriber.shutdown();
+    this->onInitialize();
+    this->enabled_ = true;
 }
 
 void rover_navigation::LineLayer::reset() {
@@ -110,9 +128,8 @@ void rover_navigation::LineLayer::reset() {
 
 void rover_navigation::LineLayer::onInitialize() {
     ros::NodeHandle nh("~/" + name_);
-    this->subscriber = nh.subscribe("~path", 10, &LineLayer::parseFromMsg, this);
-    ROS_INFO_STREAM("I am start");
-    ROS_INFO_STREAM("GO");
+    this->subscriber = nh.subscribe("path", 10, &LineLayer::parseFromMsg, this);
+    this->enabled_ = true;
 }
 
 PLUGINLIB_EXPORT_CLASS(rover_navigation::LineLayer, costmap_2d::Layer)

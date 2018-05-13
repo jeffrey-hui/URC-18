@@ -1,9 +1,9 @@
 <launch>
 
-    <include file="$(find rover_navigation)/launch/odometry.launch">
-    </include>
+    <include file="$(find rover_navigation)/launch/odometry.launch" />
     <include file="$(find rover_navigation)/launch/rtabmap.launch" />
     <include file="$(find rover_navigation)/launch/move_base.launch" />
+    <include file="$(find rover_stereo)/launch/image_proc.launch" />
 
     <group ns="tennis_ball_map"> <!-- for tracking in nice localized map frame for when we have odom + mapping -->
         <include file="$(find rover_tennis_balls)/launch/rover_tennis_balls.launch">
