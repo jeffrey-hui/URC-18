@@ -1,3 +1,4 @@
+import rospy
 from smach import State
 
 
@@ -5,6 +6,7 @@ from smach import State
 
 class Nav2(State):
     def execute(self, ud):
+        rospy.logerr("NAV2 is not implemented. Yell at jeff/adam, not me!")
         return "fail"  # notimplementedtrap
 
     def __init__(self):

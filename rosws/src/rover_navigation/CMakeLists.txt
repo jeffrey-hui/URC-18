@@ -4,7 +4,7 @@ project(rover_navigation)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS costmap_2d geometry_msgs)
+find_package(catkin REQUIRED COMPONENTS costmap_2d geometry_msgs actionlib_msgs std_msgs)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -54,17 +54,18 @@ add_message_files(
 # )
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
+add_action_files(
+  FILES
+  RunNav.action
 #   Action2.action
-# )
+)
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
         DEPENDENCIES
         std_msgs  # Or other packages containing msgs
         geometry_msgs
+        actionlib_msgs
 )
 
 ################################################
@@ -115,9 +116,7 @@ include_directories(${catkin_INCLUDE_DIRS})
 include_directories(include)
 
 # Declare a C++ library
-add_library(rover_navigation
-
-        src/lines_layer/lines_layer.cpp include/rover_navigation/lines_layer/lines_layer.h)
+add_library(rover_navigation src/lines_layer/lines_layer.cpp include/rover_navigation/lines_layer/lines_layer.h)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
