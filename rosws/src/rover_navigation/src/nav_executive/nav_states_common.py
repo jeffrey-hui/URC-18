@@ -1,4 +1,6 @@
 import math
+from threading import Lock
+
 from std_msgs.msg import Header
 
 from geometry_msgs.msg import PointStamped, PoseStamped, Point
@@ -14,7 +16,7 @@ import nav1_states
 
 class TennisBallMonitoringState(State):
     TENNIS_BALL_PROXIMITY = 30 # in meters, wait until this close
-    TENNIS_BALL_MIN_CONFIDENCE = 0.7
+    TENNIS_BALL_MIN_CONFIDENCE = 0.5
 
     def __init__(self, topic_name):
         super(TennisBallMonitoringState, self).__init__(outcomes=["tennis", "fail"], input_keys=["goal_position"], output_keys=["tennis_position"])
@@ -22,6 +24,7 @@ class TennisBallMonitoringState(State):
         self.sub = None
         self.topic_name = topic_name
         self.most_recent_message = None  # type: TennisBallPrediction
+        self.processing_lock = Lock()
 
     def _sub_callback(self, msg):
         """
@@ -29,7 +32,8 @@ class TennisBallMonitoringState(State):
 
         :type msg: TennisBallPrediction
         """
-        self.most_recent_message = msg if msg.confidence > TennisBallMonitoringState.TENNIS_BALL_MIN_CONFIDENCE else None
+        with self.processing_lock:
+            self.most_recent_message = msg if msg.confidence > TennisBallMonitoringState.TENNIS_BALL_MIN_CONFIDENCE else None
 
     def execute(self, ud):
         if self.sub is not None:
@@ -48,26 +52,27 @@ class TennisBallMonitoringState(State):
                 if self.most_recent_message.header.stamp.to_sec() == most_recent_time:
                     rospy.sleep(0.5)
                 else:
-                    most_recent_time = self.most_recent_message.header.stamp.to_sec()
-                    try:
-                        current_robot_odometry = rospy.wait_for_message("/odometry/filtered", Odometry, timeout=1)  # type: Odometry
-                    except rospy.ROSException:
-                        rospy.logwarn("Couldn't get odom info for tennis tracker monitor state")
-                        continue
+                    with self.processing_lock:
+                        most_recent_time = self.most_recent_message.header.stamp.to_sec()
+                        try:
+                            current_robot_odometry = rospy.wait_for_message("/odometry/filtered", Odometry, timeout=1)  # type: Odometry
+                        except rospy.ROSException:
+                            rospy.logwarn("Couldn't get odom info for tennis tracker monitor state")
+                            continue
 
-                    current_robot_odometry = tf_.transformPose(goal_position.header.frame_id, PoseStamped(Header(frame_id=current_robot_odometry.child_frame_id), current_robot_odometry.pose.pose))
-                    dist = math.sqrt(
-                        (current_robot_odometry.pose.position.x - goal_position.point.x)**2 +
-                        (current_robot_odometry.pose.position.y - goal_position.point.y)**2 +
-                        (current_robot_odometry.pose.position.z - goal_position.point.z)**2)
+                        current_robot_odometry = tf_.transformPose(goal_position.header.frame_id, PoseStamped(Header(frame_id=current_robot_odometry.child_frame_id), current_robot_odometry.pose.pose))
+                        dist = math.sqrt(
+                            (current_robot_odometry.pose.position.x - goal_position.pose.position.x)**2 +
+                            (current_robot_odometry.pose.position.y - goal_position.pose.position.y)**2 +
+                            (current_robot_odometry.pose.position.z - goal_position.pose.position.z)**2)
 
-                    if dist < TennisBallMonitoringState.TENNIS_BALL_PROXIMITY:
-                        ud.tennis_position = PointStamped(
-                            self.most_recent_message.header,
-                            self.most_recent_message.tennis_ball_position
-                        )
-                        rospy.loginfo("Found tennis ball!")
-                        break
+                        if dist < TennisBallMonitoringState.TENNIS_BALL_PROXIMITY:
+                            ud.tennis_position = PointStamped(
+                                self.most_recent_message.header,
+                                self.most_recent_message.tennis_ball_position
+                            )
+                            rospy.loginfo("Found tennis ball!")
+                            break
 
         if self.preempt_requested():
             return "fail"
@@ -82,7 +87,7 @@ def make_nav_sm(nav_state, tennis_topic):
     :param nav_state: the state
 
     nav_state takes in ud called goal_position and waypoints
-    it has two outcomes: goal and fail
+    it has two outcomes: goal, fail, preempted
     preempt is called when tennis is found, make sure to implement it
 
     goal_position is a pose (for added laziness in move_base)
@@ -94,12 +99,14 @@ def make_nav_sm(nav_state, tennis_topic):
         return True # whichever finishes first! (although tennis never finishes unless preempt...)
 
     # noinspection PyTypeChecker
-    sm = Concurrence(outcomes=["tennis", "goal", "fail"], default_outcome="fail", input_keys=["goal_position", "waypoints"], output_keys=["tennis_position"],
+    sm = Concurrence(outcomes=["tennis", "goal", "fail", "preempted"], default_outcome="fail", input_keys=["goal_position", "waypoints"], output_keys=["tennis_position"],
                      outcome_map={
                          "tennis": {"TENNIS_MONITOR": "tennis"},
                          "fail": {"NAV": "fail",
                                   "TENNIS_MONITOR": "fail"},
-                         "goal": {"NAV": "goal"}
+                         "goal": {"NAV": "goal"},
+                         "preempted": {"NAV": "preempted",
+                                       "TENNIS_MONITOR": "fail"}
                      },  child_termination_cb=i_dont_care_callback)
 
     with sm:

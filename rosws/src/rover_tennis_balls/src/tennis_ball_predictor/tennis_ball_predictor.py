@@ -27,6 +27,8 @@ pub = rospy.Publisher("tennis_ball_pos", rover_tennis_balls.msg.TennisBallPredic
 
 
 def make_prediction():
+    if len(measurements) < 6:
+        return
     rays = [x for x in measurements if isinstance(x, collider.Ray)]
     points = [x for x in measurements if isinstance(x, collider.Point)]
 

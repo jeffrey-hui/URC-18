@@ -11,5 +11,7 @@
         </include>
     </group>
 
+    <node pkg="rover_navigation" type="nav_executive.py" name="nav_executive" />
+
     <!-- todo: add section for running tennis balls in gps -->
 </launch>

@@ -47,14 +47,14 @@ def calc_min_f(rays, points):
 
     ans = least_squares(f, guess, args=(rays, points))
     if ans.success:
-        c = confidence(rays, points, ans.x)
+        c = confidence(rays, points)
     else:
         c = 0
 
     return ans, c
 
 
-def confidence(rays, points, p):
+def confidence(rays, points):
     """
     Calculates confidence of points and rays
 
@@ -63,35 +63,8 @@ def confidence(rays, points, p):
     :return: confidence 0 - 1
     """
 
-    d = 0
-    div_mes = 0
-    if len(rays) > 1:
-        div_mes = []
-        for i in itertools.combinations(rays, 2):  # for all combinations of rays..
-            dot = i[0].vec.dot(i[1].vec) # take the dot product (rays are normalized so this is cos(theta))
-            diversity = (abs(np.arccos(dot) / np.pi)) * ((i[0].conf+i[1].conf) / 2)
-            # arccos = angle between vectors if vectors have length 1
-            # / pi scales to -1,1
-            # average confidence scales result, result is now "diversity" of angles that can be reached by these rays
-            div_mes.append(diversity)
-        m = max(div_mes) * len(div_mes) # normalize & divide by length
-        div_mes = sum(map(lambda x: x / float(m), div_mes)) # sum is now high if large diversity, but won't explode
-    if len(points) > 1:
-        d = 0
-        for i in points:
-            i = i.pos
-            d += np.sqrt(
-                (p[0] - i[0])**2 + (p[1] - i[1])**2 + (p[2] - i[2]) ** 2  # take total distance of point n to point 0 for all n
-            ) / len(points)
-        d = 1 - max(0, min(1, d))
-    if len(points) == 1:
-        d = 0.5
-    if len(rays) + len(points) == 0:
-        return 0  # should never happen
-    if len(rays) == 0:
-        return d
-    if len(points) == 0:
-        return div_mes
-    else:
-        su = len(rays) + len(points)
-        return min(1, div_mes) * 0.3 * (float(len(rays)) / su) + d * 0.7 * (float(len(points)) / su)
+    conf_scale = min(1, len(rays + points) / 4)
+
+    return conf_scale * (sum(
+        (x.conf for x in rays + points)
+    ) / len(rays + points))

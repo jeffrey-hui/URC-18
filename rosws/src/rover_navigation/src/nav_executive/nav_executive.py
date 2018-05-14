@@ -14,7 +14,7 @@ from nav1_states import Goto1
 from search_state import SearchState
 
 sm = StateMachine(
-    outcomes=["ok", "fail"], input_keys=["goal"]
+    outcomes=["ok", "fail", "preempted"], input_keys=["goal"]
 )
 
 
@@ -34,24 +34,29 @@ with sm:
     })
     StateMachine.add("NAV1", Nav1, transitions={
         "fail": "NAV2",
+        "preempted": "preempted",
         "goal": "SEARCH",
         "tennis": "GOTO1"
     })
     StateMachine.add("NAV2", Nav2, transitions={
         "fail": "fail",
         "tennis": "GOTO1",
-        "goal": "SEARCH"
+        "goal": "SEARCH",
+        "preempted": "preempted"
     })
     StateMachine.add("GOTO1", Goto1, transitions={
         "ok": "ok",
+        "preempted": "preempted",
         "fail": "fail"  # fixme: add goto2
     }, remapping={
-        "tennis_position": "goal_position"
+        "goal_position": "tennis_position"
     })
     StateMachine.add("SEARCH", SearchState(), transitions={
         "go_back": "GOTO1",
         "tennis": "GOTO1",
-        "preempted": "fail"
+        "preempted": "preempted"
+    }, remapping={
+        "tennis_position": "goal_position"
     })
 
 isw = IntrospectionServer("nav_server", sm, "/NAV")

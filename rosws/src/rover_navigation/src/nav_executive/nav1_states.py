@@ -28,7 +28,7 @@ class SendEmptyWaypointsState(State):
         return "ok"
 
 
-Nav1 = Sequence(outcomes=["goal", "fail"], connector_outcome="goal", input_keys=["goal_position", "waypoints"])
+Nav1 = Sequence(outcomes=["goal", "fail", "preempted"], connector_outcome="goal", input_keys=["goal_position", "waypoints"])
 with Nav1:
     Sequence.add("SEND_WAYPOINTS", SendWaypointsState())
     Sequence.add("NAV", SimpleActionState(
@@ -37,7 +37,7 @@ with Nav1:
         goal_slots=["target_pose"]
     ), transitions={
         'succeeded': 'goal',
-        'preempted': 'fail',
+        'preempted': 'preempted',
         'aborted': 'fail'
     }, remapping={
         "target_pose": "goal_position"
@@ -55,7 +55,7 @@ def goal_cb(ud, _):
     return MoveBaseGoal(pose)
 
 
-Goto1 = Sequence(outcomes=["ok", "fail"], connector_outcome="ok", input_keys=["goal_position"])
+Goto1 = Sequence(outcomes=["ok", "fail", "preempted"], connector_outcome="ok", input_keys=["goal_position"])
 with Goto1:
     Sequence.add("CLEAR_WAYPOINTS", SendEmptyWaypointsState())
     Sequence.add("GOTO", SimpleActionState(
@@ -65,6 +65,6 @@ with Goto1:
         input_keys=["goal_position"]
     ), transitions={
         'succeeded': 'ok',
-        'preempted': 'fail',
+        'preempted': 'preempted',
         'aborted': 'fail'
     })

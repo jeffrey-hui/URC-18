@@ -10,4 +10,4 @@ class Nav2(State):
         return "fail"  # notimplementedtrap
 
     def __init__(self):
-        super(Nav2, self).__init__(outcomes=("goal", "fail"), input_keys=["goal_position", "waypoints"])
+        super(Nav2, self).__init__(outcomes=("goal", "fail", "preempted"), input_keys=["goal_position", "waypoints"])
