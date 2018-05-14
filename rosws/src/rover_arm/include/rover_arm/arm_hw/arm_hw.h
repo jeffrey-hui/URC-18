@@ -14,22 +14,22 @@
 
 namespace rover_arm {
     const uint8_t ARDUINO_ARM_BUS = 1;
-    const uint8_t ARDUINO_ARM_ADDRESS = 0x23;
+    const uint8_t ARDUINO_ARM_ADDRESS = 0x21;
 
     //const int ADDRESS = 0x30;
     //const int BUS = 1;
 
-    const int ENCODER_SLIDEPOLE_A = 22; // slider pole (vertical)
-    const int ENCODER_SLIDEPOLE_B = 23;
+    const int ENCODER_SLIDEPOLE_A = 28; // slider pole (vertical)
+    const int ENCODER_SLIDEPOLE_B = 29;
 
-    const int ENCODER_SLIDEUNIT_A = 24; // slider unit to inner arm pole
-    const int ENCODER_SLIDEUNIT_B = 25;
+    const int ENCODER_SLIDEUNIT_A = 26; // slider unit to inner arm pole
+    const int ENCODER_SLIDEUNIT_B = 27;
 
-    const int ENCODER_INNEROUTR_A = 26; // inner arm to outer arm
-    const int ENCODER_INNEROUTR_B = 27;
+    const int ENCODER_INNEROUTR_A = 24; // inner arm to outer arm
+    const int ENCODER_INNEROUTR_B = 25;
 
-    const int ENCODER_GRIPPTILT_A = 28;
-    const int ENCODER_GRIPPTILT_B = 29;
+    const int ENCODER_GRIPPTILT_A = 22;
+    const int ENCODER_GRIPPTILT_B = 23;
 
     const int MOTOR_SLIDEPOLE = 2;
     const int MOTOR_SLIDEUNIT = 4;

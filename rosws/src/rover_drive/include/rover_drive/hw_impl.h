@@ -13,7 +13,7 @@
 namespace rover_drive {
 
     const uint8_t ARDUINO_DRIVE_BUS = 1;
-    const uint8_t ARDUINO_DRIVE_ADDRESS = 0x20;
+    const uint8_t ARDUINO_DRIVE_ADDRESS = 0x22;
 
     class DriveHW {
     public:
