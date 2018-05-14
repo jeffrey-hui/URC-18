@@ -81,8 +81,8 @@ void rover_navigation::LineLayer::updateBounds(double robot_x, double robot_y, d
 
     *min_x = std::min((double)_minX, *min_x);
     *min_y = std::min((double)_minY, *min_y);
-    *max_x = std::min((double)_maxX, *max_x);
-    *max_y = std::min((double)_maxY, *max_y);
+    *max_x = std::max((double)_maxX, *max_x);
+    *max_y = std::max((double)_maxY, *max_y);
 }
 
 void rover_navigation::LineLayer::updateCosts(costmap_2d::Costmap2D &master_grid, int min_i, int min_j, int max_i,
