@@ -37,7 +37,7 @@ void rover_ik::JointPositionControl::update(ros::Duration duration) {
         double v = this->pidLoops[i].computeCommand(a - this->jointHandles[i].getPosition(), duration);
        // ROS_INFO_STREAM(a);
        // ROS_INFO_STREAM("Setting " << i << " to " << v);
-        this->jointHandles[i].setCommand(v);
+        this->jointHandles[i].setCommand(-v);
     }
 }
 

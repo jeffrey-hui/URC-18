@@ -22,8 +22,8 @@
     </node>
 
     <node name="image_rotate_belly" pkg="rover_cameras" type="rotate_image">
-        <remap from="image_in" to="/belly_cam/image_raw" />
-        <remap from="image_out" to="/belly_cam_rotated/image_raw" />
+        <remap from="~image_in" to="/belly_cam/image_raw" />
+        <remap from="~image_out" to="/belly_cam_rotated/image_raw" />
         <param name="angle" value="180" />
     </node>
 </launch>
