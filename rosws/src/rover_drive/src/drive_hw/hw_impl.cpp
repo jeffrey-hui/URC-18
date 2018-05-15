@@ -29,20 +29,19 @@ namespace rover_drive {
         hardware_interface::JointStateHandle jsLM("leg_to_wheel_center_left", &pos[2], &vel[2], &eff[2]);
         hardware_interface::JointStateHandle jsRM("leg_to_wheel_center_right", &pos[5], &vel[5], &eff[5]);
 
-        jnt_state_interface.registerHandle(jsLB);
-        jnt_state_interface.registerHandle(jsLF);
-        jnt_state_interface.registerHandle(jsLM);
-        jnt_state_interface.registerHandle(jsRB);
-        jnt_state_interface.registerHandle(jsRF);
-        jnt_state_interface.registerHandle(jsRM);
+        hw->get<hardware_interface::JointStateInterface>()->registerHandle(jsLB);
+        hw->get<hardware_interface::JointStateInterface>()->registerHandle(jsLF);
+        hw->get<hardware_interface::JointStateInterface>()->registerHandle(jsLM);
+        hw->get<hardware_interface::JointStateInterface>()->registerHandle(jsRB);
+        hw->get<hardware_interface::JointStateInterface>()->registerHandle(jsRF);
+        hw->get<hardware_interface::JointStateInterface>()->registerHandle(jsRM);
         
-        hw->registerInterface(&jnt_state_interface);
-        hardware_interface::JointHandle jLB(jnt_state_interface.getHandle("leg_to_wheel_back_left"), &cmd[0]);
-        hardware_interface::JointHandle jRB(jnt_state_interface.getHandle("leg_to_wheel_back_right"), &cmd[3]);
-        hardware_interface::JointHandle jLF(jnt_state_interface.getHandle("leg_to_wheel_front_left"), &cmd[1]);
-        hardware_interface::JointHandle jRF(jnt_state_interface.getHandle("leg_to_wheel_front_right"), &cmd[4]);
-        hardware_interface::JointHandle jLM(jnt_state_interface.getHandle("leg_to_wheel_center_left"), &cmd[2]);
-        hardware_interface::JointHandle jRM(jnt_state_interface.getHandle("leg_to_wheel_center_right"), &cmd[5]);
+        hardware_interface::JointHandle jLB(hw->get<hardware_interface::JointStateInterface>()->getHandle("leg_to_wheel_back_left"), &cmd[0]);
+        hardware_interface::JointHandle jRB(hw->get<hardware_interface::JointStateInterface>()->getHandle("leg_to_wheel_back_right"), &cmd[3]);
+        hardware_interface::JointHandle jLF(hw->get<hardware_interface::JointStateInterface>()->getHandle("leg_to_wheel_front_left"), &cmd[1]);
+        hardware_interface::JointHandle jRF(hw->get<hardware_interface::JointStateInterface>()->getHandle("leg_to_wheel_front_right"), &cmd[4]);
+        hardware_interface::JointHandle jLM(hw->get<hardware_interface::JointStateInterface>()->getHandle("leg_to_wheel_center_left"), &cmd[2]);
+        hardware_interface::JointHandle jRM(hw->get<hardware_interface::JointStateInterface>()->getHandle("leg_to_wheel_center_right"), &cmd[5]);
 
         jnt_vel_interface.registerHandle(jLB);
         jnt_vel_interface.registerHandle(jLF);
@@ -59,9 +58,7 @@ namespace rover_drive {
         diag_dhd.data["address"] = std::to_string(ARDUINO_DRIVE_ADDRESS);
         controller_diagnostics::DiagnosticHandle dH("drive_arduino", &diag_dhd);
         
-        diag_interface.registerHandle(dH);
-
-        hw->registerInterface(&diag_interface);
+        hw->get<controller_diagnostics::DiagnosticStateInterface>()->registerHandle(dH);
     }
 
     void DriveHW::read() {
@@ -74,7 +71,10 @@ namespace rover_drive {
                 this->lastReconnectAttemptTime = ros::Time::now();
                 if (this->device.tryOpen()) {
                     this->setupDeviceOnConnect();
-                    ROS_WARN_STREAM("The I2C device for drive is not responding, attempting reconnect");
+                    ROS_INFO_STREAM("Connected!");
+                }
+                else {
+                    ROS_WARN_STREAM("Failed to connect to I2C device, retry in 3 seconds");
                 }
             }
         }

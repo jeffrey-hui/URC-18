@@ -24,7 +24,7 @@ namespace rover_ik {
     class IKJointController : public controller_interface::Controller<hardware_interface::EffortJointInterface> {
     public:
         IKJointController() {
-            
+            tolerance = KDL::Twist(KDL::Vector(0, 0, 0), KDL::Vector(3.24159, 3.24159, 3.24159));
         }
         ~IKJointController() {
             sub.shutdown();
@@ -44,7 +44,7 @@ namespace rover_ik {
             tf::poseMsgToKDL(pose, frame);
 
             KDL::JntArray output;
-            int rc = solver->CartToJnt(seed, frame, output);
+            int rc = solver->CartToJnt(seed, frame, output, tolerance);
             if (rc < 0) {
                 // do error
                 ROS_ERROR_STREAM("Invalid location");
@@ -81,6 +81,8 @@ namespace rover_ik {
                 this->seed(i, 0) = d[i];
             }
         };
+
+        KDL::Twist tolerance;
 
 
         KDL::Chain chain;
