@@ -1,0 +1,5 @@
+Symlinking /home/hamza/R3/URC-18/rosws/devel/share/rover_drive/cmake/rover_driveConfig-version.cmake
+Symlinking /home/hamza/R3/URC-18/rosws/devel/share/rover_drive/cmake/rover_driveConfig.cmake
+Symlinking /home/hamza/R3/URC-18/rosws/devel/lib/librover_drive_hw.so
+Symlinking /home/hamza/R3/URC-18/rosws/devel/lib/librover_drive.so
+Symlinking /home/hamza/R3/URC-18/rosws/devel/lib/pkgconfig/rover_drive.pc

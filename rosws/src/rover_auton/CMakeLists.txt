@@ -2,9 +2,15 @@ cmake_minimum_required(VERSION 2.8.3)
 project(rover_auton)
 
 find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  rospy
-  std_msgs
+        control_toolbox
+        geometry_msgs
+        nav_msgs
+        roscpp
+        rospy
+        std_msgs
+        tf2
+        tf2_ros
+        actionlib_msgs
 )
 
 
@@ -42,5 +48,5 @@ include_directories(
 
 
 
-add_executable(rover src/main.cpp src/rover.cpp)
-target_link_libraries(rover ${catkin_LIBRARIES})
+add_executable(rover src/main.cpp src/rover.cpp src/rover.h)
+target_link_libraries(rover ${catkin_LIBRARIES} tinyxml)

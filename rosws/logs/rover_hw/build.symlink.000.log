@@ -1,0 +1,4 @@
+Symlinking /home/hamza/R3/URC-18/rosws/devel/share/rover_hw/cmake/rover_hwConfig.cmake
+Symlinking /home/hamza/R3/URC-18/rosws/devel/share/rover_hw/cmake/rover_hwConfig-version.cmake
+Symlinking /home/hamza/R3/URC-18/rosws/devel/lib/rover_hw/rover_hw_node
+Symlinking /home/hamza/R3/URC-18/rosws/devel/lib/pkgconfig/rover_hw.pc

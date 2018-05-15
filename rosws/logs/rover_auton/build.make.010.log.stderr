@@ -1,0 +1,7 @@
+In file included from [01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/main.cpp:7:0[m[K:
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:20:24:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetAng = 5;//just initialize for now
+[01;32m[K                        ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:21:24:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetLin = 0;
+[01;32m[K                        ^[m[K

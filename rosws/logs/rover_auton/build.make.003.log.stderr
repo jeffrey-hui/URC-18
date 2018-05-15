@@ -1,0 +1,26 @@
+In file included from [01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/main.cpp:7:0[m[K:
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:17:24:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetAng = 5;//just initialize for now
+[01;32m[K                        ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:18:24:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetLin = 0;
+[01;32m[K                        ^[m[K
+In file included from [01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.cpp:5:0[m[K:
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:17:24:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetAng = 5;//just initialize for now
+[01;32m[K                        ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:18:24:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetLin = 0;
+[01;32m[K                        ^[m[K
+CMakeFiles/rover.dir/src/rover.cpp.o: In function `rover::rover()':
+rover.cpp:(.text+0x53): undefined reference to `control_toolbox::Pid::Pid(double, double, double, double, double, bool)'
+rover.cpp:(.text+0x82): undefined reference to `control_toolbox::Pid::Pid(double, double, double, double, double, bool)'
+rover.cpp:(.text+0x97): undefined reference to `control_toolbox::Pid::~Pid()'
+CMakeFiles/rover.dir/src/rover.cpp.o: In function `rover::~rover()':
+rover.cpp:(.text+0xc9): undefined reference to `control_toolbox::Pid::~Pid()'
+rover.cpp:(.text+0xd9): undefined reference to `control_toolbox::Pid::~Pid()'
+rover.cpp:(.text+0xee): undefined reference to `control_toolbox::Pid::~Pid()'
+collect2: error: ld returned 1 exit status
+make[2]: *** [/home/hamza/R3/URC-18/rosws/devel/.private/rover_auton/lib/rover_auton/rover] Error 1
+make[1]: *** [CMakeFiles/rover.dir/all] Error 2
+make: *** [all] Error 2

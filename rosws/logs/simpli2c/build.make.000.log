@@ -1,0 +1,6 @@
+[35m[1mScanning dependencies of target _catkin_empty_exported_target[0m
+[  0%] Built target _catkin_empty_exported_target
+[35m[1mScanning dependencies of target simpli2c[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/simpli2c.dir/src/simpli2c.cpp.o[0m
+[100%] [32m[1mLinking CXX shared library /home/hamza/R3/URC-18/rosws/devel/.private/simpli2c/lib/libsimpli2c.so[0m
+[100%] Built target simpli2c

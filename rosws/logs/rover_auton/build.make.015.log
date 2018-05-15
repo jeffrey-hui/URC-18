@@ -1,0 +1,20 @@
+[ 33%] [32m[1mLinking CXX executable /home/hamza/R3/URC-18/rosws/devel/.private/rover_auton/lib/rover_auton/rover[0m
+CMakeFiles/rover.dir/src/main.cpp.o: In function `main':
+main.cpp:(.text+0x429): undefined reference to `control_toolbox::Pid::initPid(double, double, double, double, double, bool)'
+main.cpp:(.text+0x475): undefined reference to `control_toolbox::Pid::initPid(double, double, double, double, double, bool)'
+CMakeFiles/rover.dir/src/rover.cpp.o: In function `rover::calculateDrivePower()':
+rover.cpp:(.text+0xd0): undefined reference to `control_toolbox::Pid::computeCommand(double, ros::Duration)'
+CMakeFiles/rover.dir/src/rover.cpp.o: In function `rover::calculateTurnPower()':
+rover.cpp:(.text+0x19d): undefined reference to `control_toolbox::Pid::computeCommand(double, ros::Duration)'
+CMakeFiles/rover.dir/src/rover.cpp.o: In function `__static_initialization_and_destruction_0(int, int)':
+rover.cpp:(.text+0x330): undefined reference to `control_toolbox::Pid::Pid(double, double, double, double, double, bool)'
+rover.cpp:(.text+0x33f): undefined reference to `control_toolbox::Pid::~Pid()'
+rover.cpp:(.text+0x36b): undefined reference to `control_toolbox::Pid::Pid(double, double, double, double, double, bool)'
+rover.cpp:(.text+0x37a): undefined reference to `control_toolbox::Pid::~Pid()'
+collect2: error: ld returned 1 exit status
+make[2]: *** [/home/hamza/R3/URC-18/rosws/devel/.private/rover_auton/lib/rover_auton/rover] Error 1
+make[1]: *** [CMakeFiles/rover.dir/all] Error 2
+make: *** [all] Error 2
+CMakeFiles/rover.dir/build.make:139: recipe for target '/home/hamza/R3/URC-18/rosws/devel/.private/rover_auton/lib/rover_auton/rover' failed
+CMakeFiles/Makefile2:707: recipe for target 'CMakeFiles/rover.dir/all' failed
+Makefile:138: recipe for target 'all' failed

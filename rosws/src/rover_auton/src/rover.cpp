@@ -4,6 +4,9 @@
 
 #include "rover.h"
 std::string receiveGPS;
+ros::Time last_time, current_time;
+control_toolbox::Pid LinPID;
+control_toolbox::Pid AngPID;
 rover::rover(){
 }
 rover::~rover(){}
@@ -17,9 +20,9 @@ double rover::getLinCoordinates(){
 }
 double rover::calculateDrivePower(){
     double errorLin  = targetLin - rover::getLinCoordinates();
-    return Kp*errorLin;
+    return LinPID.computeCommand(errorLin,current_time-last_time);
 }
 double rover::calculateTurnPower(){
     double errorAng  = targetAng - rover::getAngCoordinates();
-    return Kp*errorAng;
+    return AngPID.computeCommand(errorAng,current_time-last_time);
 }

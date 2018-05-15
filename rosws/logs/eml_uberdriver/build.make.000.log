@@ -1,0 +1,7 @@
+[35m[1mScanning dependencies of target _catkin_empty_exported_target[0m
+[  0%] Built target _catkin_empty_exported_target
+[35m[1mScanning dependencies of target eml_uberdriver[0m
+[ 33%] [32mBuilding CXX object CMakeFiles/eml_uberdriver.dir/src/ard_device.cpp.o[0m
+[ 66%] [32mBuilding CXX object CMakeFiles/eml_uberdriver.dir/src/encoder.cpp.o[0m
+[100%] [32m[1mLinking CXX shared library /home/hamza/R3/URC-18/rosws/devel/.private/eml_uberdriver/lib/libeml_uberdriver.so[0m
+[100%] Built target eml_uberdriver

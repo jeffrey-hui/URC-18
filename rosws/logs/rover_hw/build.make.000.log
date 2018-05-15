@@ -1,0 +1,61 @@
+[35m[1mScanning dependencies of target diagnostic_msgs_generate_messages_eus[0m
+[  0%] Built target diagnostic_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target controller_manager_msgs_generate_messages_py[0m
+[  0%] Built target controller_manager_msgs_generate_messages_py
+[35m[1mScanning dependencies of target controller_manager_msgs_generate_messages_lisp[0m
+[  0%] Built target controller_manager_msgs_generate_messages_lisp
+[35m[1mScanning dependencies of target controller_manager_msgs_generate_messages_eus[0m
+[  0%] Built target controller_manager_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target controller_manager_msgs_generate_messages_cpp[0m
+[  0%] Built target controller_manager_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target diagnostic_msgs_generate_messages_py[0m
+[  0%] Built target diagnostic_msgs_generate_messages_py
+[35m[1mScanning dependencies of target diagnostic_msgs_generate_messages_nodejs[0m
+[  0%] Built target diagnostic_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target diagnostic_msgs_generate_messages_lisp[0m
+[  0%] Built target diagnostic_msgs_generate_messages_lisp
+[35m[1mScanning dependencies of target roscpp_generate_messages_py[0m
+[  0%] Built target roscpp_generate_messages_py
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_eus[0m
+[  0%] Built target rosgraph_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target std_msgs_generate_messages_nodejs[0m
+[  0%] Built target std_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target roscpp_generate_messages_cpp[0m
+[  0%] Built target roscpp_generate_messages_cpp
+[35m[1mScanning dependencies of target roscpp_generate_messages_eus[0m
+[  0%] Built target roscpp_generate_messages_eus
+[35m[1mScanning dependencies of target std_msgs_generate_messages_lisp[0m
+[  0%] Built target std_msgs_generate_messages_lisp
+[35m[1mScanning dependencies of target std_msgs_generate_messages_cpp[0m
+[  0%] Built target std_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_cpp[0m
+[  0%] Built target rosgraph_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_nodejs[0m
+[  0%] Built target rosgraph_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target controller_manager_msgs_generate_messages_nodejs[0m
+[  0%] Built target controller_manager_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target roscpp_generate_messages_nodejs[0m
+[  0%] Built target roscpp_generate_messages_nodejs
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_lisp[0m
+[  0%] Built target rosgraph_msgs_generate_messages_lisp
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_py[0m
+[  0%] Built target rosgraph_msgs_generate_messages_py
+[35m[1mScanning dependencies of target std_msgs_generate_messages_py[0m
+[  0%] Built target std_msgs_generate_messages_py
+[35m[1mScanning dependencies of target roscpp_generate_messages_lisp[0m
+[  0%] Built target roscpp_generate_messages_lisp
+[35m[1mScanning dependencies of target std_msgs_generate_messages_eus[0m
+[  0%] Built target std_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target diagnostic_msgs_generate_messages_cpp[0m
+[  0%] Built target diagnostic_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target rover_hw_node[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/rover_hw_node.dir/src/rover_hw.cpp.o[0m
+In file included from [01m[K/home/hamza/R3/URC-18/rosws/src/rover_hw/src/rover_hw.cpp:7:0[m[K:
+[01m[K/opt/ros/kinetic/include/controller_manager/controller_manager.h:46:38:[m[K [01;31m[Kfatal error: [m[Kpluginlib/class_loader.hpp: No such file or directory
+compilation terminated.
+CMakeFiles/rover_hw_node.dir/build.make:62: recipe for target 'CMakeFiles/rover_hw_node.dir/src/rover_hw.cpp.o' failed
+CMakeFiles/Makefile2:379: recipe for target 'CMakeFiles/rover_hw_node.dir/all' failed
+Makefile:138: recipe for target 'all' failed
+make[2]: *** [CMakeFiles/rover_hw_node.dir/src/rover_hw.cpp.o] Error 1
+make[1]: *** [CMakeFiles/rover_hw_node.dir/all] Error 2
+make: *** [all] Error 2

@@ -7,10 +7,13 @@
 #include<ros/ros.h>
 #include "std_msgs/String.h"
 #include "geometry_msgs/Twist.h"
+#include "control_toolbox/pid.h"
 #include<string>
-#include <iostream>
-#define Kp 1
+using namespace control_toolbox;
 extern std::string receiveGPS;
+extern control_toolbox::Pid LinPID;
+extern control_toolbox::Pid AngPID;
+extern ros::Time last_time, current_time;
 class rover {
 private:
     double targetAng = 5;//just initialize for now
