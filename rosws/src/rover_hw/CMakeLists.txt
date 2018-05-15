@@ -8,7 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   hardware_interface
   pluginlib
   roscpp
-  simpli2c rover_drive controller_manager
+  simpli2c rover_drive controller_manager rover_arm
 )
 
 ## System dependencies are found with CMake's conventions
