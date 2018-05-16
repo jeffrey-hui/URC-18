@@ -5,6 +5,7 @@
         <remap from="right/image_rect" to="/stereo/right/image_rect_color" />
         <remap from="left/camera_info" to="/stereo/left/camera_info" />
         <remap from="right/camera_info" to="/stereo/right/camera_info" />
+        <param name="approx_sync" value="true" />
 
         <!-- laser test, enable if we get laser scanner and use it
         <param name="subscribe_scan" value="true" />
