@@ -50,6 +50,8 @@ namespace rover_arm {
         void write();
 
     private:
+        bool armOn = false;
+
         union {
             double cmd[4] = {0, 0, 0, 0};
             double eff[4];

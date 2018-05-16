@@ -73,6 +73,7 @@ void rover_arm::ArmHW::init(hardware_interface::RobotHW *hw) {
     parser.parse(robot_description, infos);
     for (auto e : infos) {
         if (boost::starts_with(e.name_, "arm")) {
+            armOn = true;
             if (!this->transmission_loader_->load(e)) {
                 ROS_FATAL_STREAM("ASDF");
             }
@@ -82,50 +83,52 @@ void rover_arm::ArmHW::init(hardware_interface::RobotHW *hw) {
 }
 
 void rover_arm::ArmHW::write() {
-    this->robot_transmissions.get<transmission_interface::JointToActuatorEffortInterface>()->propagate();
-    //ROS_INFO_STREAM("a " << cmd[1]);
-    if (!this->device.isDisconnected()) {
-	//ROS_INFO_STREAM("ASDFADSFADSFADSFADS");
-        this->device.writeMicroseconds(MOTOR_INNEROUTR, convertEffToMotorV(cmd[0]));
-        this->device.writeMicroseconds(MOTOR_SLIDEUNIT, convertEffToMotorV(cmd[1]));
-        this->device.writeMicroseconds(MOTOR_SLIDEPOLE, convertEffToMotorV(cmd[2]));
-        this->device.writeMicroseconds(MOTOR_GRIPPTILT, convertEffToMotorV(cmd[3]));
+    if (armOn) {
+        this->robot_transmissions.get<transmission_interface::JointToActuatorEffortInterface>()->propagate();
+        //ROS_INFO_STREAM("a " << cmd[1]);
+        if (!this->device.isDisconnected()) {
+            //ROS_INFO_STREAM("ASDFADSFADSFADSFADS");
+            this->device.writeMicroseconds(MOTOR_INNEROUTR, convertEffToMotorV(cmd[0]));
+            this->device.writeMicroseconds(MOTOR_SLIDEUNIT, convertEffToMotorV(cmd[1]));
+            this->device.writeMicroseconds(MOTOR_SLIDEPOLE, convertEffToMotorV(cmd[2]));
+            this->device.writeMicroseconds(MOTOR_GRIPPTILT, convertEffToMotorV(cmd[3]));
+        }
     }
 }
 
 void rover_arm::ArmHW::read() {
-    this->robot_transmissions.get<transmission_interface::ActuatorToJointStateInterface>()->propagate();
-    if (this->device.isDisconnected()) {
-        diag_dhd.data["connected"] = "no";
-        diag_dhd.status = diagnostic_msgs::DiagnosticStatus::ERROR;
-        diag_dhd.message = "The arduino is not connected or is not listening to i2c";
+    if (armOn) {
+        this->robot_transmissions.get<transmission_interface::ActuatorToJointStateInterface>()->propagate();
+        if (this->device.isDisconnected()) {
+            diag_dhd.data["connected"] = "no";
+            diag_dhd.status = diagnostic_msgs::DiagnosticStatus::ERROR;
+            diag_dhd.message = "The arduino is not connected or is not listening to i2c";
 
-        if ((ros::Time::now() - this->lastReconnectAttemptTime).toSec() > 3.0) {
-            this->lastReconnectAttemptTime = ros::Time::now();
-            if (this->device.tryOpen()) {
-                this->setupDeviceOnConnect();
-                ROS_INFO_STREAM("Connected!");
+            if ((ros::Time::now() - this->lastReconnectAttemptTime).toSec() > 3.0) {
+                this->lastReconnectAttemptTime = ros::Time::now();
+                if (this->device.tryOpen()) {
+                    this->setupDeviceOnConnect();
+                    ROS_INFO_STREAM("Connected!");
+                } else {
+                    ROS_WARN_STREAM("Failed to connect to I2C device, retry in 3 seconds");
+                }
             }
-            else {
-                ROS_WARN_STREAM("Failed to connect to I2C device, retry in 3 seconds");
-            }
+        } else {
+            diag_dhd.data["connected"] = "yes";
+            diag_dhd.status = diagnostic_msgs::DiagnosticStatus::OK;
+            diag_dhd.message = "The arduino is connected and responding to i2c";
+
+            int ticks_inneroutr = this->jointEncoders[0].encoderValue();
+            int ticks_slideunit = this->jointEncoders[1].encoderValue();
+            int ticks_slidepole = this->jointEncoders[2].encoderValue();
+            int ticks_gripptilt = this->jointEncoders[3].encoderValue();
+
+            pos[1] = convertToPositionOffsetRotate(ticks_inneroutr); // todo: get gear crappo for this
+            pos[0] = convertToPositionOffsetRotate(ticks_slideunit);
+            pos[2] = 0; // todo
+            pos[3] = convertToPositionOffsetRotate(ticks_gripptilt);
+            //ROS_INFO_STREAM("abc " << ticks_inneroutr << " " << ticks_slideunit << " " << ticks_gripptilt);
         }
-    }
-    else {
-        diag_dhd.data["connected"] = "yes";
-        diag_dhd.status = diagnostic_msgs::DiagnosticStatus::OK;
-        diag_dhd.message = "The arduino is connected and responding to i2c";
-	
-        int ticks_inneroutr = this->jointEncoders[0].encoderValue();
-        int ticks_slideunit = this->jointEncoders[1].encoderValue();
-        int ticks_slidepole = this->jointEncoders[2].encoderValue();
-        int ticks_gripptilt = this->jointEncoders[3].encoderValue();
-
-        pos[1] = convertToPositionOffsetRotate(ticks_inneroutr); // todo: get gear crappo for this
-        pos[0] = convertToPositionOffsetRotate(ticks_slideunit);
-        pos[2] = 0; // todo
-        pos[3] = convertToPositionOffsetRotate(ticks_gripptilt);
-	//ROS_INFO_STREAM("abc " << ticks_inneroutr << " " << ticks_slideunit << " " << ticks_gripptilt);
     }
 }
 

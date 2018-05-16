@@ -12,7 +12,7 @@ rospy.init_node("simple_drive_joy_node")
 drive_control_left = rospy.Publisher("/left_wheels_controller/cmd", std_msgs.msg.Float64, queue_size=20)
 drive_control_right = rospy.Publisher("/right_wheels_controller/cmd", std_msgs.msg.Float64, queue_size=20)
 
-speed_value = 1.175
+speed_value = 3
 
 
 def ctrl_curve(val):
@@ -35,10 +35,10 @@ def on_joy_data(msg):
         push_button_last = False
     else:
         if not push_button_last:
-            speed_value += tri_state
-            speed_value = max(1.175, min(4.75, speed_value))
+            speed_value += tri_state * 5
+            speed_value = max(1, min(40, speed_value))
     drive_control_right.publish(left)
-    drive_control_left.publish(-right)
+    drive_control_left.publish(right)
 
 joy_listener = rospy.Subscriber("joy", sensor_msgs.msg.Joy, queue_size=20, callback=on_joy_data)
 rospy.spin()
