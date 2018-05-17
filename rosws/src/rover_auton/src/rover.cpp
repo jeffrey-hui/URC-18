@@ -34,8 +34,8 @@ double rover::calculateDrivePower(){
     calculateTargetLin();
     double errorLin  = targetLin - rover::getLinCoordinates();
     double returnedValue  = LinPID.computeCommand(errorLin,current_time-last_time);
-//    if(returnedValue>speedLimit)
-//        returnedValue = speedLimit;
+    if(returnedValue>speedLimit)
+        returnedValue = speedLimit;
     return returnedValue;
 }
 double rover::calculateTurnPower(){
