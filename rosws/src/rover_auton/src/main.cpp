@@ -5,10 +5,15 @@
 
 
 #include"rover.h"
-void GPScallBack(const std_msgs::String::ConstPtr& msg)
+void GPScallBack(const sensor_msgs::NavSatFix::ConstPtr& msg)
 {
-    ROS_INFO("I heard: [%s]", msg->data.c_str());
-    receiveGPS = msg->data.c_str();
+    GPSData.latitude = msg->latitude;
+    GPSData.longitude = msg->longitude;
+    GPSData.altitude = msg->altitude;
+}
+void magCallBack(const sensor_msgs::MagneticField::ConstPtr& msg)
+{
+    magData.magnetic_field = msg->magnetic_field;
 }
 
 int main(int argc, char** argv){
@@ -17,10 +22,13 @@ int main(int argc, char** argv){
 
     ros::NodeHandle nh;
     ros::Publisher rover_pub = nh.advertise<geometry_msgs::Twist>("/wheel_diff_drive_controller/cmd_vel", 100);
-    ros::Subscriber sub_test = nh.subscribe("chatter", 1000, GPScallBack);
+    ros::Subscriber gps_sub = nh.subscribe("gps", 1000, GPScallBack);
+    ros::Subscriber mag_sub = nh.subscribe("mag", 1000, magCallBack);
     ros::Rate loop_rate(10);
     geometry_msgs::Twist pwr_val;
-    LinPID.initPid(6,1,2,0.3,-0,3);//change pid constants later
+
+
+    LinPID.initPid(27,1,2,0.3,-0,3);//change pid constants later
     AngPID.initPid(6,1,2,0.3,-0,3);
 
     while (ros::ok())
