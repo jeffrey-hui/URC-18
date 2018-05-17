@@ -1,4 +1,0 @@
-rover_control
-/home/hamza/R3/URC-18/rosws/devel/.private/rover_control/share/rover_control/cmake/rover_controlConfig.cmake /home/hamza/R3/URC-18/rosws/devel/share/rover_control/cmake/rover_controlConfig.cmake
-/home/hamza/R3/URC-18/rosws/devel/.private/rover_control/share/rover_control/cmake/rover_controlConfig-version.cmake /home/hamza/R3/URC-18/rosws/devel/share/rover_control/cmake/rover_controlConfig-version.cmake
-/home/hamza/R3/URC-18/rosws/devel/.private/rover_control/lib/pkgconfig/rover_control.pc /home/hamza/R3/URC-18/rosws/devel/lib/pkgconfig/rover_control.pc

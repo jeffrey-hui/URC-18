@@ -1,4 +1,0 @@
-rover_stereo
-/home/hamza/R3/URC-18/rosws/devel/.private/rover_stereo/share/rover_stereo/cmake/rover_stereoConfig.cmake /home/hamza/R3/URC-18/rosws/devel/share/rover_stereo/cmake/rover_stereoConfig.cmake
-/home/hamza/R3/URC-18/rosws/devel/.private/rover_stereo/share/rover_stereo/cmake/rover_stereoConfig-version.cmake /home/hamza/R3/URC-18/rosws/devel/share/rover_stereo/cmake/rover_stereoConfig-version.cmake
-/home/hamza/R3/URC-18/rosws/devel/.private/rover_stereo/lib/pkgconfig/rover_stereo.pc /home/hamza/R3/URC-18/rosws/devel/lib/pkgconfig/rover_stereo.pc
