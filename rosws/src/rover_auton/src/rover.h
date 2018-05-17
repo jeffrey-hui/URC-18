@@ -17,15 +17,17 @@ using namespace control_toolbox;
 
 extern control_toolbox::Pid LinPID;
 extern control_toolbox::Pid AngPID;
+extern control_toolbox::Pid MagPID;
 extern ros::Time last_time, current_time;
 extern sensor_msgs::NavSatFix GPSData;
 extern sensor_msgs::MagneticField magData;
 class rover {
 private:
-    double targetLat = 0;
-    double targetLong = 0;
+    double targetLat = 500;
+    double targetLong = 200;
     double targetAng = 5;//just initialize for now
-    double targetLin = 0;
+    double targetLin = 500;
+    double speedLimit = 100;
 public:
     rover();//constructor
     ~rover();
@@ -33,6 +35,7 @@ public:
     double getLinCoordinates();
     double calculateDrivePower();
     double calculateTurnPower();
+    double getMagAngle();
     void calculateTargetAng();
     void calculateTargetLin();
 };
