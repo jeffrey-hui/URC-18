@@ -26,12 +26,24 @@ int main(int argc, char** argv){
     ros::Subscriber mag_sub = nh.subscribe("/imu/mag", 1000, magCallBack);
     ros::Rate loop_rate(10);
     geometry_msgs::Twist pwr_val;
+    tf::TransformListener listener;
+
 
     LinPID.initPid(27,1,2,0.3,-0,3);//change pid constants later
     AngPID.initPid(6,1,2,0.3,-0,3);
 
     while (ros::ok())
     {
+//        tf::StampedTransform transform;
+//        try{
+//            listener.lookupTransform("/turtle2", "/turtle1",
+//                                     ros::Time(0), transform);
+//        }
+//        catch (tf::TransformException ex){
+//            ROS_ERROR("%s",ex.what());
+//            ros::Duration(1.0).sleep();
+//        }
+
         current_time = ros::Time::now();
         pwr_val.linear.x = r.calculateDrivePower();
         pwr_val.angular.z = r.calculateTurnPower();

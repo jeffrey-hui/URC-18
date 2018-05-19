@@ -28,15 +28,16 @@ void rover::calculateTargetAng(){
     targetAng = atan2(targetLong,targetLat);
 }
 void rover::calculateTargetLin(){
-    targetAng = sqrt(targetLat*targetLat+targetLong*targetLong);
+    targetLin = sqrt(targetLat*targetLat+targetLong*targetLong);
 }
 double rover::calculateDrivePower(){
     calculateTargetLin();
-    double errorLin  = targetLin - rover::getLinCoordinates();
+    //double errorLin  = targetLin - rover::getLinCoordinates();
+    double errorLin  = sqrt(pow(targetLat - GPSData.latitude,2)+pow(targetLong - GPSData.longitude,2));
     double returnedValue  = LinPID.computeCommand(errorLin,current_time-last_time);
-    if(returnedValue>speedLimit)
+    if(abs(returnedValue)>speedLimit)
         returnedValue = speedLimit;
-    return returnedValue;
+    return abs(returnedValue);
 }
 double rover::calculateTurnPower(){
     calculateTargetAng();
