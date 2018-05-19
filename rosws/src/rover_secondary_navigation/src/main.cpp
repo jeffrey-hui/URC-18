@@ -7,41 +7,32 @@
 #include <nav_msgs/Odometry.h>//TODO: FIX THIS
 #include <control_toolbox/pid.h>
 #include <algorithm>
-#include <actionlib/server/simple_action_server.h>
-#include <rover_secondary_navigation/FollowPathAction.h>
+#include <sensor_msgs/MagneticField.h>
+#include <sensor_msgs/NavSatFix.h>
 
-/*TODO:
- * Use tf2 to take path msg and extract x and y for 'xCoo' and 'yCoo'
- * implement actionlib
- *
- */
+
+
 class roverPID{
 private:
     ros::NodeHandle nh_;
-
-    actionlib::SimpleActionServer<rover_secondary_navigation::FollowPathAction> as_;
-    //create messages for the action server
-    rover_secondary_navigation::FollowPathActionFeedback feedback_;
-    rover_secondary_navigation::FollowPathActionResult result_;
-    rover_secondary_navigation::FollowPathActionGoal goal_;
-
     ros::Publisher cmd_vel_pub_;
-    ros::Subscriber odom_info;
-
     ros::Time currentTime;
     control_toolbox::Pid ang_pid;
     control_toolbox::Pid lin_pid;
+    sensor_msgs::NavSatFix GPS;
+    sensor_msgs::MagneticField Heading;
+
 public:
     roverPID()
     {
-//        as_(nh_,name,boost::bind(&roverPID::PIDcontrol,this,_1), false), FollowPath_(name){
-//            as_.start();
-//        }
         cmd_vel_pub_ = nh_.advertise<geometry_msgs::Twist>("/wheel_diff_drive_controller/cmd_vel",1);
-        odom_info = nh_.subscribe("odom",10, &roverPID::PIDcontrol, this);
+        ros::Subscriber odom_info = nh_.subscribe("odom",10, &roverPID::PIDcontrol, this);
 
         ang_pid.init(ros::NodeHandle("~/angle"));
         lin_pid.init(ros::NodeHandle("~/linear"));
+
+        ros::param::set("/roverPID/angle", 10);
+        ros::param::set("/roverPID/linear", 10);
         currentTime = ros::Time::now();
     }
     void PIDcontrol(const nav_msgs::OdometryConstPtr& msg)
@@ -49,15 +40,10 @@ public:
         geometry_msgs::Twist base_cmd;
 
         //Target Error
-        double xCoo = 0;
-        double yCoo = 0;
-        double ang_Setpoint = atan2(yCoo, xCoo); //theta
-        double lin_Setpoint = sqrt(pow(xCoo,2)+ pow(yCoo,2));
-        //Angular and distance setpoints using geometry
-
-        //initial XY from ROS localization... somehow
+        double lin_Setpoint = sqrt((GPS.longitude)*(GPS.longitude)+(GPS.latitude)*(GPS.latitude));
+        double ang_Setpoint = atan2(Heading.magnetic_field.y, Heading.magnetic_field.x); //theta
         double linval = pow((msg->pose.pose.position.x),2) + pow((msg->pose.pose.position.y),2); //has to be the distance to target aka error
-        double angval = 0; //TODO: Convert from pose orientation...?
+        double angval = 0;
 
         //time interval with time
         ros::Duration a = ros::Time::now() - currentTime;
