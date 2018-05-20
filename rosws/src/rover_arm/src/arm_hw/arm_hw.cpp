@@ -11,6 +11,8 @@ namespace rover_arm {
         double effort_normalized = value / MOTOR_EXERTED_EFFORT;
         double offset = MOTOR_OFFSET * effort_normalized;
 
+        ROS_INFO_STREAM("324 " << value << " " << effort_normalized << " " << offset);
+
         return (uint16_t)(MOTOR_MID + offset);
     }
 
@@ -21,6 +23,8 @@ namespace rover_arm {
     uint16_t convertEffToMotorV328(double value) {
         double effort_normalized = value / MOTOR328_EXERTED_EFFORT;
         double offset = MOTOR_OFFSET * effort_normalized;
+
+        ROS_INFO_STREAM("328 " << value << " " << effort_normalized << " " << offset);
 
         return (uint16_t)(MOTOR_MID + offset);
     }

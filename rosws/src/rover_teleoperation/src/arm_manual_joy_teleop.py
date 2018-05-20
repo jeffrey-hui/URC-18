@@ -17,27 +17,27 @@ def joyCB(dat):
     :return:
     '''
 
-    z = dat.axes[1] * 100
-    rawvel_outer = -dat.axes[2] * 20
+    z = dat.axes[1] * 1000
+    rawvel_outer = -dat.axes[2] * 200
 
     rawvel_inner = 0
     if dat.buttons[2]:
-        rawvel_inner -= 30
+        rawvel_inner -= 500
     if dat.buttons[3]:
-        rawvel_inner += 30
+        rawvel_inner += 500
 
     rawvel_tilt = -dat.axes[5] * 300
     spin = 0
     if dat.buttons[4]:
-        spin -= 30
+        spin -= 500
     if dat.buttons[5]:
-        spin += 30
+        spin += 500
 
     gripper_speed = 0
     if dat.buttons[0]:
-        gripper_speed -= 30
+        gripper_speed -= 300
     if dat.buttons[1]:
-        gripper_speed += 30
+        gripper_speed += 300
 
     pub.publish(data=[z, rawvel_outer, rawvel_inner, rawvel_tilt, spin, gripper_speed])
 
