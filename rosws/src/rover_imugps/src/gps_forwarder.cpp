@@ -29,7 +29,7 @@ int main(int argc, char ** argv) {
             std::string result;
             char buf[msgLength];
             dev.readMany(msgLength, reinterpret_cast<uint8_t *>(buf));
-            result.assign(buf, msgLength);
+            result.assign(buf, msgLength-1u /* kill off null byte */);
 
             nmea_msgs::Sentence sentence;
             sentence.sentence = result;
