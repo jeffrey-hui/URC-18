@@ -5,7 +5,7 @@
 
     <group if="$(arg use_fake)">
         <arg name="controllers"
-             default="joint_state_controller wheel_diff_drive_controller arm_ik_controller"/>
+             default="joint_state_controller wheel_diff_drive_controller"/>
         <arg name="controllers_off" default="left_wheels_controller right_wheels_controller" />
         <rosparam file="$(find rover_control)/config/rover_controllers_fake.yaml" command="load"/>
         <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"

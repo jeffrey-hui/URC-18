@@ -17,16 +17,29 @@ def joyCB(dat):
     :return:
     '''
 
+    z = dat.axes[1] * 100
     rawvel_outer = -dat.axes[2] * 20
 
     rawvel_inner = 0
-    if dat.buttons[4]:
+    if dat.buttons[2]:
         rawvel_inner -= 30
-    if dat.buttons[5]:
+    if dat.buttons[3]:
         rawvel_inner += 30
 
     rawvel_tilt = -dat.axes[5] * 300
-    pub.publish(data=[0, rawvel_outer, rawvel_inner, rawvel_tilt])
+    spin =0
+    if dat.buttons[4]:
+        spin -= 30
+    else:
+        spin += 30
+
+    gripper_speed = 0
+    if dat.buttons[0]:
+        gripper_speed -= 30
+    if dat.buttons[1]:
+        gripper_speed += 30
+
+    pub.publish(data=[z, rawvel_outer, rawvel_inner, rawvel_tilt, spin, gripper_speed])
 
 
 sub = rospy.Subscriber("joy", Joy, joyCB, queue_size=10)
