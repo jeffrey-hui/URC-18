@@ -5,6 +5,8 @@
     <node pkg="nmea_navsat_driver" type="nmea_topic_driver" name="gps_parser" ns="gps">
         <remap from="nmea_sentence" to="/gps/sentence" />
     </node>
-
-
+    <node pkg="robot_localization" type="navsat_transform_node" name="gps_tf">
+        <param name="zero_altitude" value="true" />
+        <param name="broadcast_utm_transform" value="true" />
+    </node>
 </launch>
