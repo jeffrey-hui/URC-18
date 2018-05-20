@@ -1,0 +1,4 @@
+ang:
+  gains: {p: 1.0, i: 0.1, d: 0.2, i_clamp: 5, antiwindup: true}
+lin:
+  gains: {p: 3, i: 0.1, d: 0.2, i_clamp: 5, antiwindup: true}

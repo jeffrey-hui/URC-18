@@ -4,7 +4,7 @@ project(rover_navigation)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS costmap_2d geometry_msgs actionlib_msgs std_msgs)
+find_package(catkin REQUIRED COMPONENTS costmap_2d geometry_msgs actionlib_msgs std_msgs control_toolbox)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -57,7 +57,7 @@ add_message_files(
 add_action_files(
   FILES
   RunNav.action
-#   Action2.action
+        GotoPoint.action
 )
 
 ## Generate added messages and services with any dependencies listed here
@@ -98,9 +98,9 @@ generate_messages(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-        INCLUDE_DIRS include
-        LIBRARIES rover_navigation
-        #  CATKIN_DEPENDS other_catkin_pkg
+        # INCLUDE_DIRS include
+        # LIBRARIES rover_navigation
+        CATKIN_DEPENDS control_toolbox
         #  DEPENDS system_lib
 )
 
@@ -113,28 +113,27 @@ set(CMAKE_CXX_STANDARD 14)
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(${catkin_INCLUDE_DIRS})
-include_directories(include)
 
 # Declare a C++ library
-add_library(rover_navigation src/lines_layer/lines_layer.cpp include/rover_navigation/lines_layer/lines_layer.h)
+# add_library(rover_navigation src/lines_layer/lines_layer.cpp include/rover_navigation/lines_layer/lines_layer.h)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
 
-add_dependencies(rover_navigation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(rover_navigation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(rover_navigation_node src/rover_navigation_node.cpp)
+add_executable(rover_navigator src/navigator/main.cpp src/navigator/nav_action_server.cpp src/navigator/nav_action_server.h src/navigator/navigator.cpp src/navigator/navigator.h)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(rover_navigation_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(rover_navigator ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(rover_navigation
-        ${catkin_LIBRARIES}
-        )
+target_link_libraries(rover_navigator
+       ${catkin_LIBRARIES}
+       )
 
 #############
 ## Install ##

@@ -23,7 +23,6 @@ class UnstufferState(State):
         super(UnstufferState, self).__init__(outcomes=["ok"], input_keys=["goal"], output_keys=["waypoints", "goal_position"])
 
     def execute(self, ud):
-        ud.waypoints = ud.goal.waypoints
         ud.goal_position = ud.goal.goal_position
         return "ok"
 
