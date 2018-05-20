@@ -31,10 +31,14 @@ namespace rover_arm {
     const int ENCODER_GRIPPTILT_A = 22;
     const int ENCODER_GRIPPTILT_B = 23;
 
+    const int ENCODER_GRIPPSPIN_A = 30;
+    const int ENCODER_GRIPPSPIN_B = 31;
+
     const int MOTOR_SLIDEPOLE = 2;
     const int MOTOR_SLIDEUNIT = 4;
     const int MOTOR_INNEROUTR = 3;
     const int MOTOR_GRIPPTILT = 5;
+    const int MOTOR_GRIPPSPIN = 6;
 
     class ArmHW {
     public:
@@ -51,15 +55,17 @@ namespace rover_arm {
 
     private:
         union {
-            double cmd[4] = {0, 0, 0, 0};
-            double eff[4];
+            double cmd[6] = {0, 0, 0, 0, 0, 0};
+            double eff[6];
         };
-        double pos[4] = {0, 0, 0, 0};
-        double vel[4] = {0, 0, 0, 0};
+        double pos[6] = {0, 0, 0, 0, 0, 0};
+        double vel[6] = {0, 0, 0, 0, 0, 0};
+
+        double gripper_alt_cmd;
 
         void setupDeviceOnConnect();
 
-        eml_uberdriver::Encoder  jointEncoders[4];
+        eml_uberdriver::Encoder  jointEncoders[6];
         eml_uberdriver::ARDevice device;
 
         hardware_interface::ActuatorStateInterface  act_state_interface;
