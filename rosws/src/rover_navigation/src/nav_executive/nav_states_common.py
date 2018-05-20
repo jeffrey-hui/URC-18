@@ -19,7 +19,7 @@ class TennisBallMonitoringState(State):
     TENNIS_BALL_MIN_CONFIDENCE = 0.5
 
     def __init__(self, topic_name):
-        super(TennisBallMonitoringState, self).__init__(outcomes=["tennis", "fail"], input_keys=["goal_position"], output_keys=["tennis_position"])
+        super(TennisBallMonitoringState, self).__init__(outcomes=["tennis", "fail"], input_keys=["waypoints"], output_keys=["tennis_position"])
 
         self.sub = None
         self.topic_name = topic_name
@@ -42,7 +42,7 @@ class TennisBallMonitoringState(State):
         self.most_recent_message = None  # type: TennisBallPrediction
         most_recent_time = -1
         tf_ = tf.TransformListener()
-        goal_position = ud.goal_position # type: PointStamped
+        goal_position = ud.waypoints[-1] # type: PointStamped
         ud.tennis_position = None  # if preempt, leave this null
 
         while not self.preempt_requested():
@@ -62,9 +62,9 @@ class TennisBallMonitoringState(State):
 
                         current_robot_odometry = tf_.transformPose(goal_position.header.frame_id, PoseStamped(Header(frame_id=current_robot_odometry.child_frame_id), current_robot_odometry.pose.pose))
                         dist = math.sqrt(
-                            (current_robot_odometry.pose.position.x - goal_position.pose.position.x)**2 +
-                            (current_robot_odometry.pose.position.y - goal_position.pose.position.y)**2 +
-                            (current_robot_odometry.pose.position.z - goal_position.pose.position.z)**2)
+                            (current_robot_odometry.pose.position.x - goal_position.point.x)**2 +
+                            (current_robot_odometry.pose.position.y - goal_position.point.y)**2 +
+                            (current_robot_odometry.pose.position.z - goal_position.point.z)**2)
 
                         if dist < TennisBallMonitoringState.TENNIS_BALL_PROXIMITY:
                             ud.tennis_position = PointStamped(
@@ -99,7 +99,7 @@ def make_nav_sm(nav_state, tennis_topic):
         return True # whichever finishes first! (although tennis never finishes unless preempt...)
 
     # noinspection PyTypeChecker
-    sm = Concurrence(outcomes=["tennis", "goal", "fail", "preempted"], default_outcome="fail", input_keys=["goal_position", "waypoints"], output_keys=["tennis_position"],
+    sm = Concurrence(outcomes=["tennis", "goal", "fail", "preempted"], default_outcome="fail", input_keys=["waypoints"], output_keys=["tennis_position"],
                      outcome_map={
                          "tennis": {"TENNIS_MONITOR": "tennis"},
                          "fail": {"NAV": "fail",

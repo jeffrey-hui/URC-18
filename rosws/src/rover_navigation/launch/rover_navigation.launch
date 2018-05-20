@@ -7,10 +7,10 @@
         </include>
     </group>
 
-    <node pkg="rover_navigation" type="nav_executive.py" name="nav_executive" />
-    <node pkg="rover_navigation" type="navigator" name="navigator">
-        <remap from="odom" to="/odometry/filtered" />
-        <remap from="cmd_vel" to="/wheel_diff_drive_controller/cmd_vel" />
+    <node pkg="rover_navigation" type="nav_executive.py" name="nav_executive" output="screen" />
+    <node pkg="rover_navigation" type="rover_navigator" name="navigator" output="screen">
+        <remap from="~odom" to="/odometry/filtered" />
+        <remap from="~cmd_vel" to="/wheel_diff_drive_controller/cmd_vel" />
 
         <param name="global_frame" value="world" />
         <param name="max_speed" value="2.0" />

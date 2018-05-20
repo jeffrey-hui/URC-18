@@ -28,12 +28,15 @@ void rover_navigation::NavActionServer::execute(const rover_navigation::GotoPoin
             as.setPreempted();
             return;
         }
-
         geometry_msgs::PointStamped ps;
         tfListener.transformPoint(this->global_frame, e, ps);
 
         this->nav.setGoalPosition(ps.point.x, ps.point.y);
         while (this->nav.getNavState() == GOING) {
+            if (as.isPreemptRequested()) {
+                as.setPreempted();
+                return;
+            }
             d.sleep();
             this->nav.update(ros::Time::now() - now);
             now = ros::Time::now();
@@ -56,7 +59,16 @@ void rover_navigation::NavActionServer::odomCallback(const nav_msgs::OdometryCon
         pi.header.frame_id = odom->child_frame_id;
         pi.pose = odom->pose.pose;
 
-        tfListener.transformPose(this->global_frame, pi, ps);
+        try {
+            tfListener.transformPose(this->global_frame, pi, ps);
+        }
+        catch (tf2::ExtrapolationException &e) {
+            ROS_WARN_STREAM("Couldn't get tf: needs extrapolation!");
+            return;
+        }
+        catch (tf2::ConnectivityException &e) {
+            return;
+        }
         tf::Quaternion q = tf::Quaternion(ps.pose.orientation.x, ps.pose.orientation.y, ps.pose.orientation.z, ps.pose.orientation.w);
         double r, p, y;
         tf::Matrix3x3(q).getRPY(r, p, y);

@@ -35,6 +35,7 @@ void rover_navigation::Navigator::update(ros::Duration dt) {
     );
 
     if (dist < tolerance) {
+        ROS_INFO_STREAM("OK!");
         this->navState = GOAL_OK;
     }
 
@@ -42,7 +43,7 @@ void rover_navigation::Navigator::update(ros::Duration dt) {
     double angErr = angTarget - curAng;
     if (this->navState == GOING) {
         this->curAngC = std::max(-this->max_ang, std::min(this->max_ang, ang.computeCommand(angErr, dt)));
-        this->curLin = std::min(this->max_speed, std::max(0.0d, lin.computeCommand(-dist, dt) * std::cos(angErr)));
+        this->curLin = std::min(this->max_speed, std::max(0.0d, lin.computeCommand(dist, dt) * std::cos(angErr)));
     }
     else {
         this->curAngC = this->curLin = 0.0d;
