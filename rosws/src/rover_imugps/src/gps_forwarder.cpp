@@ -11,10 +11,9 @@ const int BUS = 1;
 
 int main(int argc, char ** argv) {
     ros::init(argc, argv, "gps_forwarder");
-    ros::NodeHandle nh("~");
     ros::NodeHandle ng("/");
 
-    ros::Publisher pub = ng.advertise<nmea_msgs::Sentence>("/gps/fix", 10, true);
+    ros::Publisher pub = ng.advertise<nmea_msgs::Sentence>("/gps/sentence", 10, true);
 
     simpli2c::Device dev(BUS, ADDRESS);
     ros::Duration d(0.1);

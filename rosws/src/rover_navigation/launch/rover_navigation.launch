@@ -12,7 +12,7 @@
         <remap from="~odom" to="/odometry/filtered" />
         <remap from="~cmd_vel" to="/wheel_diff_drive_controller/cmd_vel" />
 
-        <param name="global_frame" value="world" />
+        <param name="global_frame" value="utm" />
         <param name="max_speed" value="2.0" />
         <param name="max_ang" value="2.5" />
         <param name="tolerance" value="1" />
