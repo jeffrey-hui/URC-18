@@ -82,6 +82,7 @@ namespace rover_drive {
     }
 
     void DriveHW::read() {
+        this->robot_transmissions.get<transmission_interface::ActuatorToJointStateInterface>()->propagate();
         if (this->device.isDisconnected()) {
             diag_dhd.data["connected"] = "no";
             diag_dhd.status = diagnostic_msgs::DiagnosticStatus::ERROR;
