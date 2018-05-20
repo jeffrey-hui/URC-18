@@ -29,9 +29,9 @@ def joyCB(dat):
     rawvel_tilt = -dat.axes[5] * 300
     spin = 0
     if dat.buttons[4]:
-        spin -= 500
+        spin -= 200
     if dat.buttons[5]:
-        spin += 500
+        spin += 200
 
     gripper_speed = 0
     if dat.buttons[0]:

@@ -11,20 +11,20 @@ namespace rover_arm {
         double effort_normalized = value / MOTOR_EXERTED_EFFORT;
         double offset = MOTOR_OFFSET * effort_normalized;
 
-        ROS_INFO_STREAM("324 " << value << " " << effort_normalized << " " << offset);
+        //ROS_INFO_STREAM("324 " << value << " " << effort_normalized << " " << offset);
 
         return (uint16_t)(MOTOR_MID + offset);
     }
 
     double convertToPositionOffsetRotate(int ticks) {
-        return (ticks / TICKS_PER_REVOLUTION) * (3.1415926 * 2);
+        //return (ticks / TICKS_PER_REVOLUTION) * (3.1415926 * 2);
     }
 
     uint16_t convertEffToMotorV328(double value) {
         double effort_normalized = value / MOTOR328_EXERTED_EFFORT;
         double offset = MOTOR_OFFSET * effort_normalized;
 
-        ROS_INFO_STREAM("328 " << value << " " << effort_normalized << " " << offset);
+        //ROS_INFO_STREAM("328 " << value << " " << effort_normalized << " " << offset);
 
         return (uint16_t)(MOTOR_MID + offset);
     }
@@ -120,7 +120,7 @@ void rover_arm::ArmHW::init(hardware_interface::RobotHW *hw) {
 
 void rover_arm::ArmHW::write() {
     this->robot_transmissions.get<transmission_interface::JointToActuatorEffortInterface>()->propagate();
-    ROS_INFO_STREAM("a " << cmd[0] << " "<< cmd[1] << " "<< cmd[2] << " "<< cmd[3] << " "<< cmd[4] << " "<< cmd[5] << " ");
+    //ROS_INFO_STREAM("a " << cmd[0] << " "<< cmd[1] << " "<< cmd[2] << " "<< cmd[3] << " "<< cmd[4] << " "<< cmd[5] << " ");
     if (!this->device.isDisconnected()) {
 	//ROS_INFO_STREAM("ASDFADSFADSFADSFADS");
         this->device.writeMicroseconds(MOTOR_INNEROUTR, convertEffToMotorV(cmd[0]));
