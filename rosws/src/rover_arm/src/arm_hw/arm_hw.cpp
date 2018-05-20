@@ -124,6 +124,7 @@ void rover_arm::ArmHW::write() {
         this->device.writeMicroseconds(MOTOR_SLIDEPOLE, convertEffToMotorV(cmd[2]));
         this->device.writeMicroseconds(MOTOR_GRIPPTILT, convertEffToMotorV(cmd[3]));
         this->device.writeMicroseconds(MOTOR_GRIPPSPIN, convertEffToMotorV328(cmd[4]));
+	this->device.writeMicroseconds(MOTOR_GRIPPPPER, convertEffToMotorV328(cmd[5]));
     }
 }
 
@@ -155,12 +156,14 @@ void rover_arm::ArmHW::read() {
         int ticks_slidepole = this->jointEncoders[2].encoderValue();
         int ticks_gripptilt = this->jointEncoders[3].encoderValue();
         int ticks_grippspin = this->jointEncoders[4].encoderValue();
+	int ticks_gripppper = this->jointEncoders[5].encoderValue();
 
         pos[1] = convertToPositionOffsetRotate(ticks_inneroutr); // todo: get gear crappo for this
         pos[0] = convertToPositionOffsetRotate(ticks_slideunit);
         pos[2] = 0; // todo
         pos[3] = convertToPositionOffsetRotate(ticks_gripptilt);
         pos[4] = convertToPositionOffsetRotate328(ticks_grippspin);
+	pos[5] = convertToPositionOffsetRotate328(ticks_gripppper);
 	//ROS_INFO_STREAM("abc " << ticks_inneroutr << " " << ticks_slideunit << " " << ticks_gripptilt);
     }
 }
@@ -171,6 +174,7 @@ void rover_arm::ArmHW::setupDeviceOnConnect() {
     this->device.openPinAsMotor(MOTOR_SLIDEPOLE);
     this->device.openPinAsMotor(MOTOR_GRIPPTILT);
     this->device.openPinAsMotor(MOTOR_GRIPPSPIN);
+    this->device.openPinAsMotor(MOTOR_GRIPPPPER);
     //ROS_INFO_STREAM("ASDF");
     this->jointEncoders[0] = this->device.openPinAsEncoder(ENCODER_INNEROUTR_A, ENCODER_INNEROUTR_B);
     //ROS_INFO_STREAM(this->device.isDisconnected());
@@ -178,6 +182,7 @@ void rover_arm::ArmHW::setupDeviceOnConnect() {
     this->jointEncoders[2] = this->device.openPinAsEncoder(ENCODER_SLIDEPOLE_A, ENCODER_SLIDEPOLE_B);
     this->jointEncoders[3] = this->device.openPinAsEncoder(ENCODER_GRIPPTILT_A, ENCODER_GRIPPTILT_B);
     this->jointEncoders[4] = this->device.openPinAsEncoder(ENCODER_GRIPPSPIN_A, ENCODER_GRIPPSPIN_B);
+    this->jointEncoders[5] = this->device.openPinAsEncoder(ENCODER_GRIPPPPER_A, ENCODER_GRIPPPPER_B);
     //ROS_INFO_STREAM("ASDF" << this->device.isDisconnected());
 }
 
