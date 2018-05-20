@@ -16,6 +16,7 @@ int main(int argc, char ** argv) {
     ros::Publisher pub = ng.advertise<nmea_msgs::Sentence>("/gps/sentence", 10, true);
 
     simpli2c::Device dev(BUS, ADDRESS);
+    dev.open_();
     ros::Duration d(0.1);
     while (ros::ok()) {
         ros::spinOnce();
@@ -37,6 +38,7 @@ int main(int argc, char ** argv) {
     }
 
     ros::shutdown();
+    dev.close_();
 
     // this has to take simpli2c and output nmea_msgs/Sentence messages.
     return 0;
