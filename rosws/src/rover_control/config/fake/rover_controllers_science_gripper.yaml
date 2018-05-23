@@ -1,0 +1,17 @@
+arm_manual_controller:
+  type: effort_controllers/JointGroupPositionController
+  joints:
+    - arm_slide_pole_to_arm_slider_unit
+    - arm_slider_unit_to_arm_xy_pole
+    - science_crossbar_to_science_sensors
+
+  arm_slider_unit_to_arm_xy_pole:
+    pid: {p: 270.0, d: 20, i: 0, i_clamp: 1}
+  science_crossbar_to_science_sensors:
+    pid: {p: 170.0, d: 40, i: 0, i_clamp: 1}
+  arm_slide_pole_to_arm_slider_unit:
+    pid: {p: 4075.0, d: 0, i: 0, i_clamp: 0}
+
+drill_controller:
+  type: effort_controllers/JointEffortController
+  joint: arm_inner_to_science_drill
