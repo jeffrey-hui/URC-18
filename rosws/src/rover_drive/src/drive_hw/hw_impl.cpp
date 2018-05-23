@@ -14,7 +14,7 @@ namespace rover_drive {
         double max_val = static_cast<double>(WHEEL_MAX_RADIANS_PER_SECOND);
         double clamped = std::min(max_val, std::max(-max_val, vel));
         double v = clamped / max_val;
-        return (uint16_t)(((MOTOR_OFFSET * v)) + MOTOR_MID);
+        return (uint16_t)(-((MOTOR_OFFSET * v)) + MOTOR_MID);
     }
 
     void DriveHW::init(hardware_interface::RobotHW *hw) {
