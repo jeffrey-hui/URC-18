@@ -1,0 +1,48 @@
+[35m[1mScanning dependencies of target rover[0m
+[ 33%] [32mBuilding CXX object CMakeFiles/rover.dir/src/main.cpp.o[0m
+[ 66%] [32mBuilding CXX object CMakeFiles/rover.dir/src/rover.cpp.o[0m
+In file included from [01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/main.cpp:7:0[m[K:
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:27:24:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetLat = 500;
+[01;32m[K                        ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:28:25:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetLong = 200;
+[01;32m[K                         ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:29:24:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetAng = 5;//just initialize for now
+[01;32m[K                        ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:30:24:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetLin = 500;
+[01;32m[K                        ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:31:25:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double speedLimit = 100;
+[01;32m[K                         ^[m[K
+In file included from [01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.cpp:5:0[m[K:
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:27:24:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetLat = 500;
+[01;32m[K                        ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:28:25:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetLong = 200;
+[01;32m[K                         ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:29:24:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetAng = 5;//just initialize for now
+[01;32m[K                        ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:30:24:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetLin = 500;
+[01;32m[K                        ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:31:25:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double speedLimit = 100;
+[01;32m[K                         ^[m[K
+[100%] [32m[1mLinking CXX executable /home/hamza/R3/URC-18/rosws/devel/.private/rover_auton/lib/rover_auton/rover[0m
+CMakeFiles/rover.dir/src/main.cpp.o: In function `main':
+main.cpp:(.text+0x39b): undefined reference to `tf::Transformer::DEFAULT_CACHE_TIME'
+main.cpp:(.text+0x3d7): undefined reference to `tf::TransformListener::TransformListener(ros::Duration, bool)'
+main.cpp:(.text+0x53c): undefined reference to `tf::TransformListener::~TransformListener()'
+main.cpp:(.text+0x763): undefined reference to `tf::TransformListener::~TransformListener()'
+collect2: error: ld returned 1 exit status
+CMakeFiles/rover.dir/build.make:147: recipe for target '/home/hamza/R3/URC-18/rosws/devel/.private/rover_auton/lib/rover_auton/rover' failed
+CMakeFiles/Makefile2:67: recipe for target 'CMakeFiles/rover.dir/all' failed
+make[2]: *** [/home/hamza/R3/URC-18/rosws/devel/.private/rover_auton/lib/rover_auton/rover] Error 1
+make[1]: *** [CMakeFiles/rover.dir/all] Error 2
+make: *** [all] Error 2
+Makefile:138: recipe for target 'all' failed

@@ -1,0 +1,4 @@
+rover_diagnostics
+/home/hamza/R3/URC-18/rosws/devel/.private/rover_diagnostics/share/rover_diagnostics/cmake/rover_diagnosticsConfig-version.cmake /home/hamza/R3/URC-18/rosws/devel/share/rover_diagnostics/cmake/rover_diagnosticsConfig-version.cmake
+/home/hamza/R3/URC-18/rosws/devel/.private/rover_diagnostics/share/rover_diagnostics/cmake/rover_diagnosticsConfig.cmake /home/hamza/R3/URC-18/rosws/devel/share/rover_diagnostics/cmake/rover_diagnosticsConfig.cmake
+/home/hamza/R3/URC-18/rosws/devel/.private/rover_diagnostics/lib/pkgconfig/rover_diagnostics.pc /home/hamza/R3/URC-18/rosws/devel/lib/pkgconfig/rover_diagnostics.pc

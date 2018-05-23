@@ -1,0 +1,32 @@
+[01m[K/home/hamza/R3/URC-18/rosws/src/arm_teleop_simple/src/arm.cpp:[m[K In function ‘[01m[Kvoid joyCallBack(const ConstPtr&)[m[K’:
+[01m[K/home/hamza/R3/URC-18/rosws/src/arm_teleop_simple/src/arm.cpp:18:5:[m[K [01;31m[Kerror: [m[K‘[01m[KFloat64[m[K’ is not a member of ‘[01m[Kstd_msgs[m[K’
+     std_msgs::Float64 data[0, rawvel_outer, rawvel_inner, rawvel_tilt];
+[01;32m[K     ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/arm_teleop_simple/src/arm.cpp:19:5:[m[K [01;31m[Kerror: [m[K‘[01m[Karm_pub[m[K’ was not declared in this scope
+     arm_pub.publish(data);
+[01;32m[K     ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/arm_teleop_simple/src/arm.cpp:19:21:[m[K [01;31m[Kerror: [m[K‘[01m[Kdata[m[K’ was not declared in this scope
+     arm_pub.publish(data);
+[01;32m[K                     ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/arm_teleop_simple/src/arm.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[01m[K/home/hamza/R3/URC-18/rosws/src/arm_teleop_simple/src/arm.cpp:23:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kinit[m[K’ is not a member of ‘[01m[Kros[m[K’
+     ros::init(argc,argv,"arm_teleop");
+[01;32m[K     ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/arm_teleop_simple/src/arm.cpp:24:5:[m[K [01;31m[Kerror: [m[K‘[01m[KNodeHandle[m[K’ is not a member of ‘[01m[Kros[m[K’
+     ros::NodeHandle nh;
+[01;32m[K     ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/arm_teleop_simple/src/arm.cpp:25:5:[m[K [01;31m[Kerror: [m[K‘[01m[KPublisher[m[K’ is not a member of ‘[01m[Kros[m[K’
+     ros::Publisher arm_pub = nh.advertise<std_msgs::Float64MultiArray>("/arm_manual_controller/command", 10);
+[01;32m[K     ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/arm_teleop_simple/src/arm.cpp:26:5:[m[K [01;31m[Kerror: [m[K‘[01m[KSubscriber[m[K’ is not a member of ‘[01m[Kros[m[K’
+     ros::Subscriber joy_sub = nh.subscribe("joy", 10, joyCallBack);
+[01;32m[K     ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/arm_teleop_simple/src/arm.cpp:27:24:[m[K [01;31m[Kerror: [m[Kvariable ‘[01m[Kros::Rate loop_rate[m[K’ has initializer but incomplete type
+     ros::Rate loop_rate(10);
+[01;32m[K                        ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/arm_teleop_simple/src/arm.cpp:28:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kspin[m[K’ is not a member of ‘[01m[Kros[m[K’
+     ros::spin();
+[01;32m[K     ^[m[K
+make[2]: *** [CMakeFiles/arm_teleop.dir/src/arm.cpp.o] Error 1
+make[1]: *** [CMakeFiles/arm_teleop.dir/all] Error 2
+make: *** [all] Error 2

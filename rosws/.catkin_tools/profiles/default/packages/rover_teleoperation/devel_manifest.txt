@@ -1,0 +1,4 @@
+rover_teleoperation
+/home/hamza/R3/URC-18/rosws/devel/.private/rover_teleoperation/share/rover_teleoperation/cmake/rover_teleoperationConfig.cmake /home/hamza/R3/URC-18/rosws/devel/share/rover_teleoperation/cmake/rover_teleoperationConfig.cmake
+/home/hamza/R3/URC-18/rosws/devel/.private/rover_teleoperation/share/rover_teleoperation/cmake/rover_teleoperationConfig-version.cmake /home/hamza/R3/URC-18/rosws/devel/share/rover_teleoperation/cmake/rover_teleoperationConfig-version.cmake
+/home/hamza/R3/URC-18/rosws/devel/.private/rover_teleoperation/lib/pkgconfig/rover_teleoperation.pc /home/hamza/R3/URC-18/rosws/devel/lib/pkgconfig/rover_teleoperation.pc

@@ -1,0 +1,7 @@
+[01m[K/home/hamza/R3/URC-18/rosws/src/arm_teleop_simple/src/arm.cpp:[m[K In function ‘[01m[Kvoid joyCallBack(const ConstPtr&)[m[K’:
+[01m[K/home/hamza/R3/URC-18/rosws/src/arm_teleop_simple/src/arm.cpp:20:5:[m[K [01;31m[Kerror: [m[K‘[01m[Karm_pub[m[K’ was not declared in this scope
+     arm_pub.publish(data);
+[01;32m[K     ^[m[K
+make[2]: *** [CMakeFiles/arm_teleop.dir/src/arm.cpp.o] Error 1
+make[1]: *** [CMakeFiles/arm_teleop.dir/all] Error 2
+make: *** [all] Error 2

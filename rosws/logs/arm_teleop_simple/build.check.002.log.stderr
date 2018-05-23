@@ -1,0 +1,6 @@
+[31m[1mCMake Error[0m at /home/hamza/R3/URC-18/rosws/src/arm_teleop_simple/CMakeLists.txt:201 (target_link_libraries):
+  Cannot specify link libraries for target "rover" which is not built by this
+  project.
+
+
+make: *** [cmake_check_build_system] Error 1

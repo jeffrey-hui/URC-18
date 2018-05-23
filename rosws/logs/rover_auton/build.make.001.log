@@ -1,0 +1,20 @@
+[35m[1mScanning dependencies of target rover[0m
+[ 33%] [32mBuilding CXX object CMakeFiles/rover.dir/src/rover.cpp.o[0m
+In file included from [01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.cpp:5:0[m[K:
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:26:24:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetLat = 500;
+[01;32m[K                        ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:27:25:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetLong = 200;
+[01;32m[K                         ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:28:24:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetAng = 5;//just initialize for now
+[01;32m[K                        ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:29:24:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double targetLin = 500;
+[01;32m[K                        ^[m[K
+[01m[K/home/hamza/R3/URC-18/rosws/src/rover_auton/src/rover.h:30:25:[m[K [01;35m[Kwarning: [m[Knon-static data member initializers only available with -std=c++11 or -std=gnu++11
+     double speedLimit = 100;
+[01;32m[K                         ^[m[K
+[ 66%] [32m[1mLinking CXX executable /home/hamza/R3/URC-18/rosws/devel/.private/rover_auton/lib/rover_auton/rover[0m
+[100%] Built target rover

@@ -1,0 +1,10 @@
+[35m[1mScanning dependencies of target arm_teleop[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/arm_teleop.dir/src/arm.cpp.o[0m
+[01m[K/home/hamza/R3/URC-18/rosws/src/arm_teleop_simple/src/arm.cpp:7:16:[m[K [01;31m[Kfatal error: [m[Kros.h: No such file or directory
+compilation terminated.
+CMakeFiles/arm_teleop.dir/build.make:62: recipe for target 'CMakeFiles/arm_teleop.dir/src/arm.cpp.o' failed
+CMakeFiles/Makefile2:291: recipe for target 'CMakeFiles/arm_teleop.dir/all' failed
+make[2]: *** [CMakeFiles/arm_teleop.dir/src/arm.cpp.o] Error 1
+make[1]: *** [CMakeFiles/arm_teleop.dir/all] Error 2
+Makefile:138: recipe for target 'all' failed
+make: *** [all] Error 2

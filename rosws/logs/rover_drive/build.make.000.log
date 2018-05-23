@@ -1,0 +1,24 @@
+[  0%] Built target diagnostic_msgs_generate_messages_eus
+[  0%] Built target diagnostic_msgs_generate_messages_py
+[  0%] Built target diagnostic_msgs_generate_messages_nodejs
+[  0%] Built target diagnostic_msgs_generate_messages_lisp
+[  0%] Built target roscpp_generate_messages_py
+[  0%] Built target rosgraph_msgs_generate_messages_eus
+[  0%] Built target roscpp_generate_messages_cpp
+[  0%] Built target std_msgs_generate_messages_nodejs
+[  0%] Built target roscpp_generate_messages_eus
+[  0%] Built target std_msgs_generate_messages_lisp
+[  0%] Built target std_msgs_generate_messages_cpp
+[  0%] Built target rosgraph_msgs_generate_messages_cpp
+[  0%] Built target rosgraph_msgs_generate_messages_nodejs
+[  0%] Built target roscpp_generate_messages_nodejs
+[  0%] Built target rosgraph_msgs_generate_messages_lisp
+[  0%] Built target rosgraph_msgs_generate_messages_py
+[  0%] Built target std_msgs_generate_messages_py
+[  0%] Built target roscpp_generate_messages_lisp
+[  0%] Built target diagnostic_msgs_generate_messages_cpp
+[  0%] Built target std_msgs_generate_messages_eus
+[ 20%] [32m[1mLinking CXX shared library /home/hamza/R3/URC-18/rosws/devel/.private/rover_drive/lib/librover_drive_hw.so[0m
+[ 40%] [32m[1mLinking CXX shared library /home/hamza/R3/URC-18/rosws/devel/.private/rover_drive/lib/librover_drive.so[0m
+[ 80%] Built target rover_drive_hw
+[100%] Built target rover_drive
