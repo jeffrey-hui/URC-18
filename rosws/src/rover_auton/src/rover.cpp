@@ -18,10 +18,12 @@ double rover::getAngCoordinates(){
 }
 double rover::getMagAngle(){
     double relative_angle = atan2(magData.magnetic_field.y,magData.magnetic_field.x);
+    ROS_INFO("%d",relative_angle);
     return relative_angle;
 }
 double rover::getLinCoordinates(){
     return sqrt((GPSData.longitude)*(GPSData.longitude)+(GPSData.latitude)*(GPSData.latitude));
+
 }
 
 void rover::calculateTargetAng(){

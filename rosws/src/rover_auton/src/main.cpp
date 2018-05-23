@@ -10,10 +10,12 @@ void GPScallBack(const sensor_msgs::NavSatFix::ConstPtr& msg)
     GPSData.latitude = msg->latitude;
     GPSData.longitude = msg->longitude;
     GPSData.altitude = msg->altitude;
+    ROS_INFO("I heard some shit");
 }
 void magCallBack(const sensor_msgs::MagneticField::ConstPtr& msg)
 {
     magData.magnetic_field = msg->magnetic_field;
+    ROS_INFO("I heard mag");
 }
 
 int main(int argc, char** argv){
