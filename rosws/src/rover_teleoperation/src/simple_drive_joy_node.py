@@ -16,7 +16,7 @@ speed_value = 1.175
 
 
 def ctrl_curve(val):
-    return val * speed_value
+    return math.copysign(x**2, x) * speed_value
 
 
 push_button_last = False
