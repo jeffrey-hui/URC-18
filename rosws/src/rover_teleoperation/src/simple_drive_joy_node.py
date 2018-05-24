@@ -15,8 +15,8 @@ drive_control_right = rospy.Publisher("/right_wheels_controller/cmd", std_msgs.m
 speed_value = 1.175
 
 
-def ctrl_curve(val):
-    return val * speed_value
+def ctrl_curve(x):
+    return math.copysign(x**2, x) * speed_value
 
 
 push_button_last = False
