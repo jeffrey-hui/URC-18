@@ -18,7 +18,7 @@ namespace rover_arm {
     }
 
     double convertToPositionOffsetRotate(int ticks) {
-        //return (ticks / TICKS_PER_REVOLUTION) * (3.1415926 * 2);
+        return (ticks / TICKS_PER_REVOLUTION) * (3.1415926 * 2);
     }
 
     uint16_t convertEffToMotorV328(double value) {
@@ -122,15 +122,15 @@ void rover_arm::ArmHW::init(hardware_interface::RobotHW *hw) {
 
 void rover_arm::ArmHW::write() {
     this->robot_transmissions.get<transmission_interface::JointToActuatorEffortInterface>()->propagate();
-    //ROS_INFO_STREAM("a " << cmd[0] << " "<< cmd[1] << " "<< cmd[2] << " "<< cmd[3] << " "<< cmd[4] << " "<< cmd[5] << " ");
+    ROS_INFO_STREAM("a " << convertEffToMotorV(cmd[0]) << " "<<convertEffToMotorV( cmd[1]) << " "<< convertEffToMotorV(cmd[2]) << " "<< convertEffToMotorV(cmd[3]) << " "<< convertEffToMotorV(cmd[4]) << " "<< convertEffToMotorV(cmd[5]) << " ");
     if (!this->device.isDisconnected()) {
 	//ROS_INFO_STREAM("ASDFADSFADSFADSFADS");
         this->device.writeMicroseconds(MOTOR_INNEROUTR, convertEffToMotorV(cmd[0]));
         this->device.writeMicroseconds(MOTOR_SLIDEUNIT, convertEffToMotorV(cmd[1]));
         this->device.writeMicroseconds(MOTOR_SLIDEPOLE, convertEffToMotorV(cmd[2]));
         this->device.writeMicroseconds(MOTOR_GRIPPTILT, convertEffToMotorV(cmd[3]));
-        this->device.writeMicroseconds(MOTOR_GRIPPSPIN, convertEffToMotorV328(cmd[4]));
-	    this->device.writeMicroseconds(MOTOR_GRIPPPPER, convertEffToMotorV328(cmd[5]));
+        this->device.writeMicroseconds(MOTOR_GRIPPSPIN, convertEffToMotorV(cmd[4]));
+	    this->device.writeMicroseconds(MOTOR_GRIPPPPER, convertEffToMotorV(cmd[5]));
     }
 }
 
@@ -157,7 +157,7 @@ void rover_arm::ArmHW::read() {
         diag_dhd.status = diagnostic_msgs::DiagnosticStatus::OK;
         diag_dhd.message = "The arduino is connected and responding to i2c";
 	
-        int ticks_inneroutr = this->jointEncoders[0].encoderValue();
+       /* int ticks_inneroutr = this->jointEncoders[0].encoderValue();
         int ticks_slideunit = this->jointEncoders[1].encoderValue();
         int ticks_slidepole = this->jointEncoders[2].encoderValue();
         int ticks_gripptilt = this->jointEncoders[3].encoderValue();
@@ -170,7 +170,7 @@ void rover_arm::ArmHW::read() {
         pos[3] = convertToPositionOffsetRotate(ticks_gripptilt);
         pos[4] = convertToPositionOffsetRotate328(ticks_grippspin);
 	pos[5] = convertToPositionOffsetRotate328(ticks_gripppper);
-	//ROS_INFO_STREAM("abc " << ticks_inneroutr << " " << ticks_slideunit << " " << ticks_gripptilt);
+	//ROS_INFO_STREAM("abc " << ticks_inneroutr << " " << ticks_slideunit << " " << ticks_gripptilt);*/
     }
 }
 
@@ -182,13 +182,13 @@ void rover_arm::ArmHW::setupDeviceOnConnect() {
     this->device.openPinAsMotor(MOTOR_GRIPPSPIN);
     this->device.openPinAsMotor(MOTOR_GRIPPPPER);
     //ROS_INFO_STREAM("ASDF");
-    this->jointEncoders[0] = this->device.openPinAsEncoder(ENCODER_INNEROUTR_A, ENCODER_INNEROUTR_B);
+    //this->jointEncoders[0] = this->device.openPinAsEncoder(ENCODER_INNEROUTR_A, ENCODER_INNEROUTR_B);
     //ROS_INFO_STREAM(this->device.isDisconnected());
-    this->jointEncoders[1] = this->device.openPinAsEncoder(ENCODER_SLIDEUNIT_A, ENCODER_SLIDEUNIT_B);
-    this->jointEncoders[2] = this->device.openPinAsEncoder(ENCODER_SLIDEPOLE_A, ENCODER_SLIDEPOLE_B);
-    this->jointEncoders[3] = this->device.openPinAsEncoder(ENCODER_GRIPPTILT_A, ENCODER_GRIPPTILT_B);
-    this->jointEncoders[4] = this->device.openPinAsEncoder(ENCODER_GRIPPSPIN_A, ENCODER_GRIPPSPIN_B);
-    this->jointEncoders[5] = this->device.openPinAsEncoder(ENCODER_GRIPPPPER_A, ENCODER_GRIPPPPER_B);
+    //this->jointEncoders[1] = this->device.openPinAsEncoder(ENCODER_SLIDEUNIT_A, ENCODER_SLIDEUNIT_B);
+    //this->jointEncoders[2] = this->device.openPinAsEncoder(ENCODER_SLIDEPOLE_A, ENCODER_SLIDEPOLE_B);
+    //this->jointEncoders[3] = this->device.openPinAsEncoder(ENCODER_GRIPPTILT_A, ENCODER_GRIPPTILT_B);
+    //this->jointEncoders[4] = this->device.openPinAsEncoder(ENCODER_GRIPPSPIN_A, ENCODER_GRIPPSPIN_B);
+    //this->jointEncoders[5] = this->device.openPinAsEncoder(ENCODER_GRIPPPPER_A, ENCODER_GRIPPPPER_B);
     //ROS_INFO_STREAM("ASDF" << this->device.isDisconnected());
 }
 
