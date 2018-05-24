@@ -122,15 +122,15 @@ void rover_arm::ArmHW::init(hardware_interface::RobotHW *hw) {
 
 void rover_arm::ArmHW::write() {
     this->robot_transmissions.get<transmission_interface::JointToActuatorEffortInterface>()->propagate();
-    ROS_INFO_STREAM("a " << cmd[0] << " "<< cmd[1] << " "<< cmd[2] << " "<< cmd[3] << " "<< cmd[4] << " "<< cmd[5] << " ");
+    ROS_INFO_STREAM("a " << convertEffToMotorV(cmd[0]) << " "<<convertEffToMotorV( cmd[1]) << " "<< convertEffToMotorV(cmd[2]) << " "<< convertEffToMotorV(cmd[3]) << " "<< convertEffToMotorV(cmd[4]) << " "<< convertEffToMotorV(cmd[5]) << " ");
     if (!this->device.isDisconnected()) {
 	//ROS_INFO_STREAM("ASDFADSFADSFADSFADS");
         this->device.writeMicroseconds(MOTOR_INNEROUTR, convertEffToMotorV(cmd[0]));
         this->device.writeMicroseconds(MOTOR_SLIDEUNIT, convertEffToMotorV(cmd[1]));
         this->device.writeMicroseconds(MOTOR_SLIDEPOLE, convertEffToMotorV(cmd[2]));
         this->device.writeMicroseconds(MOTOR_GRIPPTILT, convertEffToMotorV(cmd[3]));
-        this->device.writeMicroseconds(MOTOR_GRIPPSPIN, convertEffToMotorV328(cmd[4]));
-	    this->device.writeMicroseconds(MOTOR_GRIPPPPER, convertEffToMotorV328(cmd[5]));
+        this->device.writeMicroseconds(MOTOR_GRIPPSPIN, convertEffToMotorV(cmd[4]));
+	    this->device.writeMicroseconds(MOTOR_GRIPPPPER, convertEffToMotorV(cmd[5]));
     }
 }
 
