@@ -2,5 +2,4 @@
     <node pkg="um7" type="um7_driver" name="imu_driver">
         <param name="port" value="/dev/ttyS0" />
     </node>
-    <node pkg="rover_imugps" name="gps_forwarder" type="gps_forwarder.cpp"/>
 </launch>
