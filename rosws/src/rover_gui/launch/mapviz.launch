@@ -1,5 +1,5 @@
 <launch>
     <node pkg="rover_imugps" type="proxy_node.py" name="proxy_node" />
 
-    <node pkg="mapviz" type="mapviz" name="$(anon mapviz)"
+    <node pkg="mapviz" type="mapviz" name="$(anon mapviz)" />
 </launch>
