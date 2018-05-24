@@ -10,8 +10,8 @@ fi
 
 # Check for online robots or default to localhost
 echo -n "Searching for available robots"
-TX1=192.168.137.212
-TX2=192.168.137.213
+TX1=192.168.137.212:11311
+TX2=192.168.137.213:11311
 
 # Ping robots
 ping -c1 -W1 -q $TX1 > /dev/null 2>&1
