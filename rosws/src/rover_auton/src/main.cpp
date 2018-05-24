@@ -24,8 +24,8 @@ int main(int argc, char** argv){
 
     ros::NodeHandle nh;
     ros::Publisher rover_pub = nh.advertise<geometry_msgs::Twist>("/wheel_diff_drive_controller/cmd_vel", 100);
-    ros::Subscriber gps_sub = nh.subscribe("/gps/fix", 1000, GPScallBack);
-    ros::Subscriber mag_sub = nh.subscribe("/imu/mag", 1000, magCallBack);
+    ros::Subscriber gps_sub = nh.subscribe("/gps/fix", 10, GPScallBack);
+    ros::Subscriber mag_sub = nh.subscribe("/imu/mag", 10, magCallBack);
     ros::Rate loop_rate(10);
     geometry_msgs::Twist pwr_val;
     tf::TransformListener listener;
