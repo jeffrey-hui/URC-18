@@ -31,8 +31,8 @@ enable_service = rospy.Service("~set_enabled", std_srvs.srv.SetBool, toggle_enab
 speed_value = 1.175
 
 
-def ctrl_curve(val):
-    return val * speed_value
+def ctrl_curve(x):
+    return math.copysign(x**2, x) * speed_value
 
 
 push_button_last = False
