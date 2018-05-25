@@ -16,7 +16,7 @@ class RunningImage:
         self.process = subprocess.Popen(self.run_str)
 
     def _set_params(self):
-        rospy.set_param("/{}/image_raw/compressed/jpeg_quality", 15)
+        rospy.set_param("/{}/image_raw/compressed/jpeg_quality".format(self.name), 15)
 
     def shutdown(self):
         self.process.send_signal(SIGINT)
@@ -37,11 +37,19 @@ def start_camera(camera_url, camera_name, preferred_slot=None):
             NODE_SLOTS.pop(RUNNING_CAMERAS.index(preferred_slot)).shutdown()
             RUNNING_CAMERAS.pop(preferred_slot)
     NODE_SLOTS.append(RunningImage(camera_url, camera_name))
+    RUNNING_CAMERAS.append(camera_name)
 
 
 def stop_camera(camera_name):
     global RUNNING_CAMERAS, NODE_SLOTS
     if camera_name not in RUNNING_CAMERAS:
         rospy.logwarn("Can't stop not running camera {}".format(camera_name))
+        return False
     else:
         NODE_SLOTS.pop(RUNNING_CAMERAS.index(camera_name)).shutdown()
+        return True
+
+
+def stop_all():
+    for i in NODE_SLOTS:
+        i.shutdown()
