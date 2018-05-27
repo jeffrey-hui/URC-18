@@ -61,6 +61,7 @@ void setup() {
     Serial.begin(9600);
     Wire.begin(ADDRESS);
     Wire.onRequest(onRequest);
+    pinMode(13, OUTPUT);
 }
 
 void loop() {
@@ -69,4 +70,6 @@ void loop() {
     auto * buffer = reinterpret_cast<unsigned char *>(malloc(bufLen));
     amt.getBytes(buffer, bufLen);
     gps.recordDatum(bufLen, buffer);
+    if (bufLen > 2)
+	digitalWrite(13, HIGH);
 }
