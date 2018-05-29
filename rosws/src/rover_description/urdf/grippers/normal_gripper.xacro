@@ -97,8 +97,8 @@
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
         </joint>
         <actuator name="arm_spin_inner_motor">
-            <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-            <mechanicalReduction>1</mechanicalReduction>
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>-6.33333333</mechanicalReduction>
         </actuator>
     </transmission>
 
@@ -108,8 +108,8 @@
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
         </joint>
         <actuator name="arm_spin_outer_motor">
-            <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-            <mechanicalReduction>1</mechanicalReduction>
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>-5.25</mechanicalReduction>
         </actuator>
     </transmission>
 
@@ -119,7 +119,7 @@
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
         </joint>
         <actuator name="arm_xy_outer_motor">
-            <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
@@ -183,8 +183,8 @@
                 <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
             </joint>
             <actuator name="motor_tooth_${suffix}">
-                <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
-                <mechanicalReduction>1</mechanicalReduction>
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <mechanicalReduction>-1</mechanicalReduction>
             </actuator>
         </transmission>
 

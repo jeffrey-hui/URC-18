@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
     ros::Time ts = ros::Time::now();
     spinner.start();
 
-    ros::Rate rate(20.0);
+    ros::Rate rate(50.0);
     while (ros::ok()) {
         ros::Duration d = ts - ros::Time::now();
         ts = ros::Time::now();
