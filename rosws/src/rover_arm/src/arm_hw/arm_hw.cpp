@@ -106,24 +106,10 @@ void rover_arm::ArmHW::init(hardware_interface::RobotHW *hw) {
         ROS_FATAL_STREAM("Failed to load robot_description, this node will probably now crash");
     }
 
-    this->transmission_loader_ = new transmission_interface::TransmissionInterfaceLoader(hw, &this->robot_transmissions);
-    transmission_interface::TransmissionParser parser;
-    std::vector<transmission_interface::TransmissionInfo> infos;
-    parser.parse(robot_description, infos);
-    for (auto e : infos) {
-        if (boost::starts_with(e.name_, "arm")) {
-            armOn = true;
-            if (!this->transmission_loader_->load(e)) {
-                ROS_FATAL_STREAM("ASDF");
-            }
-        }
-    }
-
 }
 
 void rover_arm::ArmHW::write() {
     if (armOn) {
-        this->robot_transmissions.get<transmission_interface::JointToActuatorEffortInterface>()->propagate();
         //ROS_INFO_STREAM("a " << cmd[1]);
         if (!this->device.isDisconnected()) {
 	//ROS_INFO_STREAM("ASDFADSFADSFADSFADS");
@@ -139,7 +125,6 @@ void rover_arm::ArmHW::write() {
 
 void rover_arm::ArmHW::read() {
     if (armOn) {
-        this->robot_transmissions.get<transmission_interface::ActuatorToJointStateInterface>()->propagate();
         if (this->device.isDisconnected()) {
             diag_dhd.data["connected"] = "no";
             diag_dhd.status = diagnostic_msgs::DiagnosticStatus::ERROR;
