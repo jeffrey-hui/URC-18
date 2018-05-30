@@ -1,3 +1,10 @@
 <launch>
     <node pkg="rover_cameras" type="swapper.py" name="swapper" />
+
+    <node pkg="rover_cameras" type="image_rotater" name="belly_vomiter">
+        <remap from="~image_in" to="/belly_camera/image_raw" />
+        <remap from="~image_out" to="/belly_camera_rotated/image_raw" />
+
+        <param name="~angle" value="180" />
+    </node>
 </launch>
