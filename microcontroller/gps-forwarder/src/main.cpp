@@ -3,6 +3,12 @@
 
 class GPSTracker {
 public:
+    GPSTracker() {
+        len = 0;
+        datas = reinterpret_cast<uint8_t *>(malloc(0));
+        strs = reinterpret_cast<unsigned char **>(malloc(0));
+    }
+
     void recordDatum(uint8_t dlen, unsigned char * d) {
         push();
         *(datas + (len - 1)) = dlen;
@@ -36,24 +42,37 @@ private:
     }
 
     uint8_t *datas;
-    uint16_t len;
+    uint16_t len = 0;
     unsigned char ** strs;
 };
 
 GPSTracker gps;
 const int ADDRESS = 0x48;
 
+int context = 0;
+
 void onRequest() {
     if (gps.ok()) {
-        uint8_t length = gps.topLen();
-        Wire.write(0x01);
-        Wire.write(length);
-        unsigned char * stringy_the_beef = gps.popStr();
-        Wire.write(reinterpret_cast<uint8_t *>(stringy_the_beef), length);
-        free(stringy_the_beef);
+        if (context == 0) {
+            Wire.write(0x01);
+            context += 1;
+        }
+        else if (context == 1) {
+            uint8_t length = gps.topLen();
+            Wire.write(length);
+            context += 1;
+        }
+        else if (context == 2) {
+            uint8_t length = gps.topLen();
+            unsigned char *stringy_the_beef = gps.popStr();
+            Wire.write(reinterpret_cast<uint8_t *>(stringy_the_beef), length);
+            free(stringy_the_beef);
+            context = 0;
+        }
     }
     else {
         Wire.write(0x00);
+        context = 0;
     }
 }
 
@@ -61,15 +80,13 @@ void setup() {
     Serial.begin(9600);
     Wire.begin(ADDRESS);
     Wire.onRequest(onRequest);
-    pinMode(13, OUTPUT);
 }
 
 void loop() {
     String amt = Serial.readStringUntil('\n');
     uint8_t bufLen = amt.length();
-    auto * buffer = reinterpret_cast<unsigned char *>(malloc(bufLen));
-    amt.getBytes(buffer, bufLen);
-    gps.recordDatum(bufLen, buffer);
-    if (bufLen > 2)
-	digitalWrite(13, HIGH);
+    if (bufLen == 0) return;
+    char * buffer = reinterpret_cast<char *>(malloc(bufLen));
+    amt.toCharArray(buffer, bufLen);
+    gps.recordDatum(bufLen, reinterpret_cast<unsigned char *>(buffer));
 }
