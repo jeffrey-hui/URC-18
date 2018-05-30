@@ -5,18 +5,74 @@
     <title>URC18 Map</title>
     <link rel="stylesheet" href="asset/ol.css" type="text/css">
     <style>
-        .map {
+        html {
             height: 100%;
             width: 100%;
         }
+        .map {
+            height: 90vh;
+            width: 100%;
+        }
+        .messages {
+            height: 9.5vh;
+            max-height: 10vh;
+            width: 100%;
+            overflow-y: scroll;
+            font-family: Arial, sans-serif;;
+            color: black;
+        }
+
+        .messages .col {
+            color: gray;
+        }
+
+        .goto-rover {
+            top: 65px;
+            left: .5em;
+        }
+        .ol-touch .goto-rover {
+            top: 80px;
+        }
     </style>
     <script src="asset/ol.js" type="text/javascript"></script>
+    <script src="asset/ee.js" type="text/javascript"></script>
     <script src="asset/ros.js" type="text/javascript"></script>
 </head>
 <body>
     <div class="map" id="map"></div>
+    <div class="messages" id="msg"></div>
     <script>
-        var ros = new ROSLIB.Ros();
+        var seq = 1;
+        function log(msg) {
+            var ele = document.createElement("p");
+            ele.innerHTML = '<span class="col">[' + seq + ']</span> ' + msg;
+            var msgele = document.getElementById("msg");
+            msgele.appendChild(ele);
+            seq += 1;
+        }
+        log("Starting JSMap for ros");
+
+        function crappyRotationHandler(inQuat) {
+            var vec = new ROSLIB.Vector3({x:1, y:0, z:0});
+            vec.multiplyQuaternion(inQuat);
+            return Math.atan2(vec.y, vec.x);
+        }
+
+        var ros = new ROSLIB.Ros({
+            url : 'ws://localhost:9090'
+        });
+
+        ros.on("connection", function () {
+            log("Connected to ros!");
+        });
+
+        ros.on("error", function () {
+            log("Couldn't connect to ros. Make sure the bridge is running!");
+        });
+
+        ros.on("close", function() {
+            log("Connection closed.");
+        });
 
         var roboFeature = new ol.Feature({
             type: 'robot',
@@ -34,34 +90,50 @@
             })
         });
 
-        function roboPosSet(lat, lon) {
-            roboSource.removeFeature(roboFeature);
-            roboFeature = new ol.Feature({
-                type: 'robot2',
-                geometry: new ol.geom.Point(
-                    [lat, lon]
-                )
+        var headingStyle = new ol.style.Style({
+            stroke: new ol.style.Stroke({color: "red", width: 7.5})
+        });
+
+        var robot = {
+            "position": [20, 2],  /* lon, lat */
+            "heading": 0
+        };
+
+        function GoToRobotControl(opt_options) {
+            var options = opt_options || {};
+
+            var button = document.createElement("button");
+            button.innerHTML = "R";
+
+            var this_ = this;
+            var handleClick = function () {
+                this_.getMap().getView().animate({
+                    center: ol.proj.fromLonLat(robot.position),
+                    duration: 1000
+                });
+            };
+
+            button.addEventListener('click', handleClick, false);
+            var element = document.createElement('div');
+            element.className = 'goto-rover ol-unselectable ol-control';
+            element.appendChild(button);
+
+            ol.control.Control.call(this, {
+                element: element,
+                target: options.target
             });
-            roboSource.addFeature(roboFeature);
-            roboSource.refresh();
-
-
         }
 
-        var roboSource = new ol.source.Vector({
-            features: new ol.Collection([roboFeature])
-        });
-
-        var roboLayer = new ol.layer.Vector({
-            source: roboSource,
-            style: function(feat) {
-                return roboStyle;
-            }
-        });
-
-        roboPosSet(1, 1);
+        ol.inherits(GoToRobotControl, ol.control.Control);
 
         var map = new ol.Map({
+            controls: ol.control.defaults({
+                attributionOptions: {
+                    collapsible: false
+                }
+            }).extend([
+                new GoToRobotControl()
+            ]),
             target: 'map',
             layers: [
                 new ol.layer.Image({
@@ -71,16 +143,66 @@
                         ratio: 1,
                         serverType: 'geoserver'
                     })
-                }),
-                roboLayer
+                })
             ],
             view: new ol.View({
                 center: ol.proj.fromLonLat([37.41, 8.82]),
                 zoom: 4
             })
         });
-        setTimeout(function() {
-        }, 1000);
+
+        map.on("postcompose", function drawCustomElements(event) {
+            var vectorContext = event.vectorContext;
+
+            // Draw robot
+
+            var posOff = [Math.cos(robot.heading) * 50, Math.sin(robot.heading) * 50];
+            var pos = ol.proj.fromLonLat(robot.position);
+            var posPixel = map.getPixelFromCoordinate(pos);
+            posPixel[0] += posOff[0];
+            posPixel[1] += posOff[1];
+            posOff = map.getCoordinateFromPixel(posPixel);
+
+            vectorContext.setStyle(headingStyle);
+            vectorContext.drawGeometry(new ol.geom.LineString([pos, posOff]));
+
+            vectorContext.setStyle(roboStyle);
+            vectorContext.drawGeometry(new ol.geom.Point(pos));
+            map.render();
+        });
+
+        map.render();
+
+        var NavSatSub = new ROSLIB.Topic({
+            ros: ros,
+            name: "/gps/fix",
+            messageType: "sensor_msgs/NavSatFix",
+            queue_size: 10
+        });
+
+        NavSatSub.subscribe(function (msg) {
+            log("Got GPS data!");
+            robot.position = [msg.longitude, msg.latitude];
+        });
+
+        var ImuSub = new ROSLIB.Topic({
+            ros: ros,
+            name: "/imu/data",
+            messageType: "sensor_msgs/Imu",
+            queue_size: 10
+        });
+
+        ImuSub.subscribe(function (msg) {
+            var quat = new ROSLIB.Quaternion({
+                x: msg.orientation.x,
+                y: msg.orientation.y,
+                z: msg.orientation.z,
+                w: msg.orientation.w
+            });
+            robot.heading = crappyRotationHandler(quat);
+        });
+
+        log("Init done");
     </script>
 </body>
 </html>
