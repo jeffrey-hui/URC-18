@@ -1,36 +1,20 @@
 <launch>
     <arg name="publish_tf" default="false"/>
-    <arg name="use_stereo" default="true"/>
 
-    <group unless="$(arg use_stereo)">
 
-        <node name="rgbd_odometry" pkg="rtabmap_ros" type="rgbd_odometry" ns="/rgbd_odom" output="screen">
-            <param name="publish_tf" value="$(arg publish_tf)"/>
-            <remap from="rgb/image" to="/stereo/left/image_rect_color"/>
-            <remap from="rgb/camera_info" to="/stereo/left/camera_info"/>
-            <remap from="depth/image" to="/stereo/depth"/>
+    <node name="stereo_odometry" pkg="rtabmap_ros" type="stereo_odometry" ns="/rgbd_odom" output="screen">
+        <param name="publish_tf" value="$(arg publish_tf)"/>
+        <remap from="left" to="/stereo/left"/>
+        <remap from="right" to="/stereo/right"/>
 
-            <param name="Vis/MaxDepth" type="string" value="5"/>
-            <param name="Vis/MinInliers" type="string" value="10"/>
-            <param name="Vis/InlierDistance" type="string" value="0.05"/>
-            <param name="Vis/FeatureType" type="string" value="0"/>
-        </node>
+        <param name="approx_sync" value="true"/>
 
-    </group>
-    <group if="$(arg use_stereo)">
+        <param name="Vis/MaxDepth" type="string" value="5"/>
+        <param name="Vis/MinInliers" type="string" value="10"/>
+        <param name="Vis/InlierDistance" type="string" value="0.05"/>
+        <param name="Vis/FeatureType" type="string" value="0"/>
 
-        <node name="stereo_odometry" pkg="rtabmap_ros" type="stereo_odometry" ns="/rgbd_odom" output="screen">
-            <param name="publish_tf" value="$(arg publish_tf)"/>
-            <remap from="left" to="/stereo/left" />
-            <remap from="right" to="/stereo/right" />
+        <param name="Odom/ResetCountdown" type="string" value="1" />
+    </node>
 
-            <param name="approx_sync" value="true" />
-
-            <param name="Vis/MaxDepth" type="string" value="5"/>
-            <param name="Vis/MinInliers" type="string" value="10"/>
-            <param name="Vis/InlierDistance" type="string" value="0.05"/>
-            <param name="Vis/FeatureType" type="string" value="0"/>
-        </node>
-
-    </group>
 </launch>

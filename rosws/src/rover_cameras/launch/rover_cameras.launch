@@ -1,29 +1,13 @@
 <launch>
-    <arg name="width" default="1280" />
-    <arg name="height" default="720" />
-
-    <arg name="belly_device" default="/dev/video1" />
-    <arg name="head_device"  default="/dev/video0" />
-
-    <node name="belly_cam" pkg="usb_cam" type="usb_cam_node">
-        <param name="camera_name" value="belly" />
-        <param name="image_width" value="$(arg width)" />
-        <param name="image_height" value="$(arg height)" />
-        <param name="video_device" value="$(arg belly_device)" />
-        <param name="autofocus" value="true" />
+    <node pkg="rover_cameras" type="swapper.py" name="swapper" />
+    <node pkg="rover_cameras" type="camera_mon.py" name="camera_mon" output="screen">
+        <rosparam param="~expected_nums" subst_value="True">[0, 1, 2]</rosparam>
     </node>
 
-    <node name="head_cam" pkg="usb_cam" type="usb_cam_node">
-        <param name="camera_name" value="head" />
-        <param name="image_width" value="$(arg width)" />
-        <param name="image_height" value="$(arg height)" />
-        <param name="video_device" value="$(arg head_device)" />
-        <param name="autofocus" value="true" />
-    </node>
+    <!--node pkg="rover_cameras" type="image_rotater" name="belly_vomiter">
+        <remap from="~image_in" to="/belly_camera/image_raw" />
+        <remap from="~image_out" to="/belly_camera_rotated/image_raw" />
 
-    <node name="image_rotate_belly" pkg="rover_cameras" type="rotate_image">
-        <remap from="~image_in" to="/belly_cam/image_raw" />
-        <remap from="~image_out" to="/belly_cam_rotated/image_raw" />
-        <param name="angle" value="180" />
-    </node>
+        <param name="~angle" value="180" />
+    </node camera is now right way up, not needed  -->
 </launch>

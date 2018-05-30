@@ -98,7 +98,7 @@ find_package(catkin REQUIRED COMPONENTS simpli2c roscpp std_msgs hardware_interf
 catkin_package(
    INCLUDE_DIRS include
    LIBRARIES rover_drive rover_drive_hw
-   CATKIN_DEPENDS simpli2c controller_diagnostics
+   CATKIN_DEPENDS simpli2c controller_diagnostics eml_uberdriver
 #  DEPENDS system_lib
 )
 

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>URC18 Map</title>
+    <link rel="stylesheet" href="asset/ol.css" type="text/css">
+    <style>
+        html {
+            height: 100%;
+            width: 100%;
+        }
+        .map {
+            height: 85vh;
+            width: 100%;
+        }
+        .messages {
+            height: 9.5vh;
+            max-height: 10vh;
+            width: 100%;
+            overflow-y: scroll;
+            font-family: Arial, sans-serif;;
+            color: black;
+        }
+
+        .messages .col {
+            color: gray;
+        }
+
+        .goto-rover {
+            top: 75px;
+            left: .5em;
+        }
+
+        .add-point {
+            width: 100%;
+            max-height: 4vh;
+            height: 4vh;
+            font-family: Arial, sans-serif;
+            color: black;
+        }
+
+        .add-point input, .add-point p {
+            display: inline-block;
+        }
+    </style>
+    <script src="asset/ol.js" type="text/javascript"></script>
+    <script src="asset/ee.js" type="text/javascript"></script>
+    <script src="asset/ros.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="map" id="map"></div>
+    <div class="messages" id="msg"></div>
+    <div class="add-point">
+        <p>Latitude: </p><input type="number" id="latitude" /><p>Longitude: </p><input type="number" id="longitude" /><button id="submit">Add</button><p>Click a point to remove it.</p>
+    </div>
+    <script>
+        var seq = 1;
+        function log(msg) {
+            var ele = document.createElement("p");
+            ele.innerHTML = '<span class="col">[' + seq + ']</span> ' + msg;
+            var msgele = document.getElementById("msg");
+            msgele.appendChild(ele);
+            seq += 1;
+        }
+        log("Starting JSMap for ros");
+
+        function crappyRotationHandler(inQuat) {
+            var vec = new ROSLIB.Vector3({x:1, y:0, z:0});
+            vec.multiplyQuaternion(inQuat);
+            return Math.atan2(vec.y, vec.x);
+        }
+
+        var ros = new ROSLIB.Ros({
+            url : 'ws://localhost:9090'
+        });
+
+        ros.on("connection", function () {
+            log("Connected to ros!");
+        });
+
+        ros.on("error", function () {
+            log("Couldn't connect to ros. Make sure the bridge is running!");
+        });
+
+        ros.on("close", function() {
+            log("Connection closed.");
+        });
+
+        var roboFeature = new ol.Feature({
+            type: 'robot',
+            geometry: new ol.geom.Point(
+                [37.41, 8.82]
+            )
+        });
+
+        var roboStyle = new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 7,
+                snapToPixel: false,
+                fill: new ol.style.Fill({color: "black"}),
+                stroke: new ol.style.Stroke({color: "white", width: 2})
+            })
+        });
+
+        var headingStyle = new ol.style.Style({
+            stroke: new ol.style.Stroke({color: "red", width: 7.5})
+        });
+
+        var robot = {
+            "position": [20, 2],  /* lon, lat */
+            "heading": 0
+        };
+
+        function GoToRobotControl(opt_options) {
+            var options = opt_options || {};
+
+            var button = document.createElement("button");
+            button.innerHTML = "R";
+
+            var this_ = this;
+            var handleClick = function () {
+                this_.getMap().getView().animate({
+                    center: ol.proj.fromLonLat(robot.position),
+                    duration: 1000
+                });
+            };
+
+            button.addEventListener('click', handleClick, false);
+            var element = document.createElement('div');
+            element.className = 'goto-rover ol-unselectable ol-control';
+            element.appendChild(button);
+
+            ol.control.Control.call(this, {
+                element: element,
+                target: options.target
+            });
+        }
+
+        ol.inherits(GoToRobotControl, ol.control.Control);
+        var addedSource = new ol.source.Vector({
+            features: []
+        });
+
+        var pointStyle = new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 7,
+                snapToPixel: false,
+                fill: new ol.style.Fill({color: "green"}),
+                stroke: new ol.style.Stroke({color: "black", width: 1})
+            })
+        });
+
+        var addedPoints = new ol.layer.Vector({
+            source: addedSource,
+            style: function (feat) {
+                return pointStyle;
+            }
+        });
+
+        var map = new ol.Map({
+            controls: ol.control.defaults({
+                attributionOptions: {
+                    collapsible: false
+                }
+            }).extend([
+                new GoToRobotControl()
+            ]),
+            target: 'map',
+            layers: [
+                new ol.layer.Image({
+                    source: new ol.source.ImageWMS({
+                        url: 'http://localhost:8080/service?',
+                        params: {'LAYERS': 'gm_layer'},
+                        ratio: 1,
+                        serverType: 'geoserver'
+                    })
+                }),
+                addedPoints
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([37.41, 8.82]),
+                zoom: 4
+            })
+        });
+
+        map.on("postcompose", function drawCustomElements(event) {
+            var vectorContext = event.vectorContext;
+
+            // Draw robot
+
+            var posOff = [Math.cos(robot.heading) * 50, Math.sin(robot.heading) * 50];
+            var pos = ol.proj.fromLonLat(robot.position);
+            var posPixel = map.getPixelFromCoordinate(pos);
+            posPixel[0] += posOff[0];
+            posPixel[1] += posOff[1];
+            posOff = map.getCoordinateFromPixel(posPixel);
+
+            vectorContext.setStyle(headingStyle);
+            vectorContext.drawGeometry(new ol.geom.LineString([pos, posOff]));
+
+            vectorContext.setStyle(roboStyle);
+            vectorContext.drawGeometry(new ol.geom.Point(pos));
+            map.render();
+        });
+
+        map.render();
+
+        var NavSatSub = new ROSLIB.Topic({
+            ros: ros,
+            name: "/gps/fix",
+            messageType: "sensor_msgs/NavSatFix",
+            queue_size: 10
+        });
+
+        NavSatSub.subscribe(function (msg) {
+            log("Got GPS data!");
+            robot.position = [msg.longitude, msg.latitude];
+        });
+
+        var ImuSub = new ROSLIB.Topic({
+            ros: ros,
+            name: "/imu/data",
+            messageType: "sensor_msgs/Imu",
+            queue_size: 10
+        });
+
+        ImuSub.subscribe(function (msg) {
+            var quat = new ROSLIB.Quaternion({
+                x: msg.orientation.x,
+                y: msg.orientation.y,
+                z: msg.orientation.z,
+                w: msg.orientation.w
+            });
+            robot.heading = crappyRotationHandler(quat);
+        });
+
+        document.getElementById("submit").onclick = function (e) {
+            var lat = parseFloat(document.getElementById("latitude").value);
+            var lon = parseFloat(document.getElementById("longitude").value);
+
+            addedSource.addFeature(new ol.Feature({
+                type: "added",
+                geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat]))
+            }));
+
+            log("Added point!");
+        };
+
+        map.on("click", function(e) {
+            map.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
+                if (layer === addedPoints) {
+                    addedSource.removeFeature(feature);
+                    log("Removing point.")
+                }
+            })
+        });
+
+        log("Init done");
+    </script>
+</body>
+</html>

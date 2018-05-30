@@ -24,12 +24,12 @@
         <joint name="base_link_to_arm_z_pole_${suffix}" type="fixed">
             <parent link="base_link"/>
             <child link="arm_z_pole_${suffix}"/>
-            <origin xyz="${x} 0 0.25"/>
+            <origin xyz="${x} 0 0.1"/>
         </joint>
     </xacro:macro>
 
-    <xacro:arm_z_pole x="0.3" suffix="back"/>
-    <xacro:arm_z_pole x="0.45" suffix="front"/>
+    <xacro:arm_z_pole x="0.09" suffix="back"/>
+    <xacro:arm_z_pole x="0.24" suffix="front"/>
 
     <link name="arm_z_pole_endcap">
         <inertial>
