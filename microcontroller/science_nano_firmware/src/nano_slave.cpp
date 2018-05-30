@@ -27,7 +27,7 @@
 /* -- //i2C Protocol -- */
 
 /* -- pH Probe -- */
-#define pHPin A3                //pH meter Analog output to Arduino Analog Input 3
+#define pHPin A0              //pH meter Analog output to Arduino Analog Input 3
 #define pHLED 13                ///REMOVE if probe works without LED
 #define pHOffset 0.00             //deviation compensate
 #define samplingInterval 20     //Time between measurements
@@ -48,7 +48,7 @@ char receivedBuffer[ReceivedBufferLength + 1];                                  
 byte receivedBufferIndex = 0;
 
 #define ecSensorPin  A2                                                               //EC Meter analog output,pin on analog 1
-#define ecTempPin  2                                                                  //DS18B20 signal, pin on digital 2
+#define ecTempPin  4                                                                 //DS18B20 signal, pin on digital 2
 
 #define SCOUNT  100                                                                   // sum of sample point
 int analogBuffer[SCOUNT];                                                             //store the analog value read from ADC
@@ -69,7 +69,7 @@ OneWire ds(ecTempPin);
 #include <SHT1x.h>
 
 #define THdataPin 3
-#define THclockPin 4
+#define THclockPin 2
 SHT1x sht1x(THdataPin, THclockPin);
 float soilTemp;
 float humidity;
@@ -81,7 +81,7 @@ float humidity;
 #define SYS_VOLTAGE 5000
 
 // I/O define
-const int iled = 6;                                            //drive the led of sensor
+const int iled = 12;                                            //drive the led of sensor
 const int vout = A6;                                           //analog input
 
 // variables
@@ -103,7 +103,7 @@ unsigned long previousMillis;   //variable for time measurement
 /* -- //Geiger Counter */
 
 /* -- Hydrogen -- */
-#define H2Pin A0
+#define H2Pin A1
 /* -- //Hydrogen -- */
 
 /* -- Anemometer -- */
@@ -112,7 +112,7 @@ unsigned long previousMillis;   //variable for time measurement
 //  2014 at http://www.hackerscapes.com/ with help from Adafruit forum users shirad
 
 
-#define anemPin A1                             //Defines the pin that the anemometer output is connected to
+#define anemPin A6                            //Defines the pin that the anemometer output is connected to
 int serial_in;
 double x = 0;
 double y = 0;
@@ -130,7 +130,47 @@ float voltageMax = 2.0;                         // Maximum output voltage from a
 float windSpeedMax = 32;                        // Wind speed in meters/sec corresponding to maximum voltage
 /* -- //Anemometer -- */
 
+//I2C
+#define ADD_BASE 0x40
+#define ADD_PIN_1 7
+#define ADD_PIN_2 8
+int ADDRESS;
+
+void onRequest(){
+    //payload is formated as a csv
+    //PH, ECT (EC, TEMP), TEMP_HUM (TEMP, HUM), DUST, GEIGER, H2, ANEMOMETER
+    //h2 is missing
+    String payload;
+    //payload = String(pHArray[pHArrayIndex]) + "," + String(ECvalue) + "," + String(ec_tempC) + "," + String(soilTemp) + "," + String(humidity) + "," + String(density) + "," + String(cpm) + "," << String(windSpeed) ;
+    payload = pHArray[pHArrayIndex];
+    payload.concat(",");
+    payload.concat(ECvalue);
+    payload.concat(",");
+    payload.concat(ec_tempC);
+    payload.concat(",");
+    payload.concat(soilTemp);
+    payload.concat(",");
+    payload.concat(humidity);
+    payload.concat(",");
+    payload.concat(density);
+    payload.concat(",");
+    payload.concat(cpm);
+    payload.concat(",");
+    payload.concat(windSpeed);
+    Wire.write(payload.toInt());
+}
+
+void set_address(){
+    pinMode(ADD_PIN_1, INPUT);
+    pinMode(ADD_PIN_2, INPUT);
+    ADDRESS = ADD_BASE;
+    ADDRESS += digitalRead(ADD_PIN_1);
+    ADDRESS += digitalRead(ADD_PIN_2) * 2;
+}
 void setup(void){
+    //i2C
+    Wire.begin(ADDRESS);
+    Wire.onRequest(onRequest);
     /* -- pH Probe -- */
     pinMode(pHLED, OUTPUT);     ///REMOVE if probe works without LED
     /* -- pH Probe -- */
@@ -218,7 +258,7 @@ void loop(void) {
             ECvalue = ECvalue / compensationFactor / 1000.0;                                                               //after compensation,convert us/cm to ms/cm
             //Serial.print(ECvalue, 2);                                                     //two decimal
             //Serial.print(F("ms/cm"));
-            ec = ECvalue;                                                                   // For printing
+            //ec = ECvalue;                                                                   // For printing
             if (enterCalibrationFlag) {                                                     // in calibration mode, print the voltage to user, to watch the stability of voltage
                 //Serial.print(F("            Factor:"));
                 //Serial.print(compensationFactor);
