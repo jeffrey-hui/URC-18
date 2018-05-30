@@ -105,7 +105,7 @@ void rover_arm::ArmHW::init(hardware_interface::RobotHW *hw) {
     if (!nh.getParam("robot_description", robot_description)) {
         ROS_FATAL_STREAM("Failed to load robot_description, this node will probably now crash");
     }
-
+	armOn = true;
 }
 
 void rover_arm::ArmHW::write() {
@@ -143,7 +143,7 @@ void rover_arm::ArmHW::read() {
             diag_dhd.data["connected"] = "yes";
             diag_dhd.status = diagnostic_msgs::DiagnosticStatus::OK;
             diag_dhd.message = "The arduino is connected and responding to i2c";
-
+/*
             int ticks_inneroutr = this->jointEncoders[0].encoderValue();
             int ticks_slideunit = this->jointEncoders[1].encoderValue();
             int ticks_slidepole = this->jointEncoders[2].encoderValue();
@@ -152,7 +152,7 @@ void rover_arm::ArmHW::read() {
             pos[1] = convertToPositionOffsetRotate(ticks_inneroutr); // todo: get gear crappo for this
             pos[0] = convertToPositionOffsetRotate(ticks_slideunit);
             pos[2] = 0; // todo
-            pos[3] = convertToPositionOffsetRotate(ticks_gripptilt);
+  i          pos[3] = convertToPositionOffsetRotate(ticks_gripptilt);i*/
             //ROS_INFO_STREAM("abc " << ticks_inneroutr << " " << ticks_slideunit << " " << ticks_gripptilt);
         }
     }
