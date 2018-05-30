@@ -51,12 +51,12 @@ def on_joy_data(msg):
         push_button_last = False
     else:
         if not push_button_last:
-            speed_value += tri_state
-            speed_value = max(1.175, min(4.75, speed_value))
+            speed_value += tri_state * 5
+            speed_value = max(1.175, min(40.75, speed_value))
 
     if is_enabled:
         drive_control_right.publish(left)
-        drive_control_left.publish(-right)
+        drive_control_left.publish(right)
 
 
 joy_listener = rospy.Subscriber("joy", sensor_msgs.msg.Joy, queue_size=20, callback=on_joy_data)
