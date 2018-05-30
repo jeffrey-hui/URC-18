@@ -18,6 +18,49 @@
     <script>
         var ros = new ROSLIB.Ros();
 
+        var roboFeature = new ol.Feature({
+            type: 'robot',
+            geometry: new ol.geom.Point(
+                [37.41, 8.82]
+            )
+        });
+
+        var roboStyle = new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 7,
+                snapToPixel: false,
+                fill: new ol.style.Fill({color: "black"}),
+                stroke: new ol.style.Stroke({color: "white", width: 2})
+            })
+        });
+
+        function roboPosSet(lat, lon) {
+            roboSource.removeFeature(roboFeature);
+            roboFeature = new ol.Feature({
+                type: 'robot2',
+                geometry: new ol.geom.Point(
+                    [lat, lon]
+                )
+            });
+            roboSource.addFeature(roboFeature);
+            roboSource.refresh();
+
+
+        }
+
+        var roboSource = new ol.source.Vector({
+            features: new ol.Collection([roboFeature])
+        });
+
+        var roboLayer = new ol.layer.Vector({
+            source: roboSource,
+            style: function(feat) {
+                return roboStyle;
+            }
+        });
+
+        roboPosSet(1, 1);
+
         var map = new ol.Map({
             target: 'map',
             layers: [
@@ -28,13 +71,16 @@
                         ratio: 1,
                         serverType: 'geoserver'
                     })
-                })
+                }),
+                roboLayer
             ],
             view: new ol.View({
                 center: ol.proj.fromLonLat([37.41, 8.82]),
                 zoom: 4
             })
         });
+        setTimeout(function() {
+        }, 1000);
     </script>
 </body>
 </html>
