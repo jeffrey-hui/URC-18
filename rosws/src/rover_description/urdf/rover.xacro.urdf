@@ -52,12 +52,12 @@
     <xacro:arg name="arm" default="true"/>
     <xacro:arg name="gripper_type" default="normal_gripper" />
 
-    <xacro:wheel suffix="front_left" attach="0.39 -0.25 0.0" side="-1" reduction="49"/>
-    <xacro:wheel suffix="front_right" attach="0.39 0.25 0.0" side="1" reduction="-49"/>
-    <xacro:wheel suffix="back_left" attach="-0.39 -0.25 0.0" side="-1" reduction="49"/>
-    <xacro:wheel suffix="back_right" attach="-0.39 0.25 0.0" side="1" reduction="-49"/>
-    <xacro:wheel suffix="center_left" attach="0 -0.25 0.0" side="-1" reduction="49"/>
-    <xacro:wheel suffix="center_right" attach="0 0.25 0.0" side="1" reduction="-49"/>
+    <xacro:wheel suffix="front_left" attach="0.39 -0.25 0.0" side="-1" reduction="-49"/>
+    <xacro:wheel suffix="front_right" attach="0.39 0.25 0.0" side="1" reduction="49"/>
+    <xacro:wheel suffix="back_left" attach="-0.39 -0.25 0.0" side="-1" reduction="-49"/>
+    <xacro:wheel suffix="back_right" attach="-0.39 0.25 0.0" side="1" reduction="49"/>
+    <xacro:wheel suffix="center_left" attach="0 -0.25 0.0" side="-1" reduction="-49"/>
+    <xacro:wheel suffix="center_right" attach="0 0.25 0.0" side="1" reduction="49"/>
 
     <gazebo>
         <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">

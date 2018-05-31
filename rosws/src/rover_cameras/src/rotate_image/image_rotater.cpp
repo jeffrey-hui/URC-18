@@ -14,8 +14,6 @@ double angle;
 void imageCallback(const sensor_msgs::ImageConstPtr& msg) {
     cv::Mat src = cv_bridge::toCvShare(msg)->image;
 
-    ROS_INFO_STREAM("GOOOOOOO");
-
     cv::Point2f center(src.cols/2.0, src.rows/2.0);
     cv::Mat rot = cv::getRotationMatrix2D(center, angle, 1.0);
     cv::Rect bbox = cv::RotatedRect(center,src.size(), angle).boundingRect();
@@ -24,7 +22,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg) {
 
     cv::Mat dst;
     cv::warpAffine(src, dst, rot, bbox.size());
-    image_out->publish(cv_bridge::CvImage(std_msgs::Header(), "bgr8", dst).toImageMsg());
+    image_out->publish(cv_bridge::CvImage(std_msgs::Header(), "rgb8", dst).toImageMsg());
 }
 
 int main(int argc, char ** argv) {

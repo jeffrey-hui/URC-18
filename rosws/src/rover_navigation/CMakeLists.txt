@@ -98,10 +98,10 @@ generate_messages(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-        # INCLUDE_DIRS include
-        # LIBRARIES rover_navigation
-        CATKIN_DEPENDS control_toolbox
-        #  DEPENDS system_lib
+  INCLUDE_DIRS include
+  LIBRARIES rover_navigation
+  CATKIN_DEPENDS control_toolbox
+#  DEPENDS system_lib
 )
 
 ###########
@@ -115,11 +115,12 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(${catkin_INCLUDE_DIRS})
 
 # Declare a C++ library
-# add_library(rover_navigation src/lines_layer/lines_layer.cpp include/rover_navigation/lines_layer/lines_layer.h)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
+
+# add_dependencies(rover_navigation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 # add_dependencies(rover_navigation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 

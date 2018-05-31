@@ -14,7 +14,7 @@ namespace rover_drive {
         double max_val = static_cast<double>(WHEEL_MAX_RADIANS_PER_SECOND);
         double clamped = std::min(max_val, std::max(-max_val, vel));
         double v = clamped / max_val;
-        return (uint16_t)(((MOTOR_OFFSET * v)) + MOTOR_MID);
+        return (uint16_t)(-((MOTOR_OFFSET * v)) + MOTOR_MID);
     }
 
     void DriveHW::init(hardware_interface::RobotHW *hw) {
@@ -39,12 +39,12 @@ namespace rover_drive {
         hw->get<hardware_interface::ActuatorStateInterface>()->registerHandle(jsRF);
         hw->get<hardware_interface::ActuatorStateInterface>()->registerHandle(jsRM);
         
-        hardware_interface::ActuatorHandle jLB(hw->get<hardware_interface::ActuatorStateInterface>()->getHandle("drive_motor_back_left"), &cmd[0]);
-        hardware_interface::ActuatorHandle jRB(hw->get<hardware_interface::ActuatorStateInterface>()->getHandle("drive_motor_back_right"), &cmd[3]);
-        hardware_interface::ActuatorHandle jLF(hw->get<hardware_interface::ActuatorStateInterface>()->getHandle("drive_motor_front_left"), &cmd[1]);
-        hardware_interface::ActuatorHandle jRF(hw->get<hardware_interface::ActuatorStateInterface>()->getHandle("drive_motor_front_right"), &cmd[4]);
-        hardware_interface::ActuatorHandle jLM(hw->get<hardware_interface::ActuatorStateInterface>()->getHandle("drive_motor_center_left"), &cmd[2]);
-        hardware_interface::ActuatorHandle jRM(hw->get<hardware_interface::ActuatorStateInterface>()->getHandle("drive_motor_center_right"), &cmd[5]);
+        hardware_interface::ActuatorHandle jLB(jsLB, &cmd[0]);
+        hardware_interface::ActuatorHandle jRB(jsRB, &cmd[3]);
+        hardware_interface::ActuatorHandle jLF(jsLF, &cmd[1]);
+        hardware_interface::ActuatorHandle jRF(jsRF, &cmd[4]);
+        hardware_interface::ActuatorHandle jLM(jsLM, &cmd[2]);
+        hardware_interface::ActuatorHandle jRM(jsRM, &cmd[5]);
 
         act_vel_interface.registerHandle(jLB);
         act_vel_interface.registerHandle(jLF);
@@ -73,12 +73,14 @@ namespace rover_drive {
         std::vector<transmission_interface::TransmissionInfo> infos;
         parser.parse(robot_description, infos);
         for (auto e : infos) {
-            if (boost::starts_with(e.name_, "wheel")) {
+            if (true) {
+		ROS_INFO_STREAM("Loading transmission " << e.name_);
                 if (!this->transmission_loader_->load(e)) {
                     ROS_FATAL_STREAM("ASDF");
                 }
             }
         }
+	ROS_INFO_STREAM("Hi");
     }
 
     void DriveHW::read() {
@@ -107,6 +109,7 @@ namespace rover_drive {
     }
 
     void DriveHW::write() {
+        this->robot_transmissions.get<transmission_interface::JointToActuatorEffortInterface>()->propagate();
         this->robot_transmissions.get<transmission_interface::JointToActuatorVelocityInterface>()->propagate();
         ROS_INFO_STREAM("cmd[0] " << cmd[0]);
         device.writeMicroseconds(LEFT_BACK_WHEEL, convert_to_msecs(cmd[0]));
