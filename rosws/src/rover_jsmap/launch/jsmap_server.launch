@@ -1,3 +1,5 @@
 <launch>
     <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+    <node pkg="rover_imugps" type="proxy_node.py" name="proxy_node" />
+    <node pkg="rover_jsmap" type="mapserv.py" name="jsmap_server" />
 </launch>

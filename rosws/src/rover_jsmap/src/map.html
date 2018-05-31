@@ -25,6 +25,14 @@
         .messages .col {
             color: gray;
         }
+
+        .goto-rover {
+            top: 65px;
+            left: .5em;
+        }
+        .ol-touch .goto-rover {
+            top: 80px;
+        }
     </style>
     <script src="asset/ol.js" type="text/javascript"></script>
     <script src="asset/ee.js" type="text/javascript"></script>
@@ -86,7 +94,46 @@
             stroke: new ol.style.Stroke({color: "red", width: 7.5})
         });
 
+        var robot = {
+            "position": [20, 2],  /* lon, lat */
+            "heading": 0
+        };
+
+        function GoToRobotControl(opt_options) {
+            var options = opt_options || {};
+
+            var button = document.createElement("button");
+            button.innerHTML = "R";
+
+            var this_ = this;
+            var handleClick = function () {
+                this_.getMap().getView().animate({
+                    center: ol.proj.fromLonLat(robot.position),
+                    duration: 1000
+                });
+            };
+
+            button.addEventListener('click', handleClick, false);
+            var element = document.createElement('div');
+            element.className = 'goto-rover ol-unselectable ol-control';
+            element.appendChild(button);
+
+            ol.control.Control.call(this, {
+                element: element,
+                target: options.target
+            });
+        }
+
+        ol.inherits(GoToRobotControl, ol.control.Control);
+
         var map = new ol.Map({
+            controls: ol.control.defaults({
+                attributionOptions: {
+                    collapsible: false
+                }
+            }).extend([
+                new GoToRobotControl()
+            ]),
             target: 'map',
             layers: [
                 new ol.layer.Image({
@@ -103,11 +150,6 @@
                 zoom: 4
             })
         });
-
-        var robot = {
-            "position": [20, 2],  /* lon, lat */
-            "heading": 0
-        };
 
         map.on("postcompose", function drawCustomElements(event) {
             var vectorContext = event.vectorContext;
