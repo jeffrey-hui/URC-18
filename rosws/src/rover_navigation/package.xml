@@ -40,14 +40,30 @@
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>costmap_2d</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>actionlib_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <run_depend>message_generation</run_depend>
   <run_depend>robot_localization</run_depend>
+  <run_depend>actionlib_msgs</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>costmap_2d</run_depend>
+  <run_depend>geometry_msgs</run_depend>
   <run_depend>rtabmap</run_depend>
   <run_depend>rtabmap_ros</run_depend>
   <run_depend>navigation</run_depend>
+  <run_depend>rover_stereo</run_depend>
+  <run_depend>executive_smach</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>tf</run_depend> <!-- I know its old, but the api is easier) -->
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->
-
+    <costmap_2d plugin="${prefix}/costmap_2d_plugins.xml" />
   </export>
 </package>

@@ -10,7 +10,7 @@
 
 namespace rover_drive {
 
-    const int WHEEL_MAX_RADIANS_PER_SECOND = 5;
+    const int WHEEL_MAX_RADIANS_PER_SECOND = 1960;
 
     const int LEFT_BACK_WHEEL = 6;
     const int LEFT_FRONT_WHEEL = 4;

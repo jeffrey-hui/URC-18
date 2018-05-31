@@ -18,39 +18,42 @@ namespace rover_drive {
     }
 
     void DriveHW::init(hardware_interface::RobotHW *hw) {
+        ros::NodeHandle nh("/");
+        ROS_INFO_STREAM("Doing init on drive");
+
         if (!this->device.isDisconnected()) {
             setupDeviceOnConnect();
         }
 
-        hardware_interface::JointStateHandle jsLB("leg_to_wheel_back_left", &pos[0], &vel[0], &eff[0]);
-        hardware_interface::JointStateHandle jsRB("leg_to_wheel_back_right", &pos[3], &vel[3], &eff[3]);
-        hardware_interface::JointStateHandle jsLF("leg_to_wheel_front_left", &pos[1], &vel[1], &eff[1]);
-        hardware_interface::JointStateHandle jsRF("leg_to_wheel_front_right", &pos[4], &vel[4], &eff[4]);
-        hardware_interface::JointStateHandle jsLM("leg_to_wheel_center_left", &pos[2], &vel[2], &eff[2]);
-        hardware_interface::JointStateHandle jsRM("leg_to_wheel_center_right", &pos[5], &vel[5], &eff[5]);
+        hardware_interface::ActuatorStateHandle jsLB("drive_motor_back_left", &pos[0], &vel[0], &eff[0]);
+        hardware_interface::ActuatorStateHandle jsRB("drive_motor_back_right", &pos[3], &vel[3], &eff[3]);
+        hardware_interface::ActuatorStateHandle jsLF("drive_motor_front_left", &pos[1], &vel[1], &eff[1]);
+        hardware_interface::ActuatorStateHandle jsRF("drive_motor_front_right", &pos[4], &vel[4], &eff[4]);
+        hardware_interface::ActuatorStateHandle jsLM("drive_motor_center_left", &pos[2], &vel[2], &eff[2]);
+        hardware_interface::ActuatorStateHandle jsRM("drive_motor_center_right", &pos[5], &vel[5], &eff[5]);
 
-        hw->get<hardware_interface::JointStateInterface>()->registerHandle(jsLB);
-        hw->get<hardware_interface::JointStateInterface>()->registerHandle(jsLF);
-        hw->get<hardware_interface::JointStateInterface>()->registerHandle(jsLM);
-        hw->get<hardware_interface::JointStateInterface>()->registerHandle(jsRB);
-        hw->get<hardware_interface::JointStateInterface>()->registerHandle(jsRF);
-        hw->get<hardware_interface::JointStateInterface>()->registerHandle(jsRM);
+        hw->get<hardware_interface::ActuatorStateInterface>()->registerHandle(jsLB);
+        hw->get<hardware_interface::ActuatorStateInterface>()->registerHandle(jsLF);
+        hw->get<hardware_interface::ActuatorStateInterface>()->registerHandle(jsLM);
+        hw->get<hardware_interface::ActuatorStateInterface>()->registerHandle(jsRB);
+        hw->get<hardware_interface::ActuatorStateInterface>()->registerHandle(jsRF);
+        hw->get<hardware_interface::ActuatorStateInterface>()->registerHandle(jsRM);
         
-        hardware_interface::JointHandle jLB(hw->get<hardware_interface::JointStateInterface>()->getHandle("leg_to_wheel_back_left"), &cmd[0]);
-        hardware_interface::JointHandle jRB(hw->get<hardware_interface::JointStateInterface>()->getHandle("leg_to_wheel_back_right"), &cmd[3]);
-        hardware_interface::JointHandle jLF(hw->get<hardware_interface::JointStateInterface>()->getHandle("leg_to_wheel_front_left"), &cmd[1]);
-        hardware_interface::JointHandle jRF(hw->get<hardware_interface::JointStateInterface>()->getHandle("leg_to_wheel_front_right"), &cmd[4]);
-        hardware_interface::JointHandle jLM(hw->get<hardware_interface::JointStateInterface>()->getHandle("leg_to_wheel_center_left"), &cmd[2]);
-        hardware_interface::JointHandle jRM(hw->get<hardware_interface::JointStateInterface>()->getHandle("leg_to_wheel_center_right"), &cmd[5]);
+        hardware_interface::ActuatorHandle jLB(jsLB, &cmd[0]);
+        hardware_interface::ActuatorHandle jRB(jsRB, &cmd[3]);
+        hardware_interface::ActuatorHandle jLF(jsLF, &cmd[1]);
+        hardware_interface::ActuatorHandle jRF(jsRF, &cmd[4]);
+        hardware_interface::ActuatorHandle jLM(jsLM, &cmd[2]);
+        hardware_interface::ActuatorHandle jRM(jsRM, &cmd[5]);
 
-        jnt_vel_interface.registerHandle(jLB);
-        jnt_vel_interface.registerHandle(jLF);
-        jnt_vel_interface.registerHandle(jLM);
-        jnt_vel_interface.registerHandle(jRB);
-        jnt_vel_interface.registerHandle(jRF);
-        jnt_vel_interface.registerHandle(jRM);
+        act_vel_interface.registerHandle(jLB);
+        act_vel_interface.registerHandle(jLF);
+        act_vel_interface.registerHandle(jLM);
+        act_vel_interface.registerHandle(jRB);
+        act_vel_interface.registerHandle(jRF);
+        act_vel_interface.registerHandle(jRM);
 
-        hw->registerInterface(&jnt_vel_interface);
+        hw->registerInterface(&act_vel_interface);
 
         diag_dhd.hardwareID = "due-drive";
         diag_dhd.data["connected"] = !this->device.isDisconnected() ? "yes" : "no";
@@ -59,9 +62,29 @@ namespace rover_drive {
         controller_diagnostics::DiagnosticHandle dH("drive_arduino", &diag_dhd);
         
         hw->get<controller_diagnostics::DiagnosticStateInterface>()->registerHandle(dH);
+
+        std::string robot_description;
+        if (!nh.getParam("robot_description", robot_description)) {
+            ROS_FATAL_STREAM("Failed to load robot_description, this node will probably now crash");
+        }
+
+        this->transmission_loader_ = new transmission_interface::TransmissionInterfaceLoader(hw, &this->robot_transmissions);
+        transmission_interface::TransmissionParser parser;
+        std::vector<transmission_interface::TransmissionInfo> infos;
+        parser.parse(robot_description, infos);
+        for (auto e : infos) {
+            if (true) {
+		ROS_INFO_STREAM("Loading transmission " << e.name_);
+                if (!this->transmission_loader_->load(e)) {
+                    ROS_FATAL_STREAM("ASDF");
+                }
+            }
+        }
+	ROS_INFO_STREAM("Hi");
     }
 
     void DriveHW::read() {
+        this->robot_transmissions.get<transmission_interface::ActuatorToJointStateInterface>()->propagate();
         if (this->device.isDisconnected()) {
             diag_dhd.data["connected"] = "no";
             diag_dhd.status = diagnostic_msgs::DiagnosticStatus::ERROR;
@@ -86,6 +109,9 @@ namespace rover_drive {
     }
 
     void DriveHW::write() {
+        this->robot_transmissions.get<transmission_interface::JointToActuatorEffortInterface>()->propagate();
+        this->robot_transmissions.get<transmission_interface::JointToActuatorVelocityInterface>()->propagate();
+        ROS_INFO_STREAM("cmd[0] " << cmd[0]);
         device.writeMicroseconds(LEFT_BACK_WHEEL, convert_to_msecs(cmd[0]));
         device.writeMicroseconds(LEFT_FRONT_WHEEL, convert_to_msecs(cmd[1]));
         device.writeMicroseconds(LEFT_MID_WHEEL, convert_to_msecs(cmd[2]));
