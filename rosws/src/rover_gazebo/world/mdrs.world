@@ -4,6 +4,11 @@
             <uri>model://sun</uri>
         </include>
 
+        <include>
+            <uri>model://tennis_ball</uri>
+            <pose>-3 -9 8 0 -0 0</pose>
+        </include>
+
         <model name="ground">
             <static>true</static>
             <link name="ground">

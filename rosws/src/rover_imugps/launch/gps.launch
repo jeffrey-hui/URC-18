@@ -1,0 +1,17 @@
+<launch>
+    <node pkg="rover_imugps" type="gps_forwarder" name="gps_node" respawn="true">
+
+    </node>
+    <node pkg="nmea_navsat_driver" type="nmea_topic_driver" name="gps_parser" ns="gps">
+        <remap from="nmea_sentence" to="/gps/sentence" />
+    </node>
+    <node pkg="robot_localization" type="navsat_transform_node" name="gps_tf">
+        <param name="zero_altitude" value="true" />
+        <param name="broadcast_utm_transform" value="true" />
+    </node>
+
+    <node pkg="swri_transform_util" type="initialize_origin.py" name="inity">
+        <param name="local_xy_frame" value="odom" />
+        <remap from="fix" to="/gps/fix" />
+    </node>
+</launch>

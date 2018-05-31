@@ -4,7 +4,7 @@ project(rover_navigation)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS costmap_2d geometry_msgs actionlib_msgs std_msgs)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -40,11 +40,11 @@ find_package(catkin REQUIRED)
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+        FILES
+        Path.msg
+        #   Message2.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -54,17 +54,19 @@ find_package(catkin REQUIRED)
 # )
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
+add_action_files(
+  FILES
+  RunNav.action
 #   Action2.action
-# )
+)
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+generate_messages(
+        DEPENDENCIES
+        std_msgs  # Or other packages containing msgs
+        geometry_msgs
+        actionlib_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -96,29 +98,31 @@ find_package(catkin REQUIRED)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES rover_navigation
-#  CATKIN_DEPENDS other_catkin_pkg
-#  DEPENDS system_lib
+        INCLUDE_DIRS include
+        LIBRARIES rover_navigation
+        #  CATKIN_DEPENDS other_catkin_pkg
+        #  DEPENDS system_lib
 )
 
 ###########
 ## Build ##
 ###########
 
+set(CMAKE_CXX_STANDARD 14)
+
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
+include_directories(${catkin_INCLUDE_DIRS})
+include_directories(include)
 
-## Declare a C++ library
-# add_library(rover_navigation
-#   src/${PROJECT_NAME}/rover_navigation.cpp
-# )
+# Declare a C++ library
+add_library(rover_navigation src/lines_layer/lines_layer.cpp include/rover_navigation/lines_layer/lines_layer.h)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(rover_navigation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_dependencies(rover_navigation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
 # add_executable(rover_navigation_node src/rover_navigation_node.cpp)
@@ -128,9 +132,9 @@ catkin_package(
 # add_dependencies(rover_navigation_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(rover_navigation_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(rover_navigation
+        ${catkin_LIBRARIES}
+        )
 
 #############
 ## Install ##

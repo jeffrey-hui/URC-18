@@ -111,9 +111,8 @@ catkin_package(
 include_directories(include)
 include_directories(${catkin_INCLUDE_DIRS})
 
-add_compile_options("-std=c++11")
-
 file(GLOB_RECURSE LIB_SRC src/*.cpp src/*.h)
+add_compile_options(-std=c++11)
 
 ## Declare a C++ library
 add_library(rover_ik

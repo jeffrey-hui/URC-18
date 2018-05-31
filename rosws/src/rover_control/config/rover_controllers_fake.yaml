@@ -22,54 +22,9 @@ right_wheels_controller:
 # wheel "skid" drive. (does odom too!)
 wheel_diff_drive_controller:
   type: diff_drive_controller/DiffDriveController
-  left_wheel: ['leg_to_wheel_front_left', 'leg_to_wheel_center_left', 'leg_to_wheel_back_left']
-  right_wheel: ['leg_to_wheel_front_right', 'leg_to_wheel_center_right', 'leg_to_wheel_back_right']
-  pose_covariance_diagonal: [0.01, 0.01, 1000000.0, 1000000.0, 1000000.0, 0.03]
+  right_wheel: ['leg_to_wheel_front_left', 'leg_to_wheel_center_left', 'leg_to_wheel_back_left']
+  left_wheel: ['leg_to_wheel_front_right', 'leg_to_wheel_center_right', 'leg_to_wheel_back_right']
+  pose_covariance_diagonal: [0.1, 0.1, 1000000.0, 1000000.0, 1000000.0, 0.3]
   twist_covariance_diagonal: [0.3, 0.3, 0.3, 1000000.0, 1000000.0, 0.03]
+  enable_odom_tf: false
 
-#  enable_odom_tf: false
-
-arm_moveit_controller:
-  type: effort_controllers/JointTrajectoryController
-  joints:
-    - arm_base_to_post
-    - arm_inner_to_outer_xy
-    - arm_z_slide
-    - arm_gripper_rot_z
-    - arm_gripper_rot_y
-  gains:
-    arm_base_to_post: {p: 70.0, d: 1.4, i: 0, i_clamp: 1}
-    arm_inner_to_outer_xy: {p: 70.0, d: 0.5, i: 0, i_clamp: 1}
-    arm_z_slide: {p: 675.0, d: 0, i: 0, i_clamp: 0}
-    arm_gripper_rot_z: {p: 150.0, d: 0, i: 0, i_clamp: 1}
-    arm_gripper_rot_y: {p: 230.0, d: 0, i: 0, i_clamp: 1}
-
-eef_moveit_controller:
-  type: effort_controllers/JointTrajectoryController
-  joints:
-    - gripper_base_to_finger_back_left
-    - gripper_base_to_finger_back_right
-    - gripper_base_to_finger_front_left
-    - gripper_base_to_finger_front_right
-  gains:
-    gripper_base_to_finger_front_left: {p: 50.0, d: 0, i: 0, i_clamp: 1}
-    gripper_base_to_finger_front_right: {p: 50.0, d: 0, i: 0, i_clamp: 1}
-    gripper_base_to_finger_back_left: {p: 50.0, d: 0, i: 0, i_clamp: 1}
-    gripper_base_to_finger_back_right: {p: 50.0, d: 0, i: 0, i_clamp: 1}
-
-arm_ik_controller:
-  type: rover_ik/IKJointController
-  joints:
-    - arm_base_to_post
-    - arm_inner_to_outer_xy
-    - arm_z_slide
-    - arm_gripper_rot_z
-    - arm_gripper_rot_y
-  gains:
-    arm_base_to_post: {p: 70.0, d: 1.4, i: 0, i_clamp: 1}
-    arm_inner_to_outer_xy: {p: 70.0, d: 0.5, i: 0, i_clamp: 1}
-    arm_z_slide: {p: 675.0, d: 0, i: 0, i_clamp: 0}
-    arm_gripper_rot_z: {p: 150.0, d: 0, i: 0, i_clamp: 1}
-    arm_gripper_rot_y: {p: 230.0, d: 0, i: 0, i_clamp: 1}
-  base_link: arm_base
-  tip_link: gripper_base
