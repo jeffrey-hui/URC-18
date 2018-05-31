@@ -27,13 +27,15 @@ def on_load_camera(req):
 def on_unload_camera(req):
     rospy.loginfo("Stopping camera")
     pub_cameras()
-    return rover_cameras.srv.UnloadCameraResponse(node_controller.stop_camera(req.camera_name))
+    r = rover_cameras.srv.UnloadCameraResponse(node_controller.stop_camera(req.camera_name))
+    pub_cameras()
+    return r
 
 
 pub_cameras()
 rospy.loginfo("Starting!")
-node_controller.start_camera("/dev/video0", "head_camera")
-node_controller.start_camera("/dev/video1", "belly_camera")
+#node_controller.start_camera("/dev/video0", "head_camera")
+#node_controller.start_camera("/dev/video1", "belly_camera")
 
 load_cam = rospy.Service("~load_camera", rover_cameras.srv.LoadCamera, on_load_camera)
 unload_cam = rospy.Service("~unload_camera", rover_cameras.srv.UnloadCamera, on_unload_camera)
