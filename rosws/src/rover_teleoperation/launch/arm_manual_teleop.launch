@@ -1,5 +1,6 @@
 <launch>
     <arg name="dev" default="/dev/input/js0"/>
+    <arg name="science" default="false" />
 
     <node pkg="rover_teleoperation" name="arm_manual_teleop" type="arm_manual_joy_teleop.py">
         <remap from="joy" to="/joy/arm"/>
@@ -8,6 +9,10 @@
     <node pkg="joy" type="joy_node" name="arm_joy">
         <param name="~dev" value="$(arg dev)"/>
         <param name="~deadzone" value="0.12"/>
+        <remap from="joy" to="/joy/arm"/>
+    </node>
+
+    <node if="$(arg science)" pkg="rover_teleoperation" name="arm_science_extra" type="arm_science_extra_teleop.py">
         <remap from="joy" to="/joy/arm"/>
     </node>
 </launch>
