@@ -131,14 +131,19 @@ include_directories(
 
 ## Declare a C++ executable
 add_executable(oxyarm_node src/oxyarm_node/main.cpp src/oxyarm_node/oxyarm_dev.cpp src/oxyarm_node/oxyarm_dev.h)
+add_executable(sciread_node src/sciread_node/main.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 add_dependencies(oxyarm_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(sciread_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(oxyarm_node
   ${catkin_LIBRARIES}
 )
+target_link_libraries(sciread_node
+        ${catkin_LIBRARIES}
+        )
 
 #############
 ## Install ##
