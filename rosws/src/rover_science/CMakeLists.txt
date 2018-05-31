@@ -7,6 +7,7 @@ project(rover_science)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
+  simpli2c
 )
 
 ## System dependencies are found with CMake's conventions
