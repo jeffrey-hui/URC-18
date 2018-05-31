@@ -7,7 +7,8 @@ Launch Files
 ------------
 
 ``rover_control.launch``
-----------------------
+========================
+
 
 This launch file is for loading controller parameters and starting ``robot_state_publisher``. It takes two parameters:
 
