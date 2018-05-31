@@ -121,7 +121,7 @@ unsigned long previousMillis;   //variable for time measurement
 
 /* -- Hydrogen -- */
 #define H2Pin A0                //Hydrogen Sensor Pin
-int hydroPPM
+int hydroPPM = 0;
 /* -- //Hydrogen -- */
 
 /* -- Anemometer -- */
@@ -136,12 +136,45 @@ float windSpeedMin = 0;                         //Wind speed in meters/sec corre
 float voltageMax = 2.0;                         //Maximum output voltage from anemometer in mV.
 float windSpeedMax = 32;                        //Wind speed in meters/sec corresponding to maximum voltage
 
+#define ADD_BASE 0x40
+#define ADD_PIN_1 7
+#define ADD_PIN_2 8
+int ADDRESS;
+float pHValue = 0;
+void set_address(){
+    pinMode(ADD_PIN_1, INPUT);
+    pinMode(ADD_PIN_2, INPUT);
+    ADDRESS = ADD_BASE;
+    ADDRESS += digitalRead(ADD_PIN_1);
+    ADDRESS += digitalRead(ADD_PIN_2) * 2;
+}
+
 /* -- //Anemometer -- */
 
-void setup(void){
+#define setFloatIn(data_val, ind, val) memcpy(data_val + (ind * sizeof(float)), &val, sizeof(float))
 
+
+void receiveCall(int bytes) {
+    int call_p = Wire.read();
+    const int NUM_DATAS = 8;
+    if (call_p == 0x01) {
+        char data_values[sizeof(float) * NUM_DATAS];
+        setFloatIn(data_values, 0, pHValue);
+        setFloatIn(data_values, 1, ECTemp);
+        setFloatIn(data_values, 2, ECValue);
+        setFloatIn(data_values, 3, SoilHumi);
+        setFloatIn(data_values, 4, SoilTemp);
+        setFloatIn(data_values, 5, DustDens);
+        setFloatIn(data_values, 6, GeigeCPM);
+        setFloatIn(data_values, 7, WindVelo);
+        Wire.write(data_values, sizeof(float) * NUM_DATAS);
+    }
+}
+
+void setup(void){
+    set_address();
     /* -- I2C Protocol -- */
-    Wire.begin(NANO_ADDRESS);
+    Wire.begin(ADDRESS);
     Wire.onReceive(receiveCall);
     /* -- I2C Protocol -- */
 
@@ -150,7 +183,7 @@ void setup(void){
     /* -- pH Probe -- */
 
     /* -- EC, Temp -- */
-    void readCharacteristicValues();            //read the compensationFactor
+    readCharacteristicValues();            //read the compensationFactor
     /* -- //EC, Temp -- */
 
     /* -- Dust Sensor -- */
@@ -172,7 +205,7 @@ void loop(void) {
 
     /* -- pH Probe -- */
     static unsigned long samplingTime = millis();
-    static float pHValue, pHVoltage;
+    static float pHVoltage;
     if (millis() - samplingTime > pHSamplingInterval) {
         pHArray[pHArrayIndex] = analogRead(pHPin);
         if (pHArrayIndex == pHArrayLength)pHArrayIndex = 0;
@@ -184,10 +217,6 @@ void loop(void) {
     /* -- //pH Probe -- */
 
     /* -- EC, Temp -- */
-    if (serialDataAvailable() > 0) {
-        byte modeIndex = uartParse();
-        ecCalibration(modeIndex);                                                           // If the correct calibration command is received, the calibration function should be called.
-    }
 
     static unsigned long analogSampleTimepoint = millis();
     if (millis() - analogSampleTimepoint > 30U) {                                           //every 30ms,read the analog value from the ADC
@@ -214,9 +243,8 @@ void loop(void) {
         }
         float TempCoefficient = 1.0 + 0.0185 * (ECTemp - 25.0);                             //temperature compensation formula: FinalResult(25^C) = fFinalResult(current)/(1.0+0.0185*(fTP-25.0));
         float CoefficientVolatge = (float) averageVoltage / TempCoefficient;
-        if (CoefficientVolatge < 150)
-            Serial.println(F("EC: No solution!"));                                          //25^C 1413us/cm<-->about 216mv  if the voltage(compensate)<150,that is <1ms/cm,out of the range
-        else if (CoefficientVolatge > 3300)Serial.println(F("Out of the range!"));          //>20ms/cm,out of the range
+        if (CoefficientVolatge < 150) {}
+        else if (CoefficientVolatge > 3300) {}          //>20ms/cm,out of the range
         else {
             if (CoefficientVolatge <= 448)ECValue = 6.84 * CoefficientVolatge - 64.32;      //1ms/cm<EC<=3ms/cm
             else if (CoefficientVolatge <= 1457)ECValue = 6.98 * CoefficientVolatge - 127;  //3ms/cm<EC<=10ms/cm
@@ -257,7 +285,7 @@ void loop(void) {
     /* -- //Geiger Counter -- */
 
     /* -- Hydrogen -- */
-    HydroPPM = analogRead(H2Pin);
+    //HydroPPM = analogRead(H2Pin);
     /* -- //Hydrogen -- */
 
     /* -- Anemometer -- */
@@ -272,41 +300,13 @@ void loop(void) {
     /* -- //Anemometer -- */
 
     /* -- I2C Protocol -- */
-    if(call) {
-        short factor=100;
-
-        _pHValue =(short)(pHValue*factor);
-        _ECValue =(short)(ECValue*factor);
-        _ECTemp  =(short)(ECTemp*factor);
-        _SoilTemp=(short)(SoilTemp*factor);
-        _SoilHumi=(short)(SoilHumi*factor);
-        _DustDens=(short)(DustDens*factor);
-        _GeigeCPM=(short)(GeigeCPM*factor);
-        _HydroPPM=(short)(HydroPPM*factor);
-        _WindVelo=(short)(WindVelo*factor);
-
-        short shortData[10]={factor, _pHValue, _ECValue, _ECTemp, _SoilTemp, _SoilHumi, _DustDens, _GeigeCPM, _HydroPPM, _WindVelo};
-
-        char byteData[20];
-        int counter=0;
-        for(int i=0; i<10; i++){
-            byteData[counter]=shortData[i]>>8 & 0xff;
-            counter++;
-            byteData[counter]=(shortData[i]) & 0xff;
-            counter++;
-        }
-        ///Convert short data to byte array
-        Wire.write(byteData, sizeof(short)*10);
-    }
     /* -- //I2C Protocol -- */
 
-    delay(5000);
+    delay(2000);
 }
 
 /* -- I2C Protocol -- */
-void receiveCall(int bytes) {
-    call = Wire.read();
-}
+
 /* -- I2C Protocol -- */
 
 //Probe and Sensor Unique Functions
@@ -317,7 +317,6 @@ double averageArray(int *arr, int number) {
     double avg;
     long amount = 0;
     if (number <= 0) {
-        Serial.println("Error number for the array to averaging!/n");
         return 0;
     }
     if (number < 5) {                   //less than 5, calculated directly statistics
