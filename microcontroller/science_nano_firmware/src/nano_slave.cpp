@@ -103,7 +103,8 @@ unsigned long previousMillis;   //variable for time measurement
 /* -- //Geiger Counter */
 
 /* -- Hydrogen -- */
-#define H2Pin A1
+#define H2Pin A0
+int hydroPPM;
 /* -- //Hydrogen -- */
 
 /* -- Anemometer -- */
@@ -135,12 +136,22 @@ float windSpeedMax = 32;                        // Wind speed in meters/sec corr
 #define ADD_PIN_1 7
 #define ADD_PIN_2 8
 int ADDRESS;
+char tempPayload[105] ;
+char outstr[15];
+
+void concatArray(int j){
+	int i;
+	for(i = 0; i<15; i++){
+		payload[j] = outstr[i];
+		j++
+	}
+}
 
 void onRequest(){
     //payload is formated as a csv
     //PH, ECT (EC, TEMP), TEMP_HUM (TEMP, HUM), DUST, GEIGER, H2, ANEMOMETER
     //h2 is missing
-    String payload;
+    /* String payload;
     //payload = String(pHArray[pHArrayIndex]) + "," + String(ECvalue) + "," + String(ec_tempC) + "," + String(soilTemp) + "," + String(humidity) + "," + String(density) + "," + String(cpm) + "," << String(windSpeed) ;
     payload = pHArray[pHArrayIndex];
     payload.concat(",");
@@ -157,7 +168,46 @@ void onRequest(){
     payload.concat(cpm);
     payload.concat(",");
     payload.concat(windSpeed);
-    Wire.write(payload.toInt());
+    Wire.write(payload.toInt()); */
+	
+	
+	
+	
+    //payload = String(pHArray[pHArrayIndex]) + "," + String(ECvalue) + "," + String(ec_tempC) + "," + String(soilTemp) + "," + String(humidity) + "," + String(density) + "," + String(cpm) + "," << String(windSpeed) ;
+    
+	int j = 0;
+	
+    sdtostrf(ECvalue,7, 3, outstr);		
+	concatArray(j);
+	j+=15;
+	
+	sdtostrf(ec_tempC,7, 3, outstr);
+	concatArray(j);	
+	j+=15;
+	
+	sdtostrf(soilTemp,7, 3, outstr);
+	concatArray(j);	
+	j+=15;
+	
+	sdtostrf(humidity,7, 3, outstr);	
+	concatArray(j);	
+	j+=15;
+	
+	sdtostrf(density,7, 3, outstr);
+	concatArray(j);
+	j+=15;
+	
+	sdtostrf(cpm,7, 3, outstr);
+	concatArray(j);
+	j+=15;
+	
+	sdtostrf(windSpeed,7, 3, outstr);
+	concatArray(j);
+	
+	char *payload = malloc(sizeof(char)*105);
+	*payload = tempPayload;
+	
+	//Wire.write
 }
 
 void set_address(){
@@ -298,7 +348,7 @@ void loop(void) {
     /* -- //Geiger Counter -- */
 
     /* -- Hydrogen -- */
-    int hydrogen = analogRead(H2Pin);
+    hydroPPM = analogRead(H2Pin); = analogRead(H2Pin);
     /* -- //Hydrogen -- */
 
     /* -- Anemometer -- */
@@ -322,7 +372,7 @@ void loop(void) {
 
 //Probe and Sensor Unique Functions
 /* -- pH Probe -- */
-double averageArray(int *arr, int number) {
+	double averageArray(int *arr, int number) {
     int i;
     int max, min;
     double avg;

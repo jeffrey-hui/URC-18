@@ -2921,8 +2921,26 @@ design rules under a new name.</description>
 <attribute name="OC_FARNELL" value="1822072" x="12.7" y="73.66" size="1.778" layer="27" display="off"/>
 <attribute name="OC_NEWARK" value="unknown" x="12.7" y="73.66" size="1.778" layer="27" display="off"/>
 </element>
+<element name="C1" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C1206" package3d_urn="urn:adsk.eagle:package:23618/2" value="" x="71.12" y="5.08">
+<attribute name="SPICEPREFIX" value="C" x="71.12" y="5.08" size="1.778" layer="27" display="off"/>
+</element>
+<element name="C2" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C1206" package3d_urn="urn:adsk.eagle:package:23618/2" value="" x="62.23" y="5.08">
+<attribute name="SPICEPREFIX" value="C" x="62.23" y="5.08" size="1.778" layer="27" display="off"/>
+</element>
+<element name="C4" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C1206" package3d_urn="urn:adsk.eagle:package:23618/2" value="" x="53.34" y="5.08">
+<attribute name="SPICEPREFIX" value="C" x="53.34" y="5.08" size="1.778" layer="27" display="off"/>
+</element>
+<element name="C5" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C1206" package3d_urn="urn:adsk.eagle:package:23618/2" value="" x="45.72" y="5.08">
+<attribute name="SPICEPREFIX" value="C" x="45.72" y="5.08" size="1.778" layer="27" display="off"/>
+</element>
+<element name="C6" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C1206" package3d_urn="urn:adsk.eagle:package:23618/2" value="" x="38.1" y="5.08">
+<attribute name="SPICEPREFIX" value="C" x="38.1" y="5.08" size="1.778" layer="27" display="off"/>
+</element>
 <element name="C7" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C1206" package3d_urn="urn:adsk.eagle:package:23618/2" value="" x="30.48" y="5.08">
 <attribute name="SPICEPREFIX" value="C" x="30.48" y="5.08" size="1.778" layer="27" display="off"/>
+</element>
+<element name="C3" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C1206" package3d_urn="urn:adsk.eagle:package:23618/2" value="" x="22.86" y="5.08">
+<attribute name="SPICEPREFIX" value="C" x="22.86" y="5.08" size="1.778" layer="27" display="off"/>
 </element>
 <element name="C8" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C1206" package3d_urn="urn:adsk.eagle:package:23618/2" value="" x="15.24" y="5.08">
 <attribute name="SPICEPREFIX" value="C" x="15.24" y="5.08" size="1.778" layer="27" display="off"/>
@@ -2962,9 +2980,15 @@ design rules under a new name.</description>
 <contactref element="X10" pad="2"/>
 <contactref element="X7" pad="4"/>
 <contactref element="X2" pad="4"/>
+<contactref element="C2" pad="2"/>
+<contactref element="C1" pad="2"/>
+<contactref element="C3" pad="2"/>
+<contactref element="C4" pad="2"/>
+<contactref element="C5" pad="2"/>
 <contactref element="C7" pad="2"/>
 <contactref element="C9" pad="2"/>
 <contactref element="C8" pad="2"/>
+<contactref element="C6" pad="2"/>
 <wire x1="87.63" y1="52.07" x2="102.87" y2="57.15" width="0" layer="19" extent="1-1"/>
 <wire x1="78.74" y1="55.88" x2="87.63" y2="52.07" width="0" layer="19" extent="1-1"/>
 <wire x1="63.5" y1="50.8" x2="78.74" y2="55.88" width="0" layer="19" extent="1-1"/>
@@ -2978,10 +3002,16 @@ design rules under a new name.</description>
 <wire x1="11.87" y1="25.61" x2="11.87" y2="42.12" width="0" layer="19" extent="1-1"/>
 <wire x1="13.97" y1="11.43" x2="11.87" y2="25.61" width="0" layer="19" extent="1-1"/>
 <wire x1="16.64" y1="5.08" x2="13.97" y2="11.43" width="0" layer="19" extent="1-1"/>
+<wire x1="24.26" y1="5.08" x2="16.64" y2="5.08" width="0" layer="19" extent="1-1"/>
+<wire x1="31.88" y1="5.08" x2="24.26" y2="5.08" width="0" layer="19" extent="1-1"/>
+<wire x1="39.5" y1="5.08" x2="31.88" y2="5.08" width="0" layer="19" extent="1-1"/>
+<wire x1="47.12" y1="5.08" x2="39.5" y2="5.08" width="0" layer="19" extent="1-1"/>
+<wire x1="46.99" y1="11.43" x2="47.12" y2="5.08" width="0" layer="19" extent="1-1"/>
+<wire x1="54.74" y1="5.08" x2="47.12" y2="5.08" width="0" layer="19" extent="1-1"/>
 <wire x1="9.02" y1="5.08" x2="16.64" y2="5.08" width="0" layer="19" extent="1-1"/>
-<wire x1="31.88" y1="5.08" x2="16.64" y2="5.08" width="0" layer="19" extent="1-1"/>
-<wire x1="46.99" y1="11.43" x2="31.88" y2="5.08" width="0" layer="19" extent="1-1"/>
-<wire x1="63.5" y1="11.43" x2="46.99" y2="11.43" width="0" layer="19" extent="1-1"/>
+<wire x1="63.63" y1="5.08" x2="54.74" y2="5.08" width="0" layer="19" extent="1-1"/>
+<wire x1="63.5" y1="11.43" x2="63.63" y2="5.08" width="0" layer="19" extent="1-1"/>
+<wire x1="72.52" y1="5.08" x2="63.63" y2="5.08" width="0" layer="19" extent="1-1"/>
 <wire x1="12.7" y1="76.41" x2="11.87" y2="58.63" width="0" layer="19" extent="1-1"/>
 <wire x1="27.11" y1="76.41" x2="12.7" y2="76.41" width="0" layer="19" extent="1-1"/>
 </signal>
@@ -3011,9 +3041,14 @@ design rules under a new name.</description>
 <contactref element="SV2" pad="3"/>
 <contactref element="SV5" pad="3"/>
 <contactref element="X9" pad="3"/>
+<contactref element="C1" pad="1"/>
+<contactref element="C2" pad="1"/>
+<contactref element="C5" pad="1"/>
+<contactref element="C6" pad="1"/>
 <contactref element="C7" pad="1"/>
 <contactref element="C8" pad="1"/>
 <contactref element="C9" pad="1"/>
+<contactref element="C4" pad="1"/>
 <wire x1="78.74" y1="50.8" x2="102.87" y2="52.07" width="0" layer="19" extent="1-1"/>
 <wire x1="51.63" y1="58.63" x2="78.74" y2="50.8" width="0" layer="19" extent="1-1"/>
 <wire x1="51.63" y1="42.12" x2="51.63" y2="58.63" width="0" layer="19" extent="1-1"/>
@@ -3021,6 +3056,14 @@ design rules under a new name.</description>
 <wire x1="33.85" y1="25.61" x2="33.85" y2="42.12" width="0" layer="19" extent="1-1"/>
 <wire x1="30.48" y1="11.43" x2="33.85" y2="25.61" width="0" layer="19" extent="1-1"/>
 <wire x1="29.08" y1="5.08" x2="30.48" y2="11.43" width="0" layer="19" extent="1-1"/>
+<wire x1="36.7" y1="5.08" x2="29.08" y2="5.08" width="0" layer="19" extent="1-1"/>
+<wire x1="44.32" y1="5.08" x2="36.7" y2="5.08" width="0" layer="19" extent="1-1"/>
+<wire x1="51.94" y1="5.08" x2="44.32" y2="5.08" width="0" layer="19" extent="1-1"/>
+<wire x1="60.83" y1="5.08" x2="51.94" y2="5.08" width="0" layer="19" extent="1-1"/>
+<wire x1="58.42" y1="11.43" x2="60.83" y2="5.08" width="0" layer="19" extent="1-1"/>
+<wire x1="69.72" y1="5.08" x2="60.83" y2="5.08" width="0" layer="19" extent="1-1"/>
+<wire x1="74.93" y1="5.08" x2="69.72" y2="5.08" width="0" layer="19" extent="1-1"/>
+<wire x1="80.01" y1="11.43" x2="74.93" y2="5.08" width="0" layer="19" extent="1-1"/>
 <wire x1="13.84" y1="5.08" x2="29.08" y2="5.08" width="0" layer="19" extent="1-1"/>
 <wire x1="6.22" y1="5.08" x2="13.84" y2="5.08" width="0" layer="19" extent="1-1"/>
 <wire x1="8.89" y1="11.43" x2="6.22" y2="5.08" width="0" layer="19" extent="1-1"/>
@@ -3028,9 +3071,6 @@ design rules under a new name.</description>
 <wire x1="16.07" y1="42.12" x2="16.07" y2="25.61" width="0" layer="19" extent="1-1"/>
 <wire x1="16.07" y1="58.63" x2="16.07" y2="42.12" width="0" layer="19" extent="1-1"/>
 <wire x1="31.31" y1="76.41" x2="16.07" y2="58.63" width="0" layer="19" extent="1-1"/>
-<wire x1="58.42" y1="11.43" x2="30.48" y2="11.43" width="0" layer="19" extent="1-1"/>
-<wire x1="74.93" y1="5.08" x2="58.42" y2="11.43" width="0" layer="19" extent="1-1"/>
-<wire x1="80.01" y1="11.43" x2="74.93" y2="5.08" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="SCL">
 <contactref element="X1" pad="1"/>
@@ -3137,6 +3177,8 @@ design rules under a new name.</description>
 </signal>
 <signal name="+7V">
 <contactref element="X2" pad="3"/>
+<contactref element="C3" pad="1"/>
+<wire x1="33.85" y1="58.63" x2="21.46" y2="5.08" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="SCL_HV">
 <contactref element="Q1" pad="3"/>
