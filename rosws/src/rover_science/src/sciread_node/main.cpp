@@ -36,6 +36,7 @@ int main(int argc, char ** argv) {
 
     ros::NodeHandle nh;
     rover_science::SciRead<8> device;
+    ROS_INFO_STREAM("Starting sciread_node");
 
     ros::Publisher pub = nh.advertise<std_msgs::Float32MultiArray>("/science/data", 10);
     ros::Rate r = ros::Rate(0.6);
