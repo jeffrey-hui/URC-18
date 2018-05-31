@@ -48,6 +48,7 @@ def stop_camera(camera_name):
         return False
     else:
         NODE_SLOTS.pop(RUNNING_CAMERAS.index(camera_name)).shutdown()
+        RUNNING_CAMERAS.remove(camera_name)
         return True
 
 
