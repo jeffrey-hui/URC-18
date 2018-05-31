@@ -1,0 +1,47 @@
+<library path="src">
+    <class name="Heading" type="rover_gui.heading.HeadingPlugin" base_class_type="rqt_gui_py::Plugin" >
+        <description>
+            Visualizes headings from an imu
+        </description>
+        <qtgui>
+            <group>
+                <label>Visualization</label>
+                <icon type="theme">folder</icon>
+                <statustip>Plugins related to visualization.</statustip>
+            </group>
+            <label>Heading</label>
+            <icon type="theme">emblem-web</icon>
+            <statustip>Visualized headings</statustip>
+        </qtgui>
+    </class>
+    <class name="Horizon" type="rover_gui.horizon.HorizonPlugin" base_class_type="rqt_gui_py::Plugin" >
+        <description>
+            Visualizes horizons from an imu
+        </description>
+        <qtgui>
+            <group>
+                <label>Visualization</label>
+                <icon type="theme">folder</icon>
+                <statustip>Plugins related to visualization.</statustip>
+            </group>
+            <label>Horizon</label>
+            <icon type="theme">emblem-web</icon>
+            <statustip>Visualized horizons</statustip>
+        </qtgui>
+    </class>
+    <class name="ToggleTeleop" type="rover_gui.toggle.TogglePlugin" base_class_type="rqt_gui_py::Plugin" >
+        <description>
+            Toggles using services (starts in on position)
+        </description>
+        <qtgui>
+            <group>
+                <label>Services</label>
+                <icon type="theme">folder</icon>
+                <statustip>Plugins related to services.</statustip>
+            </group>
+            <label>Toggle Button</label>
+            <icon type="theme">media-playback-start</icon>
+            <statustip>Does things</statustip>
+        </qtgui>
+    </class>
+</library>

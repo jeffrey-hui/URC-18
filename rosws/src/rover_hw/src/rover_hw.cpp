@@ -4,6 +4,7 @@
 
 #include <hardware_interface/robot_hw.h>
 #include <rover_drive/hw_impl.h>
+#include <rover_arm/arm_hw/arm_hw.h>
 #include <controller_manager/controller_manager.h>
 
 namespace rover_hw {
@@ -16,6 +17,7 @@ namespace rover_hw {
 
             // ------------------ ADD INITIALIZING CALLS HERE --------------------
 
+            arm_hw.init(this);
             drive_hw.init(this);
 
             // ------------------ END INITIALIZATION SECTION ---------------------
@@ -27,6 +29,7 @@ namespace rover_hw {
             // ------------------------ READ SECTION -----------------------------
 
             drive_hw.read();
+            arm_hw.read();
 
             // ------------------------ END READ SEC -----------------------------
 
@@ -37,6 +40,7 @@ namespace rover_hw {
             // ----------------------- WRITE SECTION -----------------------------
 
             drive_hw.write();
+            arm_hw.write();
 
             // ----------------------- END WRITE SEC -----------------------------
 
@@ -48,6 +52,7 @@ namespace rover_hw {
         // ------------------ ADD ALL NEW HW INTERFACES HERE ------------------
 
         rover_drive::DriveHW drive_hw;
+        rover_arm::ArmHW     arm_hw;
 
         // ---------------------- END HW IFACE SECTION ------------------------
     };
@@ -65,7 +70,7 @@ int main(int argc, char** argv) {
     ros::Time ts = ros::Time::now();
     spinner.start();
 
-    ros::Rate rate(50.0);
+    ros::Rate rate(20.0);
     while (ros::ok()) {
         ros::Duration d = ts - ros::Time::now();
         ts = ros::Time::now();
