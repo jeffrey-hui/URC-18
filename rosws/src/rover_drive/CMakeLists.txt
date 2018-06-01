@@ -98,7 +98,7 @@ find_package(catkin REQUIRED COMPONENTS simpli2c roscpp std_msgs hardware_interf
 catkin_package(
    INCLUDE_DIRS include
    LIBRARIES rover_drive rover_drive_hw
-   CATKIN_DEPENDS simpli2c controller_diagnostics
+   CATKIN_DEPENDS simpli2c controller_diagnostics eml_uberdriver
 #  DEPENDS system_lib
 )
 
@@ -117,7 +117,8 @@ add_library(rover_drive
   src/drive_side_controller/drive_side_controller.cpp
 )
 
-add_library(rover_drive_hw ../eml_uberdriver/src/ard_device.cpp src/drive_hw/hw_impl.cpp)
+add_library(rover_drive_hw src/drive_hw/hw_impl.cpp)
+
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -137,6 +138,7 @@ target_link_libraries(rover_drive
 target_link_libraries(rover_drive_hw
         ${catkin_LIBRARIES}
 )
+
 
 #############
 ## Install ##

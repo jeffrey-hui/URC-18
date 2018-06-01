@@ -8,12 +8,13 @@
 #include <hardware_interface/robot_hw.h>
 #include <hardware_interface/joint_command_interface.h>
 #include <controller_diagnostics/diagnostic_interface.h>
+#include <transmission_interface/transmission_interface_loader.h>
 #include "../../../eml_uberdriver/include/eml_uberdriver/ard_device.h"
 
 namespace rover_drive {
 
     const uint8_t ARDUINO_DRIVE_BUS = 1;
-    const uint8_t ARDUINO_DRIVE_ADDRESS = 0x20;
+    const uint8_t ARDUINO_DRIVE_ADDRESS = 0x22;
 
     class DriveHW {
     public:
@@ -36,13 +37,13 @@ namespace rover_drive {
         double eff[6] = {0, 0, 0, 0, 0, 0};
         double pos[6] = {0, 0, 0, 0, 0, 0};
 
-        hardware_interface::JointStateInterface jnt_state_interface;
-        hardware_interface::VelocityJointInterface jnt_vel_interface;
-        controller_diagnostics::DiagnosticStateInterface diag_interface;
+        hardware_interface::VelocityActuatorInterface act_vel_interface;
 
         ros::Time lastReconnectAttemptTime = ros::Time::now();
 
         controller_diagnostics::DiagnosticHandleData diag_dhd;
+        transmission_interface::TransmissionInterfaceLoader *transmission_loader_;
+        transmission_interface::RobotTransmissions robot_transmissions;
     };
 }
 

@@ -1,0 +1,3 @@
+Header header
+geometry_msgs/Point tennis_ball_position
+float32 confidence

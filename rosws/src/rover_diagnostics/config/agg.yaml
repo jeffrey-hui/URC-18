@@ -4,10 +4,14 @@ analyzers:
     type: GenericAnalyzer
     path: Hardware
     find_and_remove_prefix: diagnostics_controller
-  # js_teleop:
-  #  type: GenericAnalyser
-  #  path: Joysticks
-  # todo: get all joysticks in this config
+  js:
+    type: GenericAnalyzer
+    path: Joysticks
+    contains: "_joy"
+  cam:
+    type: GenericAnalyzer
+    path: Camera
+    find_and_remove_prefix: camera_mon
 
   # robot_localization:
   # todo: configure this

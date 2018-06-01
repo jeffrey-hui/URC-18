@@ -1,0 +1,19 @@
+<launch>
+    <arg name="fixed_frame" default="map" />
+
+    <!-- this needs to be called somewhere from inside rover_navigation, probably twice for if odom is lost to run
+         on only gps + wheel + imu. Using visual odom is better for using move_base, but backup auton will want
+         us to use gps coords, as it is less precise overall. Backup auton may in fact just drive in direction of
+         tennis ball without actually checking if it gets there. -->
+    <node pkg="rover_tennis_balls" type="tennis_ball_predictor.py" name="tennis_ball_predictor">
+        <param name="fixed_frame" value="$(arg fixed_frame)" />
+    </node>
+
+    <!-- add cameras that are usefully modeled here to add to tennis ball tracker -->
+
+    <node pkg="rover_tennis_balls" type="stereo_tennis.py" name="stereo_camera_tennis_ball_tracker">
+        <remap from="camera/camera_info" to="/stereo/left/camera_info" />
+        <remap from="camera/image" to="/stereo/left/image_rect_color" />
+        <remap from="camera/depth" to="/stereo/depth" />
+    </node>
+</launch>

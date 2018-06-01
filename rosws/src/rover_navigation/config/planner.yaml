@@ -11,13 +11,13 @@ TrajectoryPlannerROS:
 
   angular_sim_granularity: 0.025
 
-  yaw_goal_tolerance: 1
+  yaw_goal_tolerance: 6.28
   xy_goal_tolerance: 0.5
 
   meter_scoring: true
   holonomic_robot: false
 
-controller_frequency: 30.0
+controller_frequency: 10.0
 
 GlobalPlanner:
   allow_unknown: true

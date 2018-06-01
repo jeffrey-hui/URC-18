@@ -1,0 +1,6 @@
+geometry_msgs/PoseStamped goal_position  # goal as pose
+geometry_msgs/PointStamped[] waypoints   # waypoints (as points with frames)
+---
+# no result
+---
+# feedback is done by looking at smach viewer (sadly no qt support) (but someone made one, maybe look into it?)

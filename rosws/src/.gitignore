@@ -1,7 +1,7 @@
 # place all packages from wstool here
-simpli2c
-eml_uberdriver
-controller_diagnostics
+simpli2c/
+eml_uberdriver/
+controller_diagnostics/
 
 # e.g.
 # robot_localization/
@@ -9,3 +9,4 @@ controller_diagnostics
 .rosinstall.bak
 *.idea*
 cmake-build-debug/
+compile_commands.json
