@@ -36,7 +36,7 @@ class HeadingWidget(QWidget):
             h += 2*math.pi
         while h > 2*math.pi:
             h -= 2*math.pi
-        self.heading = h
+        self.heading = h - 0.5
         self.update()
 
     def paintEvent(self, event):
