@@ -11,7 +11,7 @@ RESOLUTION_ARGS = ["_image_width:={}".format(RESOLUTION[0]), "_image_height:={}"
 class RunningImage:
     def __init__(self, camera_url, camera_name):
         self.name = camera_name
-        self.run_str = ["rosrun", "usb_cam", "usb_cam_node", "_camera_name:=" + camera_name, "_video_device:=" + camera_url] + RESOLUTION_ARGS
+        self.run_str = ["rosrun", "usb_cam", "usb_cam_node", "_camera_name:=" + camera_name, "_video_device:=" + camera_url] + RESOLUTION_ARGS + ["__name:=" + camera_name]
         self._set_params()
         self.process = subprocess.Popen(self.run_str)
 
@@ -48,6 +48,7 @@ def stop_camera(camera_name):
         return False
     else:
         NODE_SLOTS.pop(RUNNING_CAMERAS.index(camera_name)).shutdown()
+        RUNNING_CAMERAS.remove(camera_name)
         return True
 
 
