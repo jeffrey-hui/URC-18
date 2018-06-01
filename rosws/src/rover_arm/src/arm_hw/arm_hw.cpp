@@ -8,6 +8,7 @@
 
 namespace rover_arm {
     uint16_t convertEffToMotorV(double value) {
+        if (std::isnan(value)) return MOTOR_MID;
         double effort_normalized = value / MOTOR_EXERTED_EFFORT;
         double offset = MOTOR_OFFSET * effort_normalized;
         offset = std::min((double)MOTOR_OFFSET, std::max(-(double)(MOTOR_OFFSET), offset));

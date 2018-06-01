@@ -11,6 +11,7 @@
 namespace rover_drive {
     
     uint16_t convert_to_msecs(double vel) {
+        if (std::isnan(vel)) return MOTOR_MID;
         double max_val = static_cast<double>(WHEEL_MAX_RADIANS_PER_SECOND);
         double clamped = std::min(max_val, std::max(-max_val, vel));
         double v = clamped / max_val;
