@@ -1,4 +1,3 @@
-geometry_msgs/PoseStamped goal_position  # goal as pose
 geometry_msgs/PointStamped[] waypoints   # waypoints (as points with frames)
 ---
 # no result

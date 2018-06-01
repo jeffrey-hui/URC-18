@@ -2,69 +2,46 @@ import rospy
 from geometry_msgs.msg import PoseStamped, Pose, Quaternion
 from smach import Sequence, State
 from smach_ros import SimpleActionState
-from rover_navigation.msg import Path
-from move_base_msgs.msg import MoveBaseGoal, MoveBaseAction
-
-pub_path = rospy.Publisher("/move_base/global_costmap/lines_layer/path", Path, queue_size=10)
+from rover_navigation.msg import Path, GotoPointGoal, GotoPointAction
 
 
-class SendWaypointsState(State):
-    def __init__(self):
-        super(SendWaypointsState, self).__init__(io_keys=["waypoints", "goal_position"], outcomes=["goal"])
-
-    def execute(self, ud):
-        path_msg = Path(ud.waypoints)
-        pub_path.publish(path_msg)
-        return "goal"
+def goal_cb1(ud, _):
+    m = Path(ud.waypoints)
+    return GotoPointGoal(m)
 
 
-class SendEmptyWaypointsState(State):
-    def __init__(self):
-        super(SendEmptyWaypointsState, self).__init__(io_keys=["goal_position"], outcomes=["ok"])
+Nav1 = Sequence(["goal", "fail", "preempted"], "ok", ["waypoints"])
+Goto1 = Sequence(["ok", "fail", "preempted"], "ok", ["goal_position"])
 
-    def execute(self, ud):
-        path_msg = Path([])
-        pub_path.publish(path_msg)
-        return "ok"
+NAV1 = SimpleActionState(
+    "/navigator",
+    GotoPointAction,
+    goal_cb=goal_cb1,
+    input_keys=["waypoints"]
+)
 
 
-Nav1 = Sequence(outcomes=["goal", "fail", "preempted"], connector_outcome="goal", input_keys=["goal_position", "waypoints"])
+def goal_cb2(ud, _):
+    m = Path([ud.goal_position])
+    return GotoPointGoal(m)
+
+
+GOTO1 = SimpleActionState(
+    "/navigator",
+    GotoPointAction,
+    goal_cb=goal_cb2,
+    input_keys=["goal_position"])
+
 with Nav1:
-    Sequence.add("SEND_WAYPOINTS", SendWaypointsState())
-    Sequence.add("NAV", SimpleActionState(
-        "/move_base",
-        MoveBaseAction,
-        goal_slots=["target_pose"]
-    ), transitions={
-        'succeeded': 'goal',
-        'preempted': 'preempted',
-        'aborted': 'fail'
-    }, remapping={
-        "target_pose": "goal_position"
-    })
+    Sequence.add("NAV1", NAV1, transitions={
+        "succeeded": "goal",
+        "preempted": "preempted",
+        "aborted": "fail"
+    }, remapping={"waypoints": "waypoints"})
 
-
-def goal_cb(ud, _):
-    pose = PoseStamped(
-        ud.goal_position.header,
-        Pose(
-            ud.goal_position.point,
-            Quaternion(0, 0, 0, 1)
-        )
-    )
-    return MoveBaseGoal(pose)
-
-
-Goto1 = Sequence(outcomes=["ok", "fail", "preempted"], connector_outcome="ok", input_keys=["goal_position"])
 with Goto1:
-    Sequence.add("CLEAR_WAYPOINTS", SendEmptyWaypointsState())
-    Sequence.add("GOTO", SimpleActionState(
-        "/move_base",
-        MoveBaseAction,
-        goal_cb=goal_cb,
-        input_keys=["goal_position"]
-    ), transitions={
-        'succeeded': 'ok',
-        'preempted': 'preempted',
-        'aborted': 'fail'
-    })
+    Sequence.add("GOTO1", GOTO1, transitions={
+        "succeeded": "ok",
+        "preempted": "preempted",
+        "aborted": "fail"
+    }, remapping={"goal_position": "goal_position"})

@@ -85,7 +85,7 @@ void setup() {
 void loop() {
     String amt = Serial.readStringUntil('\n');
     uint8_t bufLen = amt.length();
-    if (bufLen < 3) return;
+    if (bufLen == 0) return;
     char * buffer = reinterpret_cast<char *>(malloc(bufLen));
     amt.toCharArray(buffer, bufLen);
     gps.recordDatum(bufLen, reinterpret_cast<unsigned char *>(buffer));

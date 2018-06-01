@@ -1,17 +1,23 @@
 <launch>
-
     <include file="$(find rover_navigation)/launch/odometry.launch" />
-    <include file="$(find rover_navigation)/launch/rtabmap.launch" />
-    <include file="$(find rover_navigation)/launch/move_base.launch" />
-    <include file="$(find rover_stereo)/launch/image_proc.launch" />
 
     <group ns="tennis_ball_map"> <!-- for tracking in nice localized map frame for when we have odom + mapping -->
         <include file="$(find rover_tennis_balls)/launch/rover_tennis_balls.launch">
-            <arg name="fixed_frame" value="map" />
+            <arg name="fixed_frame" value="odom" />
         </include>
     </group>
 
-    <node pkg="rover_navigation" type="nav_executive.py" name="nav_executive" />
+    <node pkg="rover_navigation" type="nav_executive.py" name="nav_executive" output="screen" />
+    <node pkg="rover_navigation" type="rover_navigator" name="navigator" output="screen">
+        <remap from="~odom" to="/odometry/filtered" />
+        <remap from="~cmd_vel" to="/wheel_diff_drive_controller/cmd_vel" />
+
+        <param name="global_frame" value="utm" />
+        <param name="max_speed" value="2.0" />
+        <param name="max_ang" value="2.5" />
+        <param name="tolerance" value="1" />
+        <rosparam command="load" file="$(find rover_navigation)/config/pids.yaml" />
+    </node>
 
     <!-- todo: add section for running tennis balls in gps -->
 </launch>

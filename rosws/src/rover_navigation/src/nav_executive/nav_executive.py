@@ -20,11 +20,10 @@ sm = StateMachine(
 
 class UnstufferState(State):
     def __init__(self):
-        super(UnstufferState, self).__init__(outcomes=["ok"], input_keys=["goal"], output_keys=["waypoints", "goal_position"])
+        super(UnstufferState, self).__init__(outcomes=["ok"], input_keys=["goal"], output_keys=["waypoints"])
 
     def execute(self, ud):
         ud.waypoints = ud.goal.waypoints
-        ud.goal_position = ud.goal.goal_position
         return "ok"
 
 
@@ -48,15 +47,11 @@ with sm:
         "ok": "ok",
         "preempted": "preempted",
         "fail": "fail"  # fixme: add goto2
-    }, remapping={
-        "goal_position": "tennis_position"
     })
     StateMachine.add("SEARCH", SearchState(), transitions={
         "go_back": "GOTO1",
         "tennis": "GOTO1",
         "preempted": "preempted"
-    }, remapping={
-        "tennis_position": "goal_position"
     })
 
 isw = IntrospectionServer("nav_server", sm, "/NAV")

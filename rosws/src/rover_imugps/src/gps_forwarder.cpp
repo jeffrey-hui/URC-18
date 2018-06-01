@@ -11,12 +11,12 @@ const int BUS = 1;
 
 int main(int argc, char ** argv) {
     ros::init(argc, argv, "gps_forwarder");
-    ros::NodeHandle nh("~");
     ros::NodeHandle ng("/");
 
-    ros::Publisher pub = ng.advertise<nmea_msgs::Sentence>("/gps/fix", 10, true);
+    ros::Publisher pub = ng.advertise<nmea_msgs::Sentence>("/gps/sentence", 10, true);
 
     simpli2c::Device dev(BUS, ADDRESS);
+    dev.open_();
     ros::Duration d(0.1);
     while (ros::ok()) {
         ros::spinOnce();
@@ -28,7 +28,7 @@ int main(int argc, char ** argv) {
             std::string result;
             char buf[msgLength];
             dev.readMany(msgLength, reinterpret_cast<uint8_t *>(buf));
-            result.assign(buf, msgLength);
+            result.assign(buf, msgLength-1u /* kill off null byte */);
 
             nmea_msgs::Sentence sentence;
             sentence.sentence = result;
@@ -37,6 +37,7 @@ int main(int argc, char ** argv) {
     }
 
     ros::shutdown();
+    dev.close_();
 
     // this has to take simpli2c and output nmea_msgs/Sentence messages.
     return 0;

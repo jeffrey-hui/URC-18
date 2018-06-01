@@ -14,6 +14,8 @@ rospy.init_node("simple_drive_joy_node")
 drive_control_left = rospy.Publisher("/left_wheels_controller/cmd", std_msgs.msg.Float64, queue_size=20)
 drive_control_right = rospy.Publisher("/right_wheels_controller/cmd", std_msgs.msg.Float64, queue_size=20)
 
+speed_value = 3
+
 
 def toggle_enabled(resp):
     global is_enabled
@@ -26,10 +28,6 @@ def toggle_enabled(resp):
 
 
 enable_service = rospy.Service("~set_enabled", std_srvs.srv.SetBool, toggle_enabled)
-
-
-speed_value = 1.175
-
 
 def ctrl_curve(x):
     return math.copysign(x**2, x) * speed_value
