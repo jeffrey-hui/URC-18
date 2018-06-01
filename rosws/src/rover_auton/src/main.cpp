@@ -3,8 +3,8 @@
 //
 
 
-
 #include"rover.h"
+
 void GPScallBack(const sensor_msgs::NavSatFix::ConstPtr& msg)
 {
     GPSData.latitude = msg->latitude;

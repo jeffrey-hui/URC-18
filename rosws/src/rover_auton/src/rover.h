@@ -24,20 +24,17 @@ extern sensor_msgs::NavSatFix GPSData;
 extern sensor_msgs::MagneticField magData;
 class rover {
 private:
-    double targetLat = 500;
-    double targetLong = 200;
-    double targetAng = 5;//just initialize for now
-    double targetLin = 500;
-    double speedLimit = 100;
+    double targetLat = 0;
+    double targetLong = 0;
+    double targetAng = 0;//just initialize for now
+    double speedLimit = 1;
 public:
     rover();//constructor
     ~rover();
-    double getAngCoordinates();//figure out how gps works later
-    double getLinCoordinates();
+    //figure out how gps works later
     double calculateDrivePower();
     double calculateTurnPower();
     double getMagAngle();
     void calculateTargetAng();
-    void calculateTargetLin();
 };
 #endif //PROJECT_ROVER_H

@@ -16,28 +16,14 @@ rover::rover() {
 
 rover::~rover() {}
 
-double rover::getAngCoordinates() {
-    double angle = atan2(GPSData.longitude, GPSData.latitude);
-    return angle;
-}
-
 double rover::getMagAngle() {
     double relative_angle = atan2(magData.magnetic_field.y, magData.magnetic_field.x);
     ROS_INFO("%d", relative_angle);
     return relative_angle;
 }
 
-double rover::getLinCoordinates() {
-    return sqrt((GPSData.longitude) * (GPSData.longitude) + (GPSData.latitude) * (GPSData.latitude));
-
-}
-
 void rover::calculateTargetAng() {
     targetAng = atan2(targetLong, targetLat);
-}
-
-void rover::calculateTargetLin() {
-    targetLin = sqrt(targetLat * targetLat + targetLong * targetLong);
 }
 
 double rover::calculateDrivePower() {
