@@ -31,8 +31,8 @@ int main(int argc, char** argv){
     tf::TransformListener listener;
 
 
-    LinPID.initPid(27,1,2,0.3,-0,3);//change pid constants later
-    AngPID.initPid(6,1,2,0.3,-0,3);
+    LinPID.init(ros::NodeHandle("~/linear"));
+    AngPID.init(ros::NodeHandle("~/angular"));
 
     while (ros::ok())
     {

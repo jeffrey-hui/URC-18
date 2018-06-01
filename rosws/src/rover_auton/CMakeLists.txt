@@ -33,7 +33,7 @@ find_package(catkin REQUIRED COMPONENTS
 ###################################
 ## catkin specific configuration ##
 ###################################
-
+set(CMAKE_CXX_STANDARD 14)
 catkin_package()
 
 ###########
