@@ -35,7 +35,8 @@ def start_camera(camera_url, camera_name, preferred_slot=None):
             RUNNING_CAMERAS.pop(0)
         else:
             NODE_SLOTS.pop(RUNNING_CAMERAS.index(preferred_slot)).shutdown()
-            RUNNING_CAMERAS.pop(preferred_slot)
+            RUNNING_CAMERAS.remove(preferred_slot)
+        rospy.sleep(2)
     NODE_SLOTS.append(RunningImage(camera_url, camera_name))
     RUNNING_CAMERAS.append(camera_name)
 
@@ -47,9 +48,9 @@ def stop_camera(camera_name):
         return False
     else:
         NODE_SLOTS.pop(RUNNING_CAMERAS.index(camera_name)).shutdown()
-	RUNNING_CAMERAS.remove(camera_name)
-	rospy.loginfo("Removed camera")
-        return True
+        RUNNING_CAMERAS.remove(camera_name)
+    rospy.loginfo("Removed camera")
+    return True
 
 
 def stop_all():

@@ -23,8 +23,7 @@ int main(int argc, char ** argv) {
         uint8_t statusCode = dev.readOne();
         if (statusCode == 0x00) {
             d.sleep();
-        }
-        else {
+        } else {
             uint8_t msgLength = dev.readOne();
             std::string result;
             char buf[msgLength];

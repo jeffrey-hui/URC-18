@@ -1,10 +1,13 @@
 <launch>
     <node pkg="rover_cameras" type="swapper.py" name="swapper" />
+    <node pkg="rover_cameras" type="camera_mon.py" name="camera_mon" output="screen">
+        <rosparam param="~expected_nums" subst_value="True">[0, 1, 2]</rosparam>
+    </node>
 
-    <node pkg="rover_cameras" type="rotate_image" name="belly_vomiter">
+    <!--node pkg="rover_cameras" type="image_rotater" name="belly_vomiter">
         <remap from="~image_in" to="/belly_camera/image_raw" />
         <remap from="~image_out" to="/belly_camera_rotated/image_raw" />
 
         <param name="~angle" value="180" />
-    </node>
+    </node camera is now right way up, not needed  -->
 </launch>

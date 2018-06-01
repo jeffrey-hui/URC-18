@@ -6,6 +6,7 @@
 	<include file="$(find rover_diagnostics)/launch/rover_diagnostics.launch" />
 	<include file="$(find rover_imugps)/launch/imu.launch" />
 	<include file="$(find rover_imugps)/launch/gps.launch" />
+	<include file="$(find rover_cameras)/launch/rover_cameras.launch" />
 
 	<group if="$(arg start_auton)">
 		<include file="$(find rover_navigation)/launch/rover_navigation.launch" />
