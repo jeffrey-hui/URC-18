@@ -51,7 +51,7 @@
     <div class="map" id="map"></div>
     <div class="messages" id="msg"></div>
     <div class="add-point">
-        <p>Latitude: </p><input type="number" id="latitude" /><p>Longitude: </p><input type="number" id="longitude" /><button id="submit">Add</button><p>Click a point to remove it.</p>
+        <p>Latitude: </p><input type="text" id="latitude" /><p>Longitude: </p><input type="text" id="longitude" /><button id="submit">Add</button><p>Click a point to remove it.</p>
     </div>
     <script>
         var seq = 1;
@@ -229,8 +229,18 @@
         });
 
         document.getElementById("submit").onclick = function (e) {
-            var lat = parseFloat(document.getElementById("latitude").value);
-            var lon = parseFloat(document.getElementById("longitude").value);
+            var lat, lon;
+            if (document.getElementById("latitude").value.match(/(\d+)s(\d+)/)) {
+                var mat1 = document.getElementById("latitude").value.match(/(\d+)s(\d+)/);
+                var mat2 = document.getElementById("longitude").value.match(/(\d+)s(\d+)/);
+
+                lat = parseFloat(mat1[1]) + parseFloat(mat1[2]) / 60;
+                lon = parseFloat(mat2[1]) + parseFloat(mat2[2]) / 60;
+            }
+            else {
+                lat = parseFloat(document.getElementById("latitude").value);
+                lon = parseFloat(document.getElementById("longitude").value);
+            }
 
             addedSource.addFeature(new ol.Feature({
                 type: "added",
