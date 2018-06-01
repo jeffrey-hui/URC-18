@@ -22,22 +22,22 @@ def joyCB(dat):
 
     rawvel_inner = 0
     if dat.buttons[2]:
-        rawvel_inner -= 35
+        rawvel_inner -= 19
     if dat.buttons[3]:
-        rawvel_inner += 35
+        rawvel_inner += 19
 
-    rawvel_tilt = dat.axes[5] * 10
+    rawvel_tilt = -dat.axes[5] * 40
     spin = 0
     if dat.buttons[4]:
-        spin -= 30
+        spin -= 50
     if dat.buttons[5]:
-        spin += 30
+        spin += 50
 
     gripper_speed = 0
     if dat.buttons[0]:
-        gripper_speed += 29
+        gripper_speed -= 19
     if dat.buttons[1]:
-        gripper_speed -= 29
+        gripper_speed += 19
 
     pub.publish(data=[z, rawvel_outer, rawvel_inner, rawvel_tilt, spin, gripper_speed])
 
