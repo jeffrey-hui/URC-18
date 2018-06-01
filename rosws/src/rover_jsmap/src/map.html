@@ -169,7 +169,7 @@
             layers: [
                 new ol.layer.Image({
                     source: new ol.source.ImageWMS({
-                        url: 'http://localhost:8080/service?',
+                        url: 'http://192.168.137.25:8080/service?',
                         params: {'LAYERS': 'gm_layer'},
                         ratio: 1,
                         serverType: 'geoserver'
@@ -219,19 +219,13 @@
 
         var ImuSub = new ROSLIB.Topic({
             ros: ros,
-            name: "/imu/data",
-            messageType: "sensor_msgs/Imu",
+            name: "/imu/rpy",
+            messageType: "geometry_msgs/Vector3Stamped",
             queue_size: 10
         });
 
         ImuSub.subscribe(function (msg) {
-            var quat = new ROSLIB.Quaternion({
-                x: msg.orientation.x,
-                y: msg.orientation.y,
-                z: msg.orientation.z,
-                w: msg.orientation.w
-            });
-            robot.heading = crappyRotationHandler(quat);
+            robot.heading = -msg.vector.z + 0.50
         });
 
         document.getElementById("submit").onclick = function (e) {
