@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
         tf2_ros
         tf
         actionlib_msgs
+        rover_navigation
 )
 
 

@@ -13,6 +13,8 @@
 #include <sensor_msgs/NavSatFix.h>
 #include <control_toolbox/pid.h>
 #include <tf/transform_listener.h>
+#include <actionlib/server/simple_action_server.h>
+#include <rover_navigation/GotoPointAction.h>
 #include<string>
 using namespace control_toolbox;
 

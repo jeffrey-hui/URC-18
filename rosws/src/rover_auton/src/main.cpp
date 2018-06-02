@@ -17,6 +17,9 @@ void magCallBack(const sensor_msgs::MagneticField::ConstPtr& msg)
     magData.magnetic_field = msg->magnetic_field;
     ROS_INFO("I heard mag");
 }
+void execute(const rover_navigation::GotoPointGoalConstPtr& path_,actionlib::SimpleActionServer<rover_navigation::GotoPointAction>* as_){
+    //sauto lol =
+}
 
 int main(int argc, char** argv){
     ros::init(argc,argv,"rover");
@@ -29,6 +32,9 @@ int main(int argc, char** argv){
     ros::Rate loop_rate(10);
     geometry_msgs::Twist pwr_val;
     tf::TransformListener listener;
+    actionlib::SimpleActionServer<rover_navigation::GotoPointAction> as_(nh,"tertiary_auton_server",boost::bind(&execute,_1,&as_),false);
+    std::string action_name_;
+
 
 
     LinPID.init(ros::NodeHandle("~/linear"));
@@ -36,16 +42,6 @@ int main(int argc, char** argv){
 
     while (ros::ok())
     {
-//        tf::StampedTransform transform;
-//        try{
-//            listener.lookupTransform("/turtle2", "/turtle1",
-//                                     ros::Time(0), transform);
-//        }
-//        catch (tf::TransformException ex){
-//            ROS_ERROR("%s",ex.what());
-//            ros::Duration(1.0).sleep();
-//        }
-
         current_time = ros::Time::now();
         pwr_val.linear.x = r.calculateDrivePower();
         pwr_val.angular.z = r.calculateTurnPower();
