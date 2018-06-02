@@ -4,6 +4,7 @@ project(dank_auton)
 find_package(catkin REQUIRED COMPONENTS
         geometry_msgs
         roscpp
+        std_msgs
         )
 
 
