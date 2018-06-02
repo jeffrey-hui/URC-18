@@ -22,11 +22,15 @@ int main(int argc, char** argv){
         rover_pub.publish(pwr_val);
         pwr_val.linear.x = 1;
         rover_pub.publish(pwr_val);
-        if (counter > 100)
+        if (counter > 50)
             break;
         counter++;
         ros::spinOnce();
         loop_rate.sleep();
     }
+    pwr_val.linear.x = 0;
+    rover_pub.publish(pwr_val);
+    ros::spinOnce();
+    ROS_INFO("Reached Target - VEX>>>>URC");
 
 }
