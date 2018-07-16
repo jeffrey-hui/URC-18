@@ -1,22 +1,22 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:macro name="wheel" params="suffix attach side">
+    <xacro:macro name="wheel" params="suffix attach side reduction">
         <link name="wheel_leg_${suffix}">
             <inertial>
                 <mass value="0.4" />
                 <inertia ixx="0.004" ixy="0" ixz="0" iyy="0.004" iyz="0" izz="0.002" />
             </inertial>
             <visual>
-                <origin xyz="0 0 -0.15" rpy="0 0 0" />
+                <origin xyz="0 0 -0.075" rpy="0 0 0" />
                 <material name="Red" />
                 <geometry>
-                    <cylinder radius="0.1" length="0.3" />
+                    <cylinder radius="0.02" length="0.15" />
                 </geometry>
             </visual>
             <collision>
-                <origin xyz="0 0 -0.15" rpy="0 0 0" />
+                <origin xyz="0 0 -0.075" rpy="0 0 0" />
                 <geometry>
-                    <cylinder radius="0.1" length="0.3" />
+                    <cylinder radius="0.02" length="0.15" />
                 </geometry>
             </collision>
         </link>
@@ -27,14 +27,14 @@
         </joint>
         <link name="wheel_${suffix}">
             <inertial>
-                <mass value="1" />
+                <mass value="0.25" />
                 <inertia ixx="0.00333333333333" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.00333333333333" />
             </inertial>
             <visual>
                 <origin xyz="0 0 0" rpy="1.5708 0 0" />
                 <material name="White" />
                 <geometry>
-                    <cylinder radius="0.1" length="0.1" />
+x                    <cylinder radius="0.1" length="0.1" />
                 </geometry>
             </visual>
             <collision>
@@ -45,11 +45,11 @@
             </collision>
         </link>
         <joint name="leg_to_wheel_${suffix}" type="continuous">
-            <origin xyz="0 ${side * 0.1} -0.3" rpy="0 0 0" />
+            <origin xyz="0 ${side * 0.1} -0.15" rpy="0 0 0" />
             <parent link="wheel_leg_${suffix}" />
             <child link="wheel_${suffix}" />
             <axis xyz="0 1 0" />
-            <dynamics damping="0.015" friction="0.02" />
+            <!-- dynamics damping="0.015" friction="0.02" / -->
         </joint>
 
         <gazebo reference="wheel_leg_${suffix}">
@@ -61,7 +61,7 @@
                 <surface>
                     <friction>
                         <torsional>
-                            <coefficient>0.5</coefficient>
+                            <coefficient>0.6</coefficient>
                             <use_patch_radius>true</use_patch_radius>
                             <patch_radius>0.1</patch_radius>
                         </torsional>
@@ -77,7 +77,7 @@
             </joint>
             <actuator name="drive_motor_${suffix}">
                 <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-                <mechanicalReduction>1</mechanicalReduction>
+                <mechanicalReduction>${reduction}</mechanicalReduction>
             </actuator>
         </transmission>
     </xacro:macro>

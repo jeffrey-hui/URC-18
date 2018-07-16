@@ -1,0 +1,17 @@
+pub_rate: 2.0
+analyzers:
+  hw:
+    type: GenericAnalyzer
+    path: Hardware
+    find_and_remove_prefix: diagnostics_controller
+  js:
+    type: GenericAnalyzer
+    path: Joysticks
+    contains: "_joy"
+  cam:
+    type: GenericAnalyzer
+    path: Camera
+    find_and_remove_prefix: camera_mon
+
+  # robot_localization:
+  # todo: configure this

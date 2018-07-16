@@ -1,0 +1,5 @@
+<library path="lib/librover_navigation">
+    <class type="rover_navigation::LineLayer" base_class_type="costmap_2d::Layer">
+        <description>Puts the path in the thing that does the stuff</description>
+    </class>
+</library>
