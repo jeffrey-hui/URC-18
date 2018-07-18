@@ -25,17 +25,65 @@ Parameters
 
 - ``angle`` - angle in degrees to rotate by
 
+``camera_diagnostics``
+======================
+
+The ``camera_diagnostics`` node monitors ``/dev/video`` paths and publishes diagnostic information for them.
+
+Parameters
+----------
+
+- ``~expected_nums`` - video numbers to monitor
+
+``swapper.py``
+==============
+
+Runs and manages ``usb_cam`` nodes to deal with cameras with a ros api. Typically you use the cli to interact with it.
+
 ------------
 Launch files
 ------------
 
-The only launch file in the package right now is the ``rover_cameras.launch`` file. This launches all the cameras. It currently publishes the following streams:
+The only launch file in `rover_cameras` starts the camera swapper.
 
-==================== =======
-Stream               Content
-==================== =======
-/belly_cam/          Rear underside camera, not rotated
-/belly_cam_rotated/  Rear underside camera, correct orientation
-/head_cam/           Head camera (to change to left and right soon)
-==================== =======
+---
+CLI
+---
+
+.. important:
+        The cli for camera swapping requires you install the `prompt_toolkit` python package.
+
+The cli (node name ``swapper_cli.py``) allows you to interact with the swapper.
+Each camera is just represented as a name and a video device, the node doesn't actually store these things.
+
+The CLI has built in help, (as well as autocomplete) but documentation is also provided here:
+
+Commands
+========
+
+``quit``
+--------
+
+Quits the CLI.
+
+``load``
+--------
+
+Two parameters, first is the camera name, next is the video device (``/dev/videoN``). Optionally takes a parameter, which is the
+preffered device to unload if we cannot run this many cameras. Using this parameter allows you to quickly switch cameras.
+
+```
+> load belly_cam /dev/video0 head_cam
+```
+Swaps head_cam with belly_cam
+
+``unload``
+----------
+
+Unloads the camera (by name) given to it as a parameter.
+
+``list``
+--------
+
+Lists all running cameras by name.
 
