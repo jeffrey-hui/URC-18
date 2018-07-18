@@ -1,4 +1,4 @@
-=============
+============
 rover_cameras
 =============
 
@@ -50,7 +50,7 @@ The only launch file in `rover_cameras` starts the camera swapper.
 CLI
 ---
 
-.. important:
+.. important::
         The cli for camera swapping requires you install the `prompt_toolkit` python package.
 
 The cli (node name ``swapper_cli.py``) allows you to interact with the swapper.
