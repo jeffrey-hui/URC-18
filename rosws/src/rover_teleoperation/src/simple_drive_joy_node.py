@@ -43,8 +43,8 @@ def on_joy_data(msg):
     global speed_value
     # type: (sensor_msgs.msg.Joy) -> None
 
-    right = ctrl_curve(msg.axes[LEFT_AXIS])
-    left = ctrl_curve(msg.axes[RIGHT_AXIS])
+    right = ctrl_curve(msg.axes[0])+ctrl_curve(msg.axes[1])
+    left = ctrl_curve(msg.axes[0])-ctrl_curve(msg.axes[1])
 
     tri_state = int(msg.axes[7])
     if tri_state == 0:
@@ -54,7 +54,7 @@ def on_joy_data(msg):
             speed_value += tri_state * 5
             speed_value = max(1.175, min(40.75, speed_value))
 
-    if is_enabled:
+    if is_enabled:joy
         drive_control_right.publish(left)
         drive_control_left.publish(right)
 
